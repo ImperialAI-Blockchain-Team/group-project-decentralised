@@ -1,15 +1,8 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Feb  8 21:10:41 2021
-
-@author: marwanmousa
-"""
 import pandas as pd
 import numpy as np
 
 
-data_na = pd.read_csv('patient.csv')
+data_na = pd.read_csv('Data/patient.csv')
 labels = ['patientunitstayid','patienthealthsystemstayid','wardid','hospitaladmittime24',
           'hospitaladmitoffset', 'hospitaldischargeyear','hospitaldischargetime24',
           'hospitaldischargeoffset','unitadmittime24','unitvisitnumber','unitdischargetime24',
@@ -60,3 +53,10 @@ data_4 = data.drop(data[data.hospitalid <= 300].index)
 data_4 = data_4.drop(columns=['hospitalid'])
 data_4_labels = data_4['hospitaldischargestatus']
 data_4_inputs = data_4.drop(columns=['hospitaldischargestatus'])
+
+save_files = False
+if save_files:
+    data_1.to_csv('fl_network/data_scientist/data/patient.csv')
+    data_2.to_csv('fl_network/client_1/data/patient.csv')
+    data_3.to_csv('fl_network/client_2/data/patient.csv')
+    data_4.to_csv('fl_network/client_3/data/patient.csv')
