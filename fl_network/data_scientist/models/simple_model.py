@@ -14,14 +14,6 @@ path = os.getcwd()
 parent = os.path.dirname(path) 
 os.chdir(parent)
 
-data = pd.read_csv('data/patient.csv')
-y = data['hospitaldischargestatus']
-X = data.drop(columns=['hospitaldischargestatus'])
-
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
-
-trainset = pd.concat([X_train, y_train], axis=1)
 
 class Net(nn.Module):
     def __init__(self):
@@ -76,6 +68,24 @@ def test(net, testloader):
             correct += (predicted == y).sum().item()
     accuracy = correct / total
     return loss, accuracy
+
+
+def load_data():
+    data = pd.read_csv('data/patient.csv')
+    y = data['hospitaldischargestatus']
+    X = data.drop(columns=['hospitaldischargestatus'])
+
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
+
+    trainset = pd.concat([X_train, y_train], axis=1)
+    testset = pd.concat([X_test, y_test], axis=1)
+
+    trainloader = torch.utils.data.DataLoader(trainset, shuffle=True, batch_size=16)
+    testloader = torch.utils.data.DataLoader(testset, shuffle=False, batch_size=16)
+    
+    return trainloader, testloader
+    
             
                 
     
