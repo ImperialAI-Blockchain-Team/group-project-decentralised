@@ -8,6 +8,7 @@ import torch.nn.functional as F
 from torch import Tensor
 from sklearn.model_selection import train_test_split
 import pandas as pd
+import numpy as np
 
 import os 
 path = os.getcwd() 
@@ -31,41 +32,52 @@ class Net(nn.Module):
         x = torch.sigmoid(self.fc3(x))
         return x.squeeze()
     
-def train(net, trainloader, epochs=10):
+def train(net, x, y, epochs=10):
     criterion = nn.BCELoss()
     optimizer = torch.optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
     
     for epoch in range(epochs):  # loop over the dataset multiple times
         running_loss = 0.0
-        for i, data in enumerate(trainloader, 0):
-            x, y = data[0], data[1]
+        
+        xnp = x.values
+        ynp = y.values
+        x_t = torch.from_numpy(xnp)
+        y_t = torch.from_numpy(ynp)
+       
+        # zero the parameter gradients
+        optimizer.zero_grad()
 
-            # zero the parameter gradients
-            optimizer.zero_grad()
+        # forward + backward + optimize
+        outputs = net(x_t.float())
+        loss = criterion(outputs, y_t.float())
+        loss.backward()
+        optimizer.step()
 
-            # forward + backward + optimize
-            outputs = net(x)
-            loss = criterion(outputs, y)
-            loss.backward()
-            optimizer.step()
-
-            # print statistics
-            running_loss += loss.item()
+        # print statistics
+        running_loss += loss.item()
             
-def test(net, testloader):
+def test(net, x, y):
     """Validate the network on the entire test set."""
     criterion = nn.BCELoss()
     correct = 0
     total = 0
     loss = 0.0
+   
     with torch.no_grad():
-        for data in testloader:
-            x, y = data[0], data[1]
-            outputs = net(x)
-            loss += criterion(outputs, y).item()
-            _, predicted = torch.max(outputs.data, 1)
-            total += y.size(0)
-            correct += (predicted == y).sum().item()
+        
+        xnp = x.values
+        ynp = y.values
+        x_t = torch.from_numpy(xnp)
+        y_t = torch.from_numpy(ynp)
+        
+        outputs = net(x_t.float())
+        loss += criterion(outputs, y_t.float()).item()
+        predicted = outputs.data
+        predicted_score = np.zeros(y_t.size(0))
+        for i in range(predicted.size(0)):
+            predicted_score[i] = predicted [i]
+        total = y_t.size(0)
+        correct = predicted_score.sum().item()
     accuracy = correct / total
     return loss, accuracy
 
@@ -84,9 +96,24 @@ def load_data():
     trainloader = torch.utils.data.DataLoader(trainset, shuffle=True, batch_size=16)
     testloader = torch.utils.data.DataLoader(testset, shuffle=False, batch_size=16)
     
-    return trainloader, testloader
+    return X_train, X_test, y_train, y_test
     
             
-                
+    
+
+
+if __name__ == "__main__":
+    DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    print("Centralized PyTorch training")
+    print("Load data")
+    X_train, X_test, y_train, y_test = load_data()
+    X_train = X_train.drop(columns=['Unnamed: 0'])
+    X_test = X_test.drop(columns=['Unnamed: 0'])
+    print("Start training")
+    train(net=Net(), x=X_train, y=y_train, epochs=10)
+    print("Evaluate model")
+    loss, accuracy = test(net=Net(), x=X_test, y=y_test)
+    print("Loss: ", loss)
+    print("Accuracy: ", accuracy)                   
     
     
