@@ -24,7 +24,7 @@ import torchvision
 import flwr as fl
 from flwr.common import EvaluateIns, EvaluateRes, FitIns, FitRes, ParametersRes, Weights
 
-import retrieved_models.cifar as cifar
+import retrieved_models.model as ICU
 
 DEFAULT_SERVER_ADDRESS = "[::]:8080"
 DATA_ROOT = "data/patient.csv"
@@ -39,7 +39,7 @@ class CifarClient(fl.client.Client):
     def __init__(
         self,
         cid: str,
-        model: cifar.Net,
+        model: ICU.Net,
         trainset: torchvision.datasets.CIFAR10,
         testset: torchvision.datasets.CIFAR10,
     ) -> None:
@@ -73,7 +73,7 @@ class CifarClient(fl.client.Client):
         trainloader = torch.utils.data.DataLoader(
             self.trainset, batch_size=batch_size, shuffle=True
         )
-        cifar.train(self.model, trainloader, epochs=epochs, device=DEVICE)
+        ICU.train(self.model, trainloader, epochs=epochs, device=DEVICE)
 
         # Return the refined weights and the number of examples used for training
         weights_prime: Weights = self.model.get_weights()
@@ -99,7 +99,7 @@ class CifarClient(fl.client.Client):
         testloader = torch.utils.data.DataLoader(
             self.testset, batch_size=32, shuffle=False
         )
-        loss, accuracy = cifar.test(self.model, testloader, device=DEVICE)
+        loss, accuracy = ICU.test(self.model, testloader, device=DEVICE)
 
         # Return the number of evaluation examples and the evaluation result (loss)
         return EvaluateRes(
@@ -130,9 +130,9 @@ def main() -> None:
     fl.common.logger.configure(f"client_{args.cid}", host=args.log_host)
 
     # Load model and data
-    model = cifar.Loader( DATA_ROOT).load_model()
+    model = ICU.Loader( DATA_ROOT).load_model()
     model.to(DEVICE)
-    trainset, testset = cifar.Loader( DATA_ROOT).load_data()
+    trainset, testset = ICU.Loader( DATA_ROOT).load_data()
 
     # Start client
     client = CifarClient(args.cid, model, trainset, testset)
