@@ -89,6 +89,8 @@ def load_data():
 
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
+    X_train = X_train.drop(columns=['Unnamed: 0'])
+    X_test = X_test.drop(columns=['Unnamed: 0'])
 
     trainset = pd.concat([X_train, y_train], axis=1)
     testset = pd.concat([X_test, y_test], axis=1)
@@ -107,8 +109,8 @@ if __name__ == "__main__":
     print("Centralized PyTorch training")
     print("Load data")
     X_train, X_test, y_train, y_test = load_data()
-    X_train = X_train.drop(columns=['Unnamed: 0'])
-    X_test = X_test.drop(columns=['Unnamed: 0'])
+    #X_train = X_train.drop(columns=['Unnamed: 0'])
+    #X_test = X_test.drop(columns=['Unnamed: 0'])
     print("Start training")
     train(net=Net(), x=X_train, y=y_train, epochs=10)
     print("Evaluate model")
