@@ -20,7 +20,7 @@ from flwr.server.strategy.aggregate import aggregate, weighted_loss_avg
 
 import torch
 import torchvision
-import uploads.cifar
+import uploads.model as ICU
 import numpy as np
 DEFAULT_SERVER_ADDRESS = "[::]:8080"
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -261,12 +261,12 @@ if __name__ == "__main__":
 
         def evaluate(weights: fl.common.Weights) -> Optional[Tuple[float, float]]:
             """Use the entire CIFAR-10 test set for evaluation."""
-            model = cifar.Loader.load_model()
+            model = ICU.Loader.load_model()
             model.set_weights(weights)
             model.to(DEVICE)
             testloader = torch.utils.data.DataLoader(testset, batch_size=32, shuffle=False)
 
-            return cifar.test(model, testloader, device=DEVICE)
+            return ICU.test(model, testloader, device=DEVICE)
 
         return evaluate
 

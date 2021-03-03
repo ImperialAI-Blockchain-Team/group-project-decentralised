@@ -12,6 +12,6 @@ cd $DIR/client_3; python3 retrieve_model.py
 
 cd $DIR/server; python3 server.py &
 
-cd $DIR/client_1/retrieved_models; python3 client.py &
-cd $DIR/client_2/retrieved_models; python3 client.py &
-cd $DIR/client_3/retrieved_models; python3 client.py &
+cd $DIR/client_1; python3 client.py --cid 01 &
+cd $DIR/client_2; python3 client.py --cid 02 &
+cd $DIR/client_3; python3 client.py --cid 03 &
