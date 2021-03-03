@@ -75,3 +75,4 @@ if save_files:
     data_1.to_csv('fl_network/client_1/data/patient.csv')
     data_2.to_csv('fl_network/client_2/data/patient.csv')
     data_3.to_csv('fl_network/client_3/data/patient.csv')
+    data_aggregate.to_csv('Centralised_Model/Data/patient.csv')

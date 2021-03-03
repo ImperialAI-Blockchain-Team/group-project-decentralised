@@ -247,7 +247,7 @@ if __name__ == "__main__":
             config = {
                 "learning_rate": str(0.001),
                 "batch_size": str(32),
-		        "epochs": str(1),
+		        "epochs": str(10),
             }
             return config
 
@@ -273,8 +273,8 @@ if __name__ == "__main__":
    # _, testloader = cifar.load_data(DATA_ROOT, batchsize=32)
 
     strategy = FedStrategy(
-        fraction_fit=0.1,  # Sample 10% of available clients for the next round
-        min_fit_clients=2,  # Minimum number of clients to be sampled for the next round
+        fraction_fit=1,  # Sample 10% of available clients for the next round
+        min_fit_clients=3,  # Minimum number of clients to be sampled for the next round
         min_available_clients=3,
         on_fit_config_fn=get_on_fit_config_fn(),
         #eval_fn=get_eval_fn(testloader)
