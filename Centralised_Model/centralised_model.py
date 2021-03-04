@@ -80,12 +80,24 @@ class Loader():
                                               (train_examples,
                                                dev_examples))
         return train_dataset, dev_dataset
+    
+    def load_test_data(self):
+        feature = np.array(self.feature, dtype=np.float32)
+        labels = np.array(self.data['hospitaldischargestatus'], dtype=np.float32)
+
+        feature_ = torch.tensor(feature)
+        labels_ = torch.tensor(labels).view(-1, 1)
+        
+        testset = MyDataset(feature_, labels_ )
+        
+        return testset
 
 
 def train(
     net: Net,
     trainloader: torch.utils.data.DataLoader,
-    device: torch.device,  
+    epochs: int,
+    device: torch.device,  # pylint: disable=no-member
 ) -> None:
     """Train the network."""
     # Define loss and optimizer
@@ -93,45 +105,39 @@ def train(
 
     loss_fn = nn.NLLLoss()
 
-    
-    Loss = 0.0
-    
-    net.train()
-    for i, (features, target) in enumerate(trainloader):
+    print(f"Training {epochs} epoch(s) w/ {len(trainloader)} batches each")
+    # Train the network
+    for epoch in range(epochs):  # loop over the dataset multiple times
+        for i, (features, target) in enumerate(trainloader):
 
-        feature = features.to(device)
-        target = target.squeeze(1)
-        target = target.to(device)
-        # zero the parameter gradients
-        optimizer.zero_grad()
+            feature = features.to(device)
+            target = target.squeeze(1)
+            target = target.to(device)
+            # zero the parameter gradients
+            optimizer.zero_grad()
 
-        # forward + backward + optimize
-        outputs = net(feature).squeeze(1)
-        loss = loss_fn(outputs, target.type(torch.LongTensor))
-        Loss += loss.item()
-        loss.backward()
-        optimizer.step()
-        
-        
-        
-    Loss = Loss/len(trainloader.dataset)
-    return Loss
+            # forward + backward + optimize
+            outputs = net(feature).squeeze(1)
+            loss = loss_fn(outputs, target.type(torch.LongTensor))
+            loss.backward()
+            optimizer.step()
+
+            # print statistics
+            if epoch % 100 == 0:
+                print('epoch - %d  train loss - %.2f' % (epoch, loss.data.item()))
 
 
 
-def val(
+def test(
     net: Net,
     testloader: torch.utils.data.DataLoader,
     device: torch.device,  # pylint: disable=no-member
 ) -> Tuple[float, float]:
     """Validate the network on the entire test set."""
     loss_fn = nn.NLLLoss()
-    
     correct = 0
     total = 0
     loss = 0.0
-    
-    net.eval()
     with torch.no_grad():
         for data in testloader:
             features, labels = data[0].to(device), data[1].to(device)
@@ -142,10 +148,13 @@ def val(
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
     accuracy = correct / total
-    loss = loss/len(testloader.dataset)
     return loss, accuracy
 
-if __name__=='__main__':
+def Main(
+    epochs: int,
+    batch_size: int,
+    data_path: str
+) -> np.array:
     
     SEED = 1
 
@@ -158,37 +167,27 @@ if __name__=='__main__':
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
   
   
-    Total_Model = Loader('Data/patient.csv')
+    Total_Model = Loader(data_path)
     net = Total_Model.load_model()
     trainset, valset = Total_Model.load_data()
     
-    BATCH_SIZE = 64
-    EPOCHS = 10
+    BATCH_SIZE = batch_size
     
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=BATCH_SIZE, shuffle=True)
     valloader = torch.utils.data.DataLoader(valset, batch_size=BATCH_SIZE, shuffle=False)
     
-    epoch_train_loss = []
-    epoch_val_loss = []
-    epoch_val_accuracy = []
     
-    
-    for i in range(EPOCHS):
-        train_loss = train(net, trainloader, device)
-        val_loss, val_accuracy = val(net, valloader, device)
-        epoch_train_loss.append(train_loss)
-        epoch_val_loss.append(val_loss)
-        epoch_val_accuracy.append(val_accuracy)
+    train(net, trainloader, epochs, device)
+    val_loss, val_accuracy = test(net, valloader, device)
         
         
-    fig, ax = plt.subplots()
-    ax.plot(range(EPOCHS),epoch_train_loss,label="Train")
-    ax.plot(range(EPOCHS),epoch_val_loss,label="Validation")  
+    return net.get_weights()    
+        
+    #fig, ax = plt.subplots()
+    #ax.plot(range(EPOCHS),epoch_train_loss,label="Train")
+    #ax.plot(range(EPOCHS),epoch_val_loss,label="Validation")  
     
-    plt.legend(fontsize = 8)
-    plt.ylabel('Loss')
-    plt.xlabel('Epoch')  
+    #plt.legend(fontsize = 8)
+    #plt.ylabel('Loss')
+    #plt.xlabel('Epoch')  
 
-for name, param in net.named_parameters():    
-    print(name)
-    print(param)
