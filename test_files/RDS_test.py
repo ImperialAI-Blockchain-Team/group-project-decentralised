@@ -7,12 +7,12 @@ db = pymysql.connect(host='segp-database.cehyv8fctwy2.us-east-2.rds.amazonaws.co
 cursor = db.cursor()
 
 
-# cursor.execute("DROP TABLE models")
-# cursor.execute("CREATE TABLE models (id INT AUTO_INCREMENT PRIMARY KEY, \
-#                                         owner VARCHAR(255), \
-#                                         model_key VARCHAR(255), \
-#                                         description_key VARCHAR(255), \
-#                                         timestamp VARCHAR(255))")
+cursor.execute("DROP TABLE models")
+cursor.execute("CREATE TABLE models (id INT AUTO_INCREMENT PRIMARY KEY, \
+                                        owner VARCHAR(255), \
+                                        model_key VARCHAR(255), \
+                                        description_key VARCHAR(255), \
+                                        timestamp VARCHAR(255))")
 
 
 cursor.execute("SHOW TABLES")
