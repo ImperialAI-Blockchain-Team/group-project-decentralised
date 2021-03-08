@@ -72,12 +72,57 @@ def upload_file():
     return {'log': 'required extensions: model --> .py description --> .txt'}
 
 
+@app.route('/model_descriptions', methods=['GET'])
+def get_all_model_descriptions():
+    # Get all model meta data
+    db = pymysql.connect(host='segp-database.cehyv8fctwy2.us-east-2.rds.amazonaws.com',
+                        user='segp_team',
+                        password='Jonathan5',
+                        database='uploads')
+    cursor = db.cursor()
+    cursor.execute("SELECT id, owner, description_key FROM models")
+    files = cursor.fetchall()
+
+    # Retrieve all description files
+    response = {}
+    for file_info in files:
+        obj = s3.Bucket('segpbucket').Object(key='model_descriptions/' + file_info[2] + '.txt')
+        description = obj.get()
+        response[file_info[0]] = {'owner': file_info[1], 'description': description['Body'].read().decode('utf-8')}
+
+    return response
 
 
+# IN PROGRESS, NOT FUNCTIONAL YET
+@app.route('/models', methods=['GET'])
+def download_file():
+    # Check args is in correct format
+    if 'file_idx' not in request.args.keys():
+        return {'log': 'Please specify the index of the desired model'}
 
-# @app.route('/models', methods=['GET'])
-# def download_file():
-#     FILE_NAME = request.args.get('file')
+    idx = request.args.get('file_idx')
+
+    if not idx.isdigit():
+        return {'log': 'file_idx must be a non-negative integer'}
+
+
+    # Retrieve file infos
+    db = pymysql.connect(host='segp-database.cehyv8fctwy2.us-east-2.rds.amazonaws.com',
+                        user='segp_team',
+                        password='Jonathan5',
+                        database='uploads')
+    cursor = db.cursor()
+    sql = f"SELECT * FROM models WHERE id={idx}"
+    cursor.execute(sql)
+    file_info = cursor.fetchone()
+
+    # Get files
+    model_obj = s3.Bucket('segpbucket').Object(key='models/' + file_info[2] + '.py')
+    description_obj = s3.Bucket('segpbucket').Object(key='model_descriptions/' + file_info[3] + '.txt')
+    model = model_obj.get()
+    description = obj.get()
+
+
 #     uploads = os.path.join(app.root_path, app.config['UPLOAD_FOLDER'])
 
 #     if not os.path.isfile('uploads/'+FILE_NAME):
