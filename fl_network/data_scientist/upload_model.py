@@ -6,7 +6,6 @@ FILE_NAME = 'model.py'
 if __name__ == '__main__':
 
     print('sending post request...')
-    with open('models/'+FILE_NAME, 'rb') as f:
-        file_dict = {'file': f}
-        r = requests.post(api_endpoint, files=file_dict)
-        print('response: ', r.json(), '\n')
+    files = {'model': open('models/model.py','rb'), 'description': open('models/test.txt', 'rb')}
+    r = requests.post(api_endpoint, files=files)
+    print('response: ', r.json(), '\n')
