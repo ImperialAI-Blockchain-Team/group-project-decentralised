@@ -201,7 +201,37 @@ class FedStrategy(fl.server.strategy.Strategy):
 
 
 
-if __name__ == "__main__":
+def get_eval_fn(
+    testset,
+) -> Callable[[fl.common.Weights], Optional[Tuple[float, float]]]:
+    """Return an evaluation function for centralized evaluation."""
+
+    def evaluate(weights: fl.common.Weights) -> Optional[Tuple[float, float]]:
+        """Use the entire CIFAR-10 test set for evaluation."""
+        model = ICU.Loader.load_model()
+        model.set_weights(weights)
+        model.to(DEVICE)
+        testloader = torch.utils.data.DataLoader(testset, batch_size=32, shuffle=False)
+
+        return ICU.test(model, testloader, device=DEVICE)
+
+    return evaluate
+
+def get_on_fit_config_fn() -> Callable[[int], Dict[str, str]]:
+    """Return a function which returns training configurations."""
+
+    def fit_config(rnd: int) -> Dict[str, str]:
+        """Return a configuration with static batch size and (local) epochs."""
+        config = {
+            "learning_rate": str(0.001),
+            "batch_size": str(32),
+            "epochs": str(10),
+        }
+        return config
+
+    return fit_config
+
+def launch_fl_server():
     parser = argparse.ArgumentParser(description="Flower")
     parser.add_argument(
         "--server_address",
@@ -239,36 +269,7 @@ if __name__ == "__main__":
         help="Logserver address (no default)",
     )
     args = parser.parse_args()
-    def get_on_fit_config_fn() -> Callable[[int], Dict[str, str]]:
-        """Return a function which returns training configurations."""
 
-        def fit_config(rnd: int) -> Dict[str, str]:
-            """Return a configuration with static batch size and (local) epochs."""
-            config = {
-                "learning_rate": str(0.001),
-                "batch_size": str(32),
-		        "epochs": str(10),
-            }
-            return config
-
-        return fit_config
-
-
-    def get_eval_fn(
-        testset,
-    ) -> Callable[[fl.common.Weights], Optional[Tuple[float, float]]]:
-        """Return an evaluation function for centralized evaluation."""
-
-        def evaluate(weights: fl.common.Weights) -> Optional[Tuple[float, float]]:
-            """Use the entire CIFAR-10 test set for evaluation."""
-            model = ICU.Loader.load_model()
-            model.set_weights(weights)
-            model.to(DEVICE)
-            testloader = torch.utils.data.DataLoader(testset, batch_size=32, shuffle=False)
-
-            return ICU.test(model, testloader, device=DEVICE)
-
-        return evaluate
 
    # _, testloader = cifar.load_data(DATA_ROOT, batchsize=32)
 
@@ -280,4 +281,10 @@ if __name__ == "__main__":
         #eval_fn=get_eval_fn(testloader)
         # Minimum number of clients that need to be connected to the server before a training round can start
     )
+
     fl.server.start_server("0.0.0.0:8080", config={"num_rounds": 3}, strategy=strategy)
+
+if __name__ == "__main__":
+    pass
+    model = ''
+    # launch_fl_server()
