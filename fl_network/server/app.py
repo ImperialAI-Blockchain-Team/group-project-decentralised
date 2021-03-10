@@ -5,6 +5,7 @@ import boto3
 import pymysql
 import hashlib
 from datetime import datetime
+import server
 
 # access amazon bucket
 s3 = boto3.resource(
@@ -74,6 +75,7 @@ def upload_file():
 
 @app.route('/model_descriptions', methods=['GET'])
 def get_all_model_descriptions():
+
     # Get all model meta data
     db = pymysql.connect(host='segp-database.cehyv8fctwy2.us-east-2.rds.amazonaws.com',
                         user='segp_team',
@@ -95,6 +97,12 @@ def get_all_model_descriptions():
 
 @app.route('/models', methods=['GET'])
 def download_file():
+
+    # flush downloads directory
+    files = glob.glob('downloads/*')
+    for f in files:
+        os.remove(f)
+
     # Check args is in correct format
     if 'file_idx' not in request.args.keys():
         return {'log': 'Please specify the index of the desired model'}
@@ -103,7 +111,6 @@ def download_file():
 
     if not idx.isdigit():
         return {'log': 'file_idx must be a non-negative integer'}
-
 
     # Retrieve file infos
     db = pymysql.connect(host='segp-database.cehyv8fctwy2.us-east-2.rds.amazonaws.com',
@@ -121,6 +128,11 @@ def download_file():
 
     return send_from_directory(directory=os.path.join(app.root_path, 'downloads'), filename=filename)
 
+
+# not sure which method to use there
+@app.route('/fl_server', methods=['PUT'])
+def launch_fl_server():
+    pass
 
 
 # API useful functions
