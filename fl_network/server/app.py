@@ -93,7 +93,6 @@ def get_all_model_descriptions():
     return response
 
 
-# IN PROGRESS, NOT FUNCTIONAL YET
 @app.route('/models', methods=['GET'])
 def download_file():
     # Check args is in correct format
@@ -116,21 +115,11 @@ def download_file():
     cursor.execute(sql)
     file_info = cursor.fetchone()
 
-    # Get files
-    model_obj = s3.Bucket('segpbucket').Object(key='models/' + file_info[2] + '.py')
-    description_obj = s3.Bucket('segpbucket').Object(key='model_descriptions/' + file_info[3] + '.txt')
-    model = model_obj.get()
-    description = obj.get()
+    # Get files (might want to send directly the file object to the client without storing it locally first)
+    filename = file_info[1] + '_model.py'
+    s3.Bucket('segpbucket').download_file('models/' + file_info[2] + '.py', './downloads/'+filename)
 
-
-#     uploads = os.path.join(app.root_path, app.config['UPLOAD_FOLDER'])
-
-#     if not os.path.isfile('uploads/'+FILE_NAME):
-#         return {'log': f'file {FILE_NAME} not found'}
-
-#     return send_from_directory(directory=uploads, filename=FILE_NAME)
-
-
+    return send_from_directory(directory=os.path.join(app.root_path, 'downloads'), filename=filename)
 
 
 
