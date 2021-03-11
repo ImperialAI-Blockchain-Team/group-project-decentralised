@@ -57,26 +57,14 @@ def upload_model():
         description_key = create_filename(description.filename+timestampStr)
 
         # Store model metadata to database
-        db = pymysql.connect(host='segp-database.cehyv8fctwy2.us-east-2.rds.amazonaws.com',
-                            user='segp_team',
-                            password='Jonathan5',
-                            database='uploads')
-        cursor = db.cursor()
-        sql = "INSERT INTO models (owner, model_key, description_key, objective, timestamp, interest) VALUES (%s, %s, %s, %s, %s, %s)"
-        val = ("boss", model_key, description_key, objective, timestampStr, 0)
-        cursor.execute(sql, val)
-        db.commit()
+        owner ='boss'
+        upload_model_metadata_to_db(owner, model_key, description_key, objective, timestampStr)
 
         # Upload to Amazon S3 bucket
-        print(model_file)
-        print(description_file)
         s3.Bucket('segpbucket').upload_file(Filename='uploads/' + model_file, Key='models/' + model_key + '.py')
         s3.Bucket('segpbucket').upload_file(Filename='uploads/'+ description_file, Key='model_descriptions/' + description_key + '.txt')
 
-        # flush uploads directory
-        files = glob.glob('uploads/*')
-        for f in files:
-            os.remove(f)
+        flush(directory='uploads')
 
         return {'log': 'upload successful'}
 
@@ -84,7 +72,7 @@ def upload_model():
 
 
 @app.route('/available_models', methods=['GET'])
-def get_all_available_model_metadata():
+def get_all_available_models_metadata():
     # Get all metadata
     db = pymysql.connect(host='segp-database.cehyv8fctwy2.us-east-2.rds.amazonaws.com',
                         user='segp_team',
@@ -104,12 +92,8 @@ def get_all_available_model_metadata():
 
 @app.route('/models', methods=['GET'])
 def download_model():
-    # flush downloads directory
-    files = glob.glob('downloads/*')
-    for f in files:
-        os.remove(f)
+    flush(directory='downloads')
 
-    # Check args is in correct format
     if 'file_idx' not in request.args.keys():
         return {'log': 'Please specify the index of the desired model'}
 
@@ -118,9 +102,7 @@ def download_model():
     if not idx.isdigit():
         return {'log': 'file_idx must be a non-negative integer'}
 
-    # Retrieve model metadata
     file_info = get_model_metadata(idx)
-
     # Get file (might want to send directly the file object to the client without storing it locally first)
     filename = file_info[2] + '.py'
     s3.Bucket('segpbucket').download_file('models/' + file_info[2] + '.py', './downloads/'+filename)
@@ -130,12 +112,8 @@ def download_model():
 
 @app.route('/model_descriptions', methods=['GET'])
 def download_description():
-    # flush downloads directory
-    files = glob.glob('downloads/*')
-    for f in files:
-        os.remove(f)
+    flush(directory='downloads')
 
-    # Check args is in correct format
     if 'file_idx' not in request.args.keys():
         return {'log': 'Please specify the index of the desired description'}
 
@@ -144,10 +122,7 @@ def download_description():
     if not idx.isdigit():
         return {'log': 'file_idx must be a non-negative integer'}
 
-    # Retrieve model metadata
     file_info = get_model_metadata(idx)
-
-    # Get file
     filename = file_info[3] + '.txt'
     s3.Bucket('segpbucket').download_file('descriptions/' + file_info[3] + '.txt', './downloads/'+filename)
 
@@ -185,6 +160,11 @@ def is_py_file(filename):
 def create_filename(string):
     return hashlib.sha1(string.encode()).hexdigest()
 
+def flush(directory):
+    files = glob.glob(directory + '/*')
+    for f in files:
+        os.remove(f)
+
 def get_model_metadata(idx):
     db = pymysql.connect(host='segp-database.cehyv8fctwy2.us-east-2.rds.amazonaws.com',
                         user='segp_team',
@@ -206,6 +186,17 @@ def register_interest_in_model(idx):
     interest = cursor.fetchone()[0]
     sql = f'UPDATE models SET interest = %s WHERE id={idx}'
     val = (interest+1,)
+    cursor.execute(sql, val)
+    db.commit()
+
+def upload_model_metadata_to_db(owner, model_key, description_key, objective, timestampStr):
+    db = pymysql.connect(host='segp-database.cehyv8fctwy2.us-east-2.rds.amazonaws.com',
+                        user='segp_team',
+                        password='Jonathan5',
+                        database='uploads')
+    cursor = db.cursor()
+    sql = "INSERT INTO models (owner, model_key, description_key, objective, timestamp, interest) VALUES (%s, %s, %s, %s, %s, %s)"
+    val = (owner, model_key, description_key, objective, timestampStr, 0)
     cursor.execute(sql, val)
     db.commit()
 
