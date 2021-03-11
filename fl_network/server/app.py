@@ -5,6 +5,7 @@ import boto3
 import pymysql
 import hashlib
 from datetime import datetime
+import flwr as fl
 
 # access amazon bucket
 s3 = boto3.resource(
@@ -142,6 +143,26 @@ def register_interest():
     register_interest_in_model(idx)
 
     return {'log': 'interest registered successfully'}
+
+
+@app.route('/fl_server', methods=['PUT'])
+def launch_fl_server():
+    if 'model_idx' not in request.args.keys():
+        return {'log': 'Please specify a model index'}
+
+    idx = request.args.get('model_idx')
+
+    if not idx.isdigit():
+        return {'log': 'model_idx must be a non-negative integer'}
+
+    # Check if model is already part of a fl_network (probably need to create a new table in th db to save this info)
+
+    # If not, generate IP address
+    address = "0.0.0.0:8080"
+    # launch fl server at above address as a separate process
+
+    # send back the IP address where the fl server runs
+    pass
 
 
 

@@ -285,6 +285,4 @@ def launch_fl_server():
     fl.server.start_server("0.0.0.0:8080", config={"num_rounds": 3}, strategy=strategy)
 
 if __name__ == "__main__":
-    pass
-    model = ''
-    # launch_fl_server()
+    launch_fl_server()

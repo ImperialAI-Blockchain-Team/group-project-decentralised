@@ -6,14 +6,14 @@ FILE_NAME = 'model.py'
 
 if __name__ == '__main__':
 
-    # # Send files
+    # # Send model
     print('uploading files...')
-    files = {'model': open('models/model.py','rb'), 'description': open('models/test.txt', 'rb')}
+    files = {'model': open('models/model.py','rb'), 'description': open('models/description.txt', 'rb')}
     params = {'objective': 'predict need for ICU treatment based on lung CT scans'}
     r = requests.post(api_endpoint+'models', files=files, params=params)
     print('response: ', r.json(), '\n')
 
-    # # Get file list
+    # Get available model metadata
     print('retrieving model metadata...')
     r = requests.get(api_endpoint + 'available_models')
     print('response: ', r.json(), '\n')
@@ -24,7 +24,7 @@ if __name__ == '__main__':
     r = requests.put(api_endpoint+'models', params=params)
     print('response: ', r.json(), '\n')
 
-    # # Check if interest was registered
+    # Check if interest was registered
     print('retrieving model metadata...')
     r = requests.get(api_endpoint + 'available_models')
     print('response: ', r.json(), '\n')
