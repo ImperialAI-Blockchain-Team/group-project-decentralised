@@ -5,7 +5,6 @@ import boto3
 import pymysql
 import hashlib
 from datetime import datetime
-import server
 
 # access amazon bucket
 s3 = boto3.resource(
@@ -16,22 +15,33 @@ s3 = boto3.resource(
     )
 
 # Set up API configuration
-ALLOWED_EXTENSIONS = {'txt', 'py'}
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.config['SECRET_KEY'] = 'secret_key'
 
 
-# API request endpoint
 @app.route('/models', methods=['POST'])
-def upload_file():
-    if 'description' not in request.files or 'model' not in request.files:
-        flash('No file part')
-        return {'log': 'Please, provide a model (.py file) and a description of your model (.txt file)'}
+def upload_model():
+    if 'model' not in request.files:
+        flash('No model')
+        return {'log': 'Please, provide a model (.py file)'}
+
+    if 'description' not in request.files:
+        flash('No description')
+        return {'log': 'Please, provide a description of your model (.txt file)'}
+
+    if 'objective' not in request.args.keys():
+        flash('No objective')
+        return {'log': 'Please, provide an objective (str object)'}
 
     model = request.files['model']
     description = request.files['description']
+    objective = request.args['objective']
+
+    if len(objective) > 150:
+        flash('objective too long')
+        return {'log': 'Error, len(objective) > 150 characters'}
 
     if is_txt_file(description.filename) and is_py_file(model.filename):
         # retrieve files
@@ -46,14 +56,14 @@ def upload_file():
         model_key = create_filename(model.filename+timestampStr)
         description_key = create_filename(description.filename+timestampStr)
 
-        # Store file info to database
+        # Store model metadata to database
         db = pymysql.connect(host='segp-database.cehyv8fctwy2.us-east-2.rds.amazonaws.com',
                             user='segp_team',
                             password='Jonathan5',
                             database='uploads')
         cursor = db.cursor()
-        sql = "INSERT INTO models (owner, model_key, description_key, timestamp) VALUES (%s, %s, %s, %s)"
-        val = ("boss", model_key, description_key, timestampStr)
+        sql = "INSERT INTO models (owner, model_key, description_key, objective, timestamp, interest) VALUES (%s, %s, %s, %s, %s, %s)"
+        val = ("boss", model_key, description_key, objective, timestampStr, 0)
         cursor.execute(sql, val)
         db.commit()
 
@@ -73,31 +83,27 @@ def upload_file():
     return {'log': 'required extensions: model --> .py description --> .txt'}
 
 
-@app.route('/model_descriptions', methods=['GET'])
-def get_all_model_descriptions():
-
-    # Get all model meta data
+@app.route('/available_models', methods=['GET'])
+def get_all_available_model_metadata():
+    # Get all metadata
     db = pymysql.connect(host='segp-database.cehyv8fctwy2.us-east-2.rds.amazonaws.com',
                         user='segp_team',
                         password='Jonathan5',
                         database='uploads')
     cursor = db.cursor()
-    cursor.execute("SELECT id, owner, description_key FROM models")
+    cursor.execute("SELECT id, owner, objective, timestamp, interest FROM models")
     files = cursor.fetchall()
 
-    # Retrieve all description files
+    # Send back metadata
     response = {}
-    for file_info in files:
-        obj = s3.Bucket('segpbucket').Object(key='model_descriptions/' + file_info[2] + '.txt')
-        description = obj.get()
-        response[file_info[0]] = {'owner': file_info[1], 'description': description['Body'].read().decode('utf-8')}
+    for metadata in files:
+        response[metadata[0]] = {'owner': metadata[1], 'objective': metadata[2], 'creation date': metadata[3], 'interest': metadata[4]}
 
     return response
 
 
 @app.route('/models', methods=['GET'])
-def download_file():
-
+def download_model():
     # flush downloads directory
     files = glob.glob('downloads/*')
     for f in files:
@@ -112,30 +118,60 @@ def download_file():
     if not idx.isdigit():
         return {'log': 'file_idx must be a non-negative integer'}
 
-    # Retrieve file infos
-    db = pymysql.connect(host='segp-database.cehyv8fctwy2.us-east-2.rds.amazonaws.com',
-                        user='segp_team',
-                        password='Jonathan5',
-                        database='uploads')
-    cursor = db.cursor()
-    sql = f"SELECT * FROM models WHERE id={idx}"
-    cursor.execute(sql)
-    file_info = cursor.fetchone()
+    # Retrieve model metadata
+    file_info = get_model_metadata(idx)
 
-    # Get files (might want to send directly the file object to the client without storing it locally first)
-    filename = file_info[1] + '_model.py'
+    # Get file (might want to send directly the file object to the client without storing it locally first)
+    filename = file_info[2] + '.py'
     s3.Bucket('segpbucket').download_file('models/' + file_info[2] + '.py', './downloads/'+filename)
 
     return send_from_directory(directory=os.path.join(app.root_path, 'downloads'), filename=filename)
 
 
-# not sure which method to use there
-@app.route('/fl_server', methods=['PUT'])
-def launch_fl_server():
-    pass
+@app.route('/model_descriptions', methods=['GET'])
+def download_description():
+    # flush downloads directory
+    files = glob.glob('downloads/*')
+    for f in files:
+        os.remove(f)
+
+    # Check args is in correct format
+    if 'file_idx' not in request.args.keys():
+        return {'log': 'Please specify the index of the desired description'}
+
+    idx = request.args.get('file_idx')
+
+    if not idx.isdigit():
+        return {'log': 'file_idx must be a non-negative integer'}
+
+    # Retrieve model metadata
+    file_info = get_model_metadata(idx)
+
+    # Get file
+    filename = file_info[3] + '.txt'
+    s3.Bucket('segpbucket').download_file('descriptions/' + file_info[3] + '.txt', './downloads/'+filename)
+
+    return send_from_directory(directory=os.path.join(app.root_path, 'downloads'), filename=filename)
 
 
-# API useful functions
+@app.route('/models', methods=['PUT'])
+def register_interest():
+    if 'model_idx' not in request.args.keys():
+        return {'log': 'Please specify the index of the model you are interested in'}
+
+    idx = request.args.get('model_idx')
+
+    if not idx.isdigit():
+        return {'log': 'model_idx must be a non-negative integer'}
+
+    register_interest_in_model(idx)
+
+    return {'log': 'interest registered successfully'}
+
+
+
+# API abstractions
+ALLOWED_EXTENSIONS = {'txt', 'py'}
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -148,6 +184,31 @@ def is_py_file(filename):
 
 def create_filename(string):
     return hashlib.sha1(string.encode()).hexdigest()
+
+def get_model_metadata(idx):
+    db = pymysql.connect(host='segp-database.cehyv8fctwy2.us-east-2.rds.amazonaws.com',
+                        user='segp_team',
+                        password='Jonathan5',
+                        database='uploads')
+    cursor = db.cursor()
+    sql = f"SELECT * FROM models WHERE id={idx}"
+    cursor.execute(sql)
+    return cursor.fetchone()
+
+def register_interest_in_model(idx):
+    db = pymysql.connect(host='segp-database.cehyv8fctwy2.us-east-2.rds.amazonaws.com',
+                        user='segp_team',
+                        password='Jonathan5',
+                        database='uploads')
+    cursor = db.cursor()
+    sql = f"SELECT interest FROM models WHERE id={idx}"
+    cursor.execute(sql)
+    interest = cursor.fetchone()[0]
+    sql = f'UPDATE models SET interest = %s WHERE id={idx}'
+    val = (interest+1,)
+    cursor.execute(sql, val)
+    db.commit()
+
 
 if __name__=='__main__':
     app.run(debug=True)

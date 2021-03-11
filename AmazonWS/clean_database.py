@@ -12,7 +12,9 @@ cursor.execute("CREATE TABLE models (id INT AUTO_INCREMENT PRIMARY KEY, \
                                         owner VARCHAR(255), \
                                         model_key VARCHAR(255), \
                                         description_key VARCHAR(255), \
-                                        timestamp VARCHAR(255))")
+                                        objective VARCHAR(255), \
+                                        timestamp VARCHAR(255), \
+                                        interest INT)")
 
 
 cursor.execute("SHOW TABLES")
