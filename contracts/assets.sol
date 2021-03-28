@@ -5,19 +5,19 @@ contract FederatedLearningAssets {
     struct Asset {
         uint id;
         address owner;
-        uint[] process;
-        uint[] download;
+        address[] process;
+        address[] download;
     }
 
     mapping(uint => Asset) public assets;
     uint public asset_counter;
 
-    function register_asset(uint[] _process, uint[] _download) public {
+    function register_asset(address[] _process, address[] _download) public {
         asset_counter ++;
         assets[asset_counter] = Asset({id: asset_counter, owner: msg.sender, process: _process, download: _download});
     }
 
-    function modify_asset(uint _id, uint[] _process, uint[] _download) public {
+    function modify_asset(uint _id, address[] _process, address[] _download) public {
         require(assets[_id].owner == msg.sender);
         assets[_id].process = _process;
         assets[_id].download = _download;
