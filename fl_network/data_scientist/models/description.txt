@@ -1,1 +1,0 @@
-This CNN models aims at predicting the need for ICU treament based on lungs CT scans
