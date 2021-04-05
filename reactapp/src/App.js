@@ -2,17 +2,29 @@ import React, { useState } from "react";
 import { simpleStorage } from "./abi/abi";
 import Web3 from "web3";
 import "./App.css";
+import {MenuBar} from "./components/MenuBar/MenuBar.js";
 import logo from './logo.svg';
 
-const web3 = new Web3(Web3.givenProvider);
-const contractAddress = "0x659D25F48cd5d9Ee2b9f2cb243425D7df8cA2859";
-const storageContract = new web3.eth.Contract(simpleStorage, contractAddress);
+// const web3 = new Web3(Web3.givenProvider);
+// const contractAddress = "0x659D25F48cd5d9Ee2b9f2cb243425D7df8cA2859";
+// const storageContract = new web3.eth.Contract(simpleStorage, contractAddress);
 
 function App() {
-  const [number, setUint] = useState(0);
-  const [getNumber, setGet] = useState("0");
 
-  const numberSet = async (t) => {
+  return (
+    <body>
+      <div className="header">
+        <h1>Software Engineering Group Project</h1>
+      </div>
+      <MenuBar />
+    </body>
+  )
+  }
+
+  {/* // const [number, setUint] = useState(0);
+  // const [getNumber, setGet] = useState("0");
+
+  // const numberSet = async (t) => {
     t.preventDefault();
     const accounts = await window.ethereum.enable();
     const account = accounts[0];
@@ -23,7 +35,7 @@ function App() {
     });
   };
 
-  const numberGet = async (t) => {
+  // const numberGet = async (t) => {
     t.preventDefault();
     const post = await storageContract.methods.get().call();
     setGet(post);
@@ -53,7 +65,7 @@ function App() {
         {getNumber}
       </div>
     </div>
-  );
- }
+  ); */}
+
 
  export default App;
