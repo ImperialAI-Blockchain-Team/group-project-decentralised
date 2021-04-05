@@ -1,7 +1,8 @@
 import React from "react";
-import "./RegisterForm.css";
+import { DragZone } from "./DragZone";
+import "./UploadForm.css";
 
-export class RegisterNodeForm extends React.Component {
+export class UploadModelForm extends React.Component {
 
     constructor(props) {
         super(props);
@@ -28,19 +29,25 @@ export class RegisterNodeForm extends React.Component {
         <form onSubmit={this.handleSubmit}>
             <div className="container">
                 <div className='subContainer'>
-                    <h2>Register as a Federated Learning Aggregator</h2>
-                    <p>Please fill in this form.</p>
+                    <h2>Register your Model</h2>
+                    <p>Please fill in this form to register your model.</p>
                     <hr />
-
                     <label>
-                    <b>Aggregator Username</b>:
+                    <b>Model Name</b>:
                     <input name="name" type="text" value={this.state.name} onChange={this.handleChange} />
                     </label>
                     <label>
-                    <b>IP Addres</b>:
+                    <b>Description</b>:
                     <input name="address" type="text" value={this.state.address} onChange={this.handleChange} />
                     </label>
+
+                    <div className="dragAndDropContainer">
+                        <b>Drag and Drop your Model</b>:
+                        <DragZone />
+                    </div>
+
                     <input type="submit" value="Register" className="register"/>
+
                 </div>
             </div>
         </form>
