@@ -14,7 +14,10 @@ function App() {
   return (
     <body>
       <div className="header">
-        <h1>Software Engineering Group Project</h1>
+        {/* <div className="uploadEthIcon"></div> */}
+        <div className="title">
+          <h1>Software Engineering Group Project</h1>
+        </div>
       </div>
       <MenuBar />
     </body>
