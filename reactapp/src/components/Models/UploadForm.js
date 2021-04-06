@@ -32,20 +32,33 @@ export class UploadModelForm extends React.Component {
 
     handleSubmit = async (event) => {
         event.preventDefault();
-
+        //bring in user's metamask account address
+        const accounts = await web3.eth.getAccounts();
+        //obtain contract address from storehash.js
+        const ethAddress= await modeldatabase.options.address;
+        this.setState({ethAddress});
+        //save document to IPFS,return its hash#, and set hash# to state
         await ipfs.add(this.state.buffer, (err, ipfsHash) => {
             console.log(err,ipfsHash);
             //setState by setting ipfsHash to ipfsHash[0].hash
-            this.setState({ ipfsHash:ipfsHash[0].hash })
-
+            this.setState({ ipfsHash:ipfsHash[0].hash });
+            // call Ethereum contract method "sendHash" and .send IPFS hash to etheruem contract
+            // return the transaction hash from the ethereum contract
+            modeldatabase.methods.register_model(this.state.ipfsHash, this.state.name, 'Objective').send({
+                from: accounts[0]},
+                (error, transactionHash) => {
+                console.log(transactionHash);
+                this.setState({transactionHash});
+            });
         })
+    };
 
         //bring in user's metamask account address
         //const accounts = await web3.eth.getAccounts();
         //obtain contract address from storehash.js
         //const ethAddress= await storehash.options.address;
 
-    }
+
 
     //Take file input from user
     captureFile = (event) => {
