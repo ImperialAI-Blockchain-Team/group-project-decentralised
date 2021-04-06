@@ -23,9 +23,10 @@ export class MenuBar extends React.Component {
         return (
             <div className="mainBody">
                 <div className="tab">
-                    <button class="tablink" name="models" onClick={this.handleClick}>Models</button>
+                    <button class="tablink" name="register" onClick={this.handleClick}>Register</button>
+                    <button class="tablink" name="models" onClick={this.handleClick}>Machine Learning Models</button>
                     <button class="tablink" name="datasets" onClick={this.handleClick}>Datasets</button>
-                    <button class="tablink" name="FLnodes" onClick={this.handleClick}>Federated Learning Nodes</button>
+                    <button class="tablink" name="FLnodes" onClick={this.handleClick}>FL Aggregators</button>
                 </div>
                 <div className="tabContent">
                     {(this.state.form === "models") ? <UploadModelForm />: null}
