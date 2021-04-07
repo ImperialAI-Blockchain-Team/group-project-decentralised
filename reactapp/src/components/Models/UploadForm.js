@@ -5,16 +5,23 @@ import ipfs from '../../ipfs'
 import web3 from "../../web3";
 import modeldatabase from "../../modeldatabase";
 
-function validate(modelName, description){
+function validate(modelName, description, buffer){
 
     const errors = [];
 
     if (modelName.length === 0) {
         errors.push("Name can't be empty");
     }
+    if (description.length === 0){
+        errors.push("Description can't be empty")
+    }
+    if (buffer.length === 0){
+        errors.push("Have to upload model")
+    }
 
-
+    return errors
 }
+
 
 export class UploadModelForm extends React.Component {
 
@@ -27,7 +34,8 @@ export class UploadModelForm extends React.Component {
             buffer: '',
             ethAddress: '',
             transactionHash: '',
-            txReceipt: ''
+            txReceipt: '',
+            errors: []
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -43,25 +51,31 @@ export class UploadModelForm extends React.Component {
 
     handleSubmit = async (event) => {
         event.preventDefault();
+        const errors = validate(this.state.name, this.state.description, this.state.buffer)
+        if (errors.length > 0){
+            this.setState({ errors });
+            return;
+        }
         //bring in user's metamask account address
         const accounts = await web3.eth.getAccounts();
         //obtain contract address from storehash.js
-        const ethAddress= await modeldatabase.options.address;
+        const ethAddress = await modeldatabase.options.address;
         this.setState({ethAddress});
         //save document to IPFS,return its hash#, and set hash# to state
         await ipfs.add(this.state.buffer, (err, ipfsHash) => {
-            console.log(err,ipfsHash);
+            console.log(err, ipfsHash);
             //setState by setting ipfsHash to ipfsHash[0].hash
-            this.setState({ ipfsHash:ipfsHash[0].hash });
+            this.setState({ipfsHash: ipfsHash[0].hash});
 
             // return the transaction hash from the ethereum contract
             modeldatabase.methods.register_model(this.state.ipfsHash, this.state.name, 'Objective').send({
-                from: accounts[0]},
+                        from: accounts[0]},
                 (error, transactionHash) => {
-                console.log(transactionHash);
-                this.setState({transactionHash});
-            });
+                    console.log(transactionHash);
+                    this.setState({transactionHash});
+                });
         })
+
     };
 
         //bring in user's metamask account address
@@ -92,8 +106,10 @@ export class UploadModelForm extends React.Component {
 
 
     render() {
+        const { errors } = this.state;
         return (
         <form onSubmit={this.handleSubmit}>
+
             <div className="container">
                 <div className='subContainer'>
                     <h2>Register your Model</h2>
@@ -118,6 +134,9 @@ export class UploadModelForm extends React.Component {
                     <input type="submit" value="Register" className="register"/>
 
                 </div>
+                {errors.map(error => (
+          <p key={error}>Error: {error}</p>
+             ))}
             </div>
 
             <table bordered responsive>
