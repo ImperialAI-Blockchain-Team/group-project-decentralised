@@ -1,7 +1,8 @@
 import React from "react";
 import "./MenuBar.css"
 import {RegisterNodeForm} from "../FLNodes/RegisterForm.js";
-import {UploadModelForm} from "../Models/UploadForm.js"
+import {UploadModelForm} from "../Models/UploadForm.js";
+import {ModelBrowser} from "../Models/Browser.js";
 
 export class MenuBar extends React.Component {
 
@@ -27,11 +28,13 @@ export class MenuBar extends React.Component {
                     <button class="tablink" name="models" onClick={this.handleClick}>Machine Learning Models</button>
                     <button class="tablink" name="datasets" onClick={this.handleClick}>Datasets</button>
                     <button class="tablink" name="FLnodes" onClick={this.handleClick}>FL Aggregators</button>
+                    <button class="tablink" name="search_model" onClick={this.handleClick}>Search Model</button>
                 </div>
                 <div className="tabContent">
                     {(this.state.form === "models") ? <UploadModelForm />: null}
                     {(this.state.form === "datasets") ? <UploadModelForm /> : null}
                     {(this.state.form === "FLnodes") ? <RegisterNodeForm />: null}
+                    {(this.state.form === "search_model") ? <ModelBrowser />: null}
                 </div>
             </div>
         )

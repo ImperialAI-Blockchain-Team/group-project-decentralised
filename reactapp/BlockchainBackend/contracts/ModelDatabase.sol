@@ -24,9 +24,8 @@ contract ModelDatabase {
         hashes.push(_ipfsHash);
     }
 
-    // function to retrieve the models' keys
-    function get_hashes() external view returns(string[] memory) {
-        return hashes;
+    function getNumberOfModels() public view returns(uint) {
+        return hashes.length;
     }
 
     // function to modify model
