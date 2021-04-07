@@ -5,7 +5,6 @@ contract ModelDatabase {
     uint number;
 
     struct Model {
-
         address owner;
         string description;
         string objective;
@@ -14,6 +13,7 @@ contract ModelDatabase {
     }
 
     mapping(string => Model) public models;
+    string[] public hashes;
 
     // function to register a Model
     function register_model(string memory _ipfsHash, string memory _description, string memory _objective) public {
@@ -21,6 +21,11 @@ contract ModelDatabase {
             revert("This Model is already registered");
         }
         models[_ipfsHash] = Model({owner: msg.sender, description: _description, objective: _objective, time: block.timestamp, registered: true});
+        hashes.push(_ipfsHash);
+    }
+
+    function getNumberOfModels() public view returns(uint) {
+        return hashes.length;
     }
 
     // function to modify model
