@@ -1,12 +1,11 @@
 import React from "react";
-import { DragZone } from "./DragZone";
 import "./UploadForm.css";
 import ipfs from '../../ipfs'
 import web3 from "../../web3";
 import modeldatabase from "../../modeldatabase";
 
 function validate(modelName, description, buffer){
-
+    // Validate inputs, can add more detailed errors afterwards
     const errors = [];
 
     if (modelName.length === 0) {
@@ -18,10 +17,8 @@ function validate(modelName, description, buffer){
     if (buffer.length === 0){
         errors.push("Have to upload model")
     }
-
     return errors
 }
-
 
 export class UploadModelForm extends React.Component {
 
@@ -35,6 +32,7 @@ export class UploadModelForm extends React.Component {
             ethAddress: '',
             transactionHash: '',
             txReceipt: '',
+            displayTable: false,
             errors: []
         };
         this.handleChange = this.handleChange.bind(this);
@@ -58,7 +56,7 @@ export class UploadModelForm extends React.Component {
         }
         //bring in user's metamask account address
         const accounts = await web3.eth.getAccounts();
-        //obtain contract address from storehash.js
+        //obtain contract address from modelDatabase.js
         const ethAddress = await modeldatabase.options.address;
         this.setState({ethAddress});
         //save document to IPFS,return its hash#, and set hash# to state
@@ -78,13 +76,6 @@ export class UploadModelForm extends React.Component {
 
     };
 
-        //bring in user's metamask account address
-        //const accounts = await web3.eth.getAccounts();
-        //obtain contract address from storehash.js
-        //const ethAddress= await storehash.options.address;
-
-
-
     //Take file input from user
     captureFile = (event) => {
         event.stopPropagation();
@@ -103,6 +94,17 @@ export class UploadModelForm extends React.Component {
         this.setState({buffer});
     };
 
+    onClick = async () => {
+        try{
+            this.setState({blockNumber:"waiting.."});
+            this.setState({gasUsed:"waiting..."});
+            await web3.eth.getTransactionReceipt(this.state.transactionHash,
+                (err, txReceipt)=>{console.log(err,txReceipt);
+                this.setState({txReceipt});
+            });
+        } catch(error){console.log(error)}
+        this.setState({displayTable:true})
+    }
 
 
     render() {
@@ -121,7 +123,7 @@ export class UploadModelForm extends React.Component {
                     </label>
                     <label>
                     <b>Description</b>:
-                    <input name="address" type="text" value={this.state.description} onChange={this.handleChange} />
+                    <input name="description" type="text" value={this.state.description} onChange={this.handleChange} />
                     </label>
 
                     <label>
@@ -135,19 +137,26 @@ export class UploadModelForm extends React.Component {
 
                 </div>
                 {errors.map(error => (
-          <p key={error}>Error: {error}</p>
-             ))}
+                    <p key={error}>Error: {error}</p>
+                ))}
             </div>
 
-            <table bordered responsive>
-            <thead>
-            <tr>
+            {!this.state.displayTable && <div className="center">
+                <button onClick={this.onClick}>
+                    {'Get Receipt'}
+                </button>
+            </div>}
+
+            {this.state.displayTable && <div className="center">
+                <table bordered responsive>
+                    <thead>
+                        <tr>
                             <th>Tx Receipt Category</th>
                             <th> </th>
                             <th>Values</th>
                         </tr>
-                        </thead>
-                        <tbody>
+                    </thead>
+                    <tbody>
                         <tr>
                             <td>IPFS Hash stored on Ethereum</td>
                             <td> : </td>
@@ -157,15 +166,16 @@ export class UploadModelForm extends React.Component {
                             <td>Ethereum Contract Address</td>
                             <td> : </td>
                             <td>{this.state.ethAddress}</td>
-                        </tr>                  <tr>
+                        </tr>
+                        <tr>
                             <td>Tx # </td>
                             <td> : </td>
                             <td>{this.state.transactionHash}</td>
                         </tr>
-                        </tbody>
-                    </table>
+                    </tbody>
+                </table>
+            </div>}
         </form>
-
         )
     }
 }
