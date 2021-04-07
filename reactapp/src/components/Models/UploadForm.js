@@ -5,13 +5,24 @@ import ipfs from '../../ipfs'
 import web3 from "../../web3";
 import modeldatabase from "../../modeldatabase";
 
+function validate(modelName, description){
+
+    const errors = [];
+
+    if (modelName.length === 0) {
+        errors.push("Name can't be empty");
+    }
+
+
+}
+
 export class UploadModelForm extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             name: '',
-            address: '',
+            description: '',
             ipfsHash: null,
             buffer: '',
             ethAddress: '',
@@ -42,7 +53,7 @@ export class UploadModelForm extends React.Component {
             console.log(err,ipfsHash);
             //setState by setting ipfsHash to ipfsHash[0].hash
             this.setState({ ipfsHash:ipfsHash[0].hash });
-            // call Ethereum contract method "sendHash" and .send IPFS hash to etheruem contract
+
             // return the transaction hash from the ethereum contract
             modeldatabase.methods.register_model(this.state.ipfsHash, this.state.name, 'Objective').send({
                 from: accounts[0]},
@@ -78,6 +89,8 @@ export class UploadModelForm extends React.Component {
         this.setState({buffer});
     };
 
+
+
     render() {
         return (
         <form onSubmit={this.handleSubmit}>
@@ -92,7 +105,7 @@ export class UploadModelForm extends React.Component {
                     </label>
                     <label>
                     <b>Description</b>:
-                    <input name="address" type="text" value={this.state.address} onChange={this.handleChange} />
+                    <input name="address" type="text" value={this.state.description} onChange={this.handleChange} />
                     </label>
 
                     <label>
@@ -106,6 +119,7 @@ export class UploadModelForm extends React.Component {
 
                 </div>
             </div>
+
             <table bordered responsive>
             <thead>
             <tr>
