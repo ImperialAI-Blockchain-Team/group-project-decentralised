@@ -2,6 +2,7 @@ import React from "react";
 import "./MenuBar.css"
 import {RegisterNodeForm} from "../FLNodes/RegisterForm.js";
 import {UploadModelForm} from "../Models/UploadForm.js";
+import {UploadDatasetForm} from "../Datasets/UploadForm.js";
 import {ModelBrowser} from "../Models/Browser.js";
 
 export class MenuBar extends React.Component {
@@ -32,7 +33,7 @@ export class MenuBar extends React.Component {
                 </div>
                 <div className="tabContent">
                     {(this.state.form === "models") ? <UploadModelForm />: null}
-                    {(this.state.form === "datasets") ? <UploadModelForm /> : null}
+                    {(this.state.form === "datasets") ? <UploadDatasetForm /> : null}
                     {(this.state.form === "FLnodes") ? <RegisterNodeForm />: null}
                     {(this.state.form === "search_model") ? <ModelBrowser />: null}
                 </div>

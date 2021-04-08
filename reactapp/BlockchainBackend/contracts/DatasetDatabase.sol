@@ -16,7 +16,7 @@ contract DatasetDatabase {
     string[] public hashes;
 
     // function to register a Dataset
-    function register_model(string memory _ipfsHash, string memory _description, string memory _objective) public {
+    function register_dataset(string memory _ipfsHash, string memory _description, string memory _objective) public {
         if (datasets[_ipfsHash].registered) {
             revert("This Dataset is already registered");
         }
