@@ -3,6 +3,7 @@ import "./UploadForm.css";
 import ipfs from '../../ipfs'
 import web3 from "../../web3";
 import modeldatabase from "../../modeldatabase";
+//const getRevertReason = require('eth-revert-reason')
 
 function validate(modelName, description, buffer){
     // Validate inputs, can add more detailed errors afterwards
@@ -20,6 +21,28 @@ function validate(modelName, description, buffer){
     return errors
 }
 
+async function getRevertReason(txHash){
+
+  const tx = await web3.eth.getTransaction(txHash)
+  console.log(tx)
+
+  let result = await web3.eth.call(tx, tx.blockNumber)
+    console.log(result)
+  result = result.startsWith('0x') ? result : `0x${result}`
+
+  if (result && result.substr(138)) {
+
+    const reason = web3.utils.toAscii(result.substr(138))
+    console.log('Revert reason:', reason)
+    return reason
+
+  } else {
+
+    console.log('Cannot get reason - No return value')
+
+  }
+}
+
 export class UploadModelForm extends React.Component {
 
     constructor(props) {
@@ -33,7 +56,8 @@ export class UploadModelForm extends React.Component {
             transactionHash: '',
             txReceipt: '',
             displayTable: false,
-            errors: []
+            formErrors: [],
+            contractError: '',
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -49,9 +73,9 @@ export class UploadModelForm extends React.Component {
 
     handleSubmit = async (event) => {
         event.preventDefault();
-        const errors = validate(this.state.name, this.state.description, this.state.buffer)
-        if (errors.length > 0){
-            this.setState({ errors });
+        const formErrors = validate(this.state.name, this.state.description, this.state.buffer)
+        if (formErrors.length > 0){
+            this.setState({ formErrors });
             return;
         }
         //bring in user's metamask account address
@@ -66,12 +90,20 @@ export class UploadModelForm extends React.Component {
             this.setState({ipfsHash: ipfsHash[0].hash});
 
             // return the transaction hash from the ethereum contract
-            modeldatabase.methods.register_model(this.state.ipfsHash, this.state.name, 'Objective').send({
-                        from: accounts[0]},
-                (error, transactionHash) => {
-                    console.log(transactionHash);
-                    this.setState({transactionHash});
-                });
+            modeldatabase.methods.register_model(this.state.ipfsHash, this.state.name, 'Objective').send({from: accounts[0]})
+                .on('transactionHash', (hash) =>{
+                    console.log(hash);
+                    this.setState({transactionHash:hash})
+                })
+                .on('error', async (error, receipt) => {
+                    console.log(error)
+                    if (receipt) {
+                        console.log(receipt["transactionHash"])
+                        let txHash = receipt["transactionHash"]
+                        getRevertReason(txHash)
+                    }
+                    //this.setState({contractError:error})
+                })
         })
 
     };
@@ -108,7 +140,8 @@ export class UploadModelForm extends React.Component {
 
 
     render() {
-        const { errors } = this.state;
+        const { formErrors } = this.state;
+        const { contractError } = this.state;
         return (
         <form onSubmit={this.handleSubmit}>
 
@@ -128,7 +161,7 @@ export class UploadModelForm extends React.Component {
 
                     <label>
                     <b>Model</b>:
-                    <input name= "model" type = "file"
+                    <input name= "model" type = "file" accept=".py"
                                onChange = {this.captureFile}
                     />
                     </label>
@@ -136,9 +169,10 @@ export class UploadModelForm extends React.Component {
                     <input type="submit" value="Register" className="register"/>
 
                 </div>
-                {errors.map(error => (
+                {formErrors.map(error => (
                     <p key={error}>Error: {error}</p>
                 ))}
+
             </div>
 
             {!this.state.displayTable && <div className="center">
