@@ -66,6 +66,7 @@ export class ModelBrowser extends React.Component {
             <div className="modelContainer">
                 <div className="subModelContainer">
                     <p><b>Owner</b>: {model['owner']}</p>
+                    <p><b>Name</b>: not implemented{}</p>
                     <p><b>Description</b>: {model['description']}</p>
                     <p><b>Creation Date</b>: {new Date(model['time']*1000).toLocaleDateString()}</p>
                 </div>
