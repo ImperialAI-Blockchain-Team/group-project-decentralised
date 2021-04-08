@@ -229,7 +229,7 @@ export const datasetDatabase =  [
         "type": "string"
       }
     ],
-    "name": "register_model",
+    "name": "register_dataset",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
