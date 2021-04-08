@@ -3,7 +3,7 @@ import "./UploadForm.css";
 import ipfs from '../../ipfs'
 import web3 from "../../web3";
 import modeldatabase from "../../modeldatabase";
-//const getRevertReason = require('eth-revert-reason')
+const getRevertReason = require('eth-revert-reason')
 
 function validate(modelName, description, buffer){
     // Validate inputs, can add more detailed errors afterwards
@@ -19,28 +19,6 @@ function validate(modelName, description, buffer){
         errors.push("Have to upload model")
     }
     return errors
-}
-
-async function getRevertReason(txHash){
-
-  const tx = await web3.eth.getTransaction(txHash)
-  console.log(tx)
-
-  let result = await web3.eth.call(tx, tx.blockNumber)
-    console.log(result)
-  result = result.startsWith('0x') ? result : `0x${result}`
-
-  if (result && result.substr(138)) {
-
-    const reason = web3.utils.toAscii(result.substr(138))
-    console.log('Revert reason:', reason)
-    return reason
-
-  } else {
-
-    console.log('Cannot get reason - No return value')
-
-  }
 }
 
 export class UploadModelForm extends React.Component {
@@ -96,13 +74,14 @@ export class UploadModelForm extends React.Component {
                     this.setState({transactionHash:hash})
                 })
                 .on('error', async (error, receipt) => {
-                    console.log(error)
+                    console.log(error);
+                    this.setState({contractError: 'Contract Error: Model already registered'})
                     if (receipt) {
                         console.log(receipt["transactionHash"])
-                        let txHash = receipt["transactionHash"]
-                        getRevertReason(txHash)
+                        //let txHash = receipt["transactionHash"]
+                        //let blockNum = receipt["blockNumber"]
+                        //console.log(await getRevertReason(txHash,'ropsten'))
                     }
-                    //this.setState({contractError:error})
                 })
         })
 
@@ -172,6 +151,7 @@ export class UploadModelForm extends React.Component {
                 {formErrors.map(error => (
                     <p key={error}>Error: {error}</p>
                 ))}
+                <p> {contractError} </p>
 
             </div>
 
