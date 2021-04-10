@@ -17,21 +17,25 @@ contract Registry {
 
   event LogNewUser (address indexed userAddress,  string user_name, bool data_scientist, bool aggregator, bool hospital);
   event LogUpdateUser(address indexed userAddress, string user_name, bool data_scientist, bool aggregator, bool hospital);
-  event LogDeleteUser(address indexed userAddress);
 
 // Checks if it is a User
   function isUser(address userAddress) public view returns(bool isIndeed) {
-      if (registrations[userAddress].registered) {
-          revert("This Model is already registered");}
-      return (false);
+      if(registrations[userAddress].registered) {
+         isIndeed = true;
+      } else {
+         isIndeed = false;
+      }
+      return (isIndeed);
   }
 // Inserts a User if he hasnt been registered
   function insertUser(string memory user_name, bool data_scientist, bool aggregator, bool hospital) public returns(uint index) {
       if(isUser(msg.sender)) revert("You have already registered");
+      registrations[msg.sender].registered = true;
       registrations[msg.sender].user_name = user_name;
       registrations[msg.sender].data_scientist = data_scientist;
       registrations[msg.sender].aggregator = aggregator;
       registrations[msg.sender].hospital = hospital;
+      userHash.push(msg.sender);
       emit LogNewUser(msg.sender, user_name, data_scientist,aggregator,hospital);
       return userHash.length-1;
   }
@@ -43,6 +47,7 @@ contract Registry {
 // Allows to change UserType
   function updateUserType(address userAddress, bool data_scientist, bool aggregator, bool hospital) public returns(bool success) {
     if(!isUser(userAddress)) revert("This account is not registered");
+    require(userAddress == msg.sender);
     registrations[userAddress].data_scientist = data_scientist;
     registrations[userAddress].aggregator = aggregator;
     registrations[userAddress].hospital = hospital;
