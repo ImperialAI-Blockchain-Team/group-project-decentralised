@@ -53,13 +53,6 @@ export class UploadDatasetForm extends React.Component {
         })
     };
 
-        //bring in user's metamask account address
-        //const accounts = await web3.eth.getAccounts();
-        //obtain contract address from storehash.js
-        //const ethAddress= await storehash.options.address;
-
-
-
     //Take file input from user
     captureFile = (event) => {
         event.stopPropagation();

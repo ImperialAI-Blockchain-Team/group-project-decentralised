@@ -1,20 +1,22 @@
 import React from "react";
 import "./Browser.css"
+import DownloadLink from "react-download-link";
 import web3 from "../../web3";
+import ipfs from '../../ipfs';
 import datasetdatabase from "../../datasetdatabase";
 
 export class DataBrowser extends React.Component {
 
     constructor(props) {
-
         super(props);
         this.state = {
             searchValue: '',
             ethAddress: '',
             numberOfDatasets: -1,
-            datasetHashList: [],
             datasetList: [],
-            renderedDatasetList: []
+            renderedDatasetList: this.renderLoadingPage(),
+            datasetInfo: this.browserIntroduction(),
+            samples: null
             }
         this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
 
@@ -22,6 +24,30 @@ export class DataBrowser extends React.Component {
         this.getNumberOfDatasets()
         .then(this.getDatasetList, (err) => {alert(err)})
         .then(this.renderDatasets, (err) => {alert(err)});
+    }
+
+
+    handleOnKeyUp = async (event) => {
+        const target = event.target;
+        const name = target.name;
+        await this.setState({searchValue: event.target.value});
+        this.renderDatasets(this.state.datasetList);
+    }
+
+    renderLoadingPage = () => {
+        return (
+            <div className="loadingCell">
+                <p><b> Loading ... </b></p>
+            </div>
+        )
+    }
+
+    browserIntroduction = () => {
+        return (
+            <div className="datasetInfo">
+                <p><h3>Click on a dataset to display additional info! </h3></p>
+            </div>
+        )
     }
 
     getNumberOfDatasets = async () => {
@@ -42,19 +68,16 @@ export class DataBrowser extends React.Component {
         for (var i=0; i<numberOfDatasets; i++) {
             const ipfsHash = await datasetdatabase.methods.hashes(i).call();
             const dataset = await datasetdatabase.methods.datasets(ipfsHash).call();
-            newDatasetHashList.push(ipfsHash+ '---');
+            dataset['ipfsHash'] = ipfsHash;
             newDatasetList.push(dataset);
         }
-        newDatasetHashList.reverse();
         newDatasetList.reverse();
-        this.setState({datasetHashList: newDatasetHashList})
         this.setState({datasetList: newDatasetList})
 
         return new Promise((resolve, reject) => {
             resolve(newDatasetList);
         })
     }
-
 
     renderDatasets = async (datasetList) => {
         const subDatasetList = datasetList.filter(dataset => {
@@ -63,12 +86,13 @@ export class DataBrowser extends React.Component {
 
         const renderedDatasets = await subDatasetList.map(dataset => {
             return (
-            <div className="DatasetContainer">
+            <div className="datasetContainer">
                 <div className="subDatasetContainer">
                     <p><b>Owner</b>: {dataset['owner']}</p>
                     <p><b>Name</b>: not implemented{}</p>
                     <p><b>Description</b>: {dataset['description']}</p>
                     <p><b>Creation Date</b>: {new Date(dataset['time']*1000).toLocaleDateString()}</p>
+                    <p><button className="moreInfoButton" name={dataset['ipfsHash']} onClick={this.handleClick}>More Information</button></p>
                 </div>
             </div>
             )
@@ -76,28 +100,45 @@ export class DataBrowser extends React.Component {
         this.setState({renderedDatasetList: renderedDatasets});
     }
 
-    handleOnKeyUp = async (event) => {
-        const target = event.target;
-        const name = target.name;
-        await this.setState({searchValue: event.target.value});
-        this.renderDatasets(this.state.datasetList);
+    handleClick = async (event) => {
+        const fileHash = event.target.name;
+        await ipfs.files.get(fileHash, (err, files) => this.setState({'content': files[0]['content']}))
+
+
+        let datasetInfo = (
+            <div className="datasetInfo">
+                <p><b>Info1</b>: something</p>
+                <p><b>Info2</b>: something</p>
+                <p><b>Info3</b>: something</p>
+                <p><b>Info3</b>: something</p>
+                <DownloadLink label="Download synthetic samples" filename="synthetic_samples"
+                exportFile={() => this.state['content']}/>
+            </div>
+            )
+        this.setState({datasetInfo: datasetInfo})
     }
+
 
     render() {
 
         return (
-            <div className="container">
-                <div className="searchBarContainer">
-                    <input type="text" id="myInput" onKeyUp={this.handleOnKeyUp} placeholder="Search dataset (by description)" />
-                </div>
+            <div className="pageContainer">
                 <div className="headerContainer">
-                    <p id="numberOfDatasets">{this.state.numberOfDatasets} Datasets already uploaded to the system</p>
+                    <div className="searchBarContainer">
+                        <input type="text" id="myInput" onKeyUp={this.handleOnKeyUp} placeholder="Search dataset (by description)" />
+                    </div>
+                    <p id="numberOfDatasets">{this.state.numberOfDatasets} datasets already uploaded to the system</p>
                     <hr />
                 </div>
-                <div className="datasetListContainer">
-                    <tr>
-                        <p>{this.state.renderedDatasetList}</p>
-                    </tr>
+                <div className="resultContainer">
+                    <div className="datasetListContainer">
+                        <tr>
+                            <p>{this.state.renderedDatasetList}</p>
+                        </tr>
+                    </div>
+                </div>
+                <div className="dataSampleContainer">
+                    {this.state.datasetInfo}
                 </div>
             </div>
         )
