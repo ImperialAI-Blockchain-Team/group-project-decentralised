@@ -4,6 +4,7 @@ import {RegisterNodeForm} from "../FLNodes/RegisterForm.js";
 import {UploadModelForm} from "../Models/UploadForm.js";
 import {UploadDatasetForm} from "../Datasets/UploadForm.js";
 import {ModelBrowser} from "../Models/Browser.js";
+import {MainRegisterNodeForm} from "../Registration/MainRegisterForm.js";
 import {DataBrowser} from "../Datasets/Browser.js"
 
 export class MenuBar extends React.Component {
@@ -34,6 +35,7 @@ export class MenuBar extends React.Component {
                     <button class="tablink" name="search_dataset" onClick={this.handleClick}>Search Dataset</button>
                 </div>
                 <div className="tabContent">
+                    {(this.state.form === "register") ? <MainRegisterNodeForm/>: null}
                     {(this.state.form === "models") ? <UploadModelForm />: null}
                     {(this.state.form === "datasets") ? <UploadDatasetForm /> : null}
                     {(this.state.form === "FLnodes") ? <RegisterNodeForm />: null}
