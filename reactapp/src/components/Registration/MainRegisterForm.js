@@ -22,6 +22,26 @@ function validate(username, email, address, type){
         errors.push("Please choose a type")
     }
 
+    
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    
+    if ( re.test(email) ) {
+        // this is a valid email address
+        
+    }
+    else {
+        errors.push("Enter a valid email")
+    }
+
+    let re2 = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    
+    if (re2.test(address)){
+
+    }
+    else{
+        errors.push("Enter a valid IP address")
+    }
+
     return errors
 }
 
