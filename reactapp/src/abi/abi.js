@@ -302,19 +302,6 @@ export const registry = [
           "internalType": "address",
           "name": "userAddress",
           "type": "address"
-        }
-      ],
-      "name": "LogDeleteUser",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "userAddress",
-          "type": "address"
         },
         {
           "indexed": false,
@@ -380,6 +367,68 @@ export const registry = [
       ],
       "name": "LogUpdateUser",
       "type": "event"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "registrations",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "user_name",
+          "type": "string"
+        },
+        {
+          "internalType": "bool",
+          "name": "data_scientist",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "aggregator",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "hospital",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "registered",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "userHash",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     },
     {
       "constant": true,
@@ -561,4 +610,4 @@ export const registry = [
       "stateMutability": "nonpayable",
       "type": "function"
     }
-];
+  ];
