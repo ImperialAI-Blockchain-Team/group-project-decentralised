@@ -12,9 +12,13 @@ export class DataBrowser extends React.Component {
         this.state = {
             searchValue: '',
             ethAddress: '',
-            numberOfDatasets: -1,
+            numberOfDatasets: '...',
             datasetList: [],
-            renderedDatasetList: this.renderLoadingPage(),
+            renderedDatasetList: (
+                                <div className="loadingCell">
+                                    <p><b> Loading ... </b></p>
+                                </div>
+                                ),
             datasetInfo: this.browserIntroduction(),
             samples: null
             }
@@ -103,7 +107,6 @@ export class DataBrowser extends React.Component {
     handleClick = async (event) => {
         const fileHash = event.target.name;
         await ipfs.files.get(fileHash, (err, files) => this.setState({'content': files[0]['content']}))
-
 
         let datasetInfo = (
             <div className="datasetInfo">
