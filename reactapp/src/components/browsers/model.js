@@ -13,7 +13,12 @@ export class ModelBrowser extends React.Component {
             numberOfModels: -1,
             modelHashList: [],
             modelList: [],
-            renderedModelList: []
+            renderedModelList: (
+                <div className="loadingCell">
+                    <p><b> Loading ... </b></p>
+                </div>
+                ),
+            datasetInfo: this.browserIntroduction()
             }
         this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
 
@@ -21,6 +26,14 @@ export class ModelBrowser extends React.Component {
         this.getNumberOfModels()
         .then(this.getModelList, (err) => {alert(err)})
         .then(this.renderModels, (err) => {alert(err)});
+    }
+
+    browserIntroduction = () => {
+        return (
+            <div className="modelInfo">
+                <h3>Click on a model to display additional info! </h3>
+            </div>
+        )
     }
 
     getNumberOfModels = async () => {

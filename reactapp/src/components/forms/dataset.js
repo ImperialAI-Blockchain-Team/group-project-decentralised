@@ -75,7 +75,7 @@ export class UploadDatasetForm extends React.Component {
         return (
         <form onSubmit={this.handleSubmit}>
             <div className="container">
-                <div className='subContainer'>
+                <div className='sub-container'>
                     <h2>Register anonymised samples of your Dataset</h2>
                     <p>Please fill in this form to register your dataset.</p>
                     <hr />

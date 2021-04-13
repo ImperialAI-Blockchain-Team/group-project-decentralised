@@ -20,18 +20,20 @@ function App() {
 
       <MenuBar />
 
-      <Switch>
-        <Route exact path='/'>
-          <Redirect to="/about" />
-        </Route>
-        {/* <Route path='/about' component={UploadModelForm}/> */}
-        <Route path='/sign_up' component={RegisterUserPage}/>
-        <Route path='/register_model' component={RegisterModelPage}/>
-        <Route path='/register_dataset' component={RegisterDatasetPage}/>
-        <Route path='/browse_models' component={BrowseModelsPage}/>
-        <Route path='/browse_datasets' component={BrowseDatasetsPage}/>
-        {/* <Route path='/browse_jobs' component={UploadModelForm}/> */}
-      </Switch>
+      <div className="page-container">
+        <Switch>
+          <Route exact path='/'>
+            <Redirect to="/about" />
+          </Route>
+          {/* <Route path='/about' component={}/> */}
+          <Route path='/sign_up' component={RegisterUserPage}/>
+          <Route path='/register_model' component={RegisterModelPage}/>
+          <Route path='/register_dataset' component={RegisterDatasetPage}/>
+          <Route path='/browse_models' component={BrowseModelsPage}/>
+          <Route path='/browse_datasets' component={BrowseDatasetsPage}/>
+          {/* <Route path='/browse_jobs' component={}/> */}
+        </Switch>
+      </div>
     </body>
   )
   }

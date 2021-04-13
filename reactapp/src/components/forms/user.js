@@ -164,7 +164,7 @@ export class RegisterUserForm extends React.Component {
         return (
         <form onSubmit={this.handleSubmit2}>
             <div className="container">
-                <div className='subContainer'>
+                <div className='sub-container'>
                     <h2>Register here</h2>
                     <p>Please fill in this form.</p>
                     <hr />

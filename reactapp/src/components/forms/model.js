@@ -125,7 +125,7 @@ export class UploadModelForm extends React.Component {
         <form onSubmit={this.handleSubmit}>
 
             <div className="container">
-                <div className='subContainer'>
+                <div className='sub-container'>
                     <h2>Register your Model</h2>
                     <p>Please fill in this form to register your model.</p>
                     <hr />
