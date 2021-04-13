@@ -97,7 +97,6 @@ export class RegisterNodeForm extends React.Component {
     });}
 
     handleSubmit(event) {
-        alert(this.state.distr)
         event.preventDefault()
     }
     open1() {
