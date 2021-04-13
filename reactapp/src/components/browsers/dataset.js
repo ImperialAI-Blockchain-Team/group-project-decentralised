@@ -91,6 +91,7 @@ export class DatasetBrowser extends React.Component {
             )
         })
         this.setState({renderedDatasetList: renderedDatasets});
+
     }
 
     handleClick = async (event) => {
@@ -112,7 +113,6 @@ export class DatasetBrowser extends React.Component {
 
 
     render() {
-
         return (
             <div className="pageContainer">
                 <div className="headerContainer">

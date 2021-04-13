@@ -1,6 +1,7 @@
 import React from "react";
 import "./model.css"
 import modeldatabase from "../../contractInterfaces/modeldatabase";
+import {Link} from 'react-router-dom';
 
 export class ModelBrowser extends React.Component {
 
@@ -11,14 +12,13 @@ export class ModelBrowser extends React.Component {
             searchValue: '',
             ethAddress: '',
             numberOfModels: -1,
-            modelHashList: [],
             modelList: [],
             renderedModelList: (
                 <div className="loadingCell">
                     <p><b> Loading ... </b></p>
                 </div>
                 ),
-            datasetInfo: this.browserIntroduction()
+            modelInfo: this.browserIntroduction()
             }
         this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
 
@@ -34,7 +34,7 @@ export class ModelBrowser extends React.Component {
                 <h3>Click on a model to display additional info! </h3>
             </div>
         )
-    }
+    };
 
     getNumberOfModels = async () => {
         let numberOfModels = await modeldatabase.methods.getNumberOfModels().call();
@@ -54,12 +54,10 @@ export class ModelBrowser extends React.Component {
         for (var i=0; i<numberOfModels; i++) {
             const ipfsHash = await modeldatabase.methods.hashes(i).call();
             const model = await modeldatabase.methods.models(ipfsHash).call();
-            newModelHashList.push(ipfsHash+ '---');
+            model['ipfsHash'] = ipfsHash;
             newModelList.push(model);
         }
-        newModelHashList.reverse();
         newModelList.reverse();
-        this.setState({modelHashList: newModelHashList})
         this.setState({modelList: newModelList})
 
         return new Promise((resolve, reject) => {
@@ -76,16 +74,31 @@ export class ModelBrowser extends React.Component {
         const renderedModels = await subModelList.map(model => {
             return (
             <div className="modelContainer">
-                <div className="subModelContainer">
-                    <p><b>Owner</b>: {model['owner']}</p>
-                    <p><b>Name</b>: not implemented{}</p>
-                    <p><b>Description</b>: {model['description']}</p>
-                    <p><b>Creation Date</b>: {new Date(model['time']*1000).toLocaleDateString()}</p>
-                </div>
+                <p><b>Owner</b>: {model['owner']}</p>
+                <p><b>Name</b>: not implemented{}</p>
+                <p><b>Description</b>: {model['description']}</p>
+                <p><b>Creation Date</b>: {new Date(model['time']*1000).toLocaleDateString()}</p>
+                <p><button className="moreInfoButton" name={model['ipfsHash']} onClick={this.handleClick}>More Information</button>
+                <Link to='create_job' id='jobButton'>Create Job</Link>
+                {/* <button id='like'>like</button> */}
+                </p>
             </div>
             )
         })
         this.setState({renderedModelList: renderedModels});
+    }
+
+    handleClick = async (event) => {
+
+        let modelInfo = (
+            <div className="modelInfo">
+                <p><b>Info1</b>: something</p>
+                <p><b>Info2</b>: something</p>
+                <p><b>Info3</b>: something</p>
+                <p><b>Info3</b>: something</p>
+            </div>
+            )
+        this.setState({modelInfo: modelInfo})
     }
 
     handleOnKeyUp = async (event) => {
@@ -98,18 +111,22 @@ export class ModelBrowser extends React.Component {
     render() {
 
         return (
-            <div className="container">
-                <div className="searchBarContainer">
-                    <input type="text" id="myInput" onKeyUp={this.handleOnKeyUp} placeholder="Search model (by description)" />
-                </div>
+            <div className="pageContainer">
                 <div className="headerContainer">
+                    <div className="searchBarContainer">
+
+                        <input type="text" id="myInput" onKeyUp={this.handleOnKeyUp} placeholder="Search model (by description)" />
+                    </div>
                     <p id="numberOfModels">{this.state.numberOfModels} models already uploaded to the system</p>
                     <hr />
                 </div>
-                <div className="modelListContainer">
+                <div className="resultContainer">
                     <tr>
-                        <p>{this.state.renderedModelList}</p>
+                        {this.state.renderedModelList}
                     </tr>
+                </div>
+                <div className="modelInfoContainer">
+                    {this.state.modelInfo}
                 </div>
             </div>
         )
