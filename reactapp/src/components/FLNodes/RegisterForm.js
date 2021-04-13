@@ -287,7 +287,7 @@ export class RegisterNodeForm extends React.Component {
                                 <option value="fan_out">fan out</option>
                             </select><br />
                             nonlinearity:
-                            <select name="linear" value={this.state.init} onChange={this.handleChange}>
+                            <select name="linear" value={this.state.linear} onChange={this.handleChange}>
                                 <option value="">--Selection--</option>
                                 <option value="relu">relu</option>
                                 <option value="leakyrelu">leaky relu</option>
