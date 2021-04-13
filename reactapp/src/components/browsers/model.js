@@ -1,7 +1,6 @@
 import React from "react";
-import "./Browser.css"
-import web3 from "../../web3";
-import modeldatabase from "../../modeldatabase";
+import "./model.css"
+import modeldatabase from "../../contractInterfaces/modeldatabase";
 
 export class ModelBrowser extends React.Component {
 

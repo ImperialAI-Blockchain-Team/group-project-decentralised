@@ -1,28 +1,36 @@
 import React from "react";
 import { Route, Switch, Redirect } from 'react-router-dom';
 import "./App.css";
-import {MenuBar} from "./components/MenuBar/MenuBar.js";
-import {MainRegisterNodeForm} from "./components/Registration/MainRegisterForm.js";
-import {UploadModelForm} from "./components/Models/UploadForm.js"
-
-// const web3 = new Web3(Web3.givenProvider);
-// const contractAddress = "0x659D25F48cd5d9Ee2b9f2cb243425D7df8cA2859";
-// const storageContract = new web3.eth.Contract(simpleStorage, contractAddress);
+import {MenuBar} from "./components/menuBar/menuBar.js";
+import {RegisterDatasetPage} from "./components/pages/RegisterAsset/dataset.js";
+import {RegisterModelPage} from "./components/pages/RegisterAsset/model.js";
+import {RegisterUserPage} from "./components/pages/SignUp/main.js";
+import {BrowseDatasetsPage} from "./components/pages/Explore/dataset.js";
+import {BrowseModelsPage} from "./components/pages/Explore/model.js";
 
 function App() {
 
   return (
     <body>
       <div className="header">
-        {/* <div className="uploadEthIcon"></div> */}
         <div className="title">
           <h1>Software Engineering Group Project</h1>
         </div>
       </div>
+
       <MenuBar />
+
       <Switch>
-        <Route path='/register' component={MainRegisterNodeForm}/>
-        <Route path='/registermodel' component={UploadModelForm}/>
+        <Route exact path='/'>
+          <Redirect to="/about" />
+        </Route>
+        {/* <Route path='/about' component={UploadModelForm}/> */}
+        <Route path='/sign_up' component={RegisterUserPage}/>
+        <Route path='/register_model' component={RegisterModelPage}/>
+        <Route path='/register_dataset' component={RegisterDatasetPage}/>
+        <Route path='/browse_models' component={BrowseModelsPage}/>
+        <Route path='/browse_datasets' component={BrowseDatasetsPage}/>
+        {/* <Route path='/browse_jobs' component={UploadModelForm}/> */}
       </Switch>
     </body>
   )

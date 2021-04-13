@@ -1,8 +1,8 @@
 import React from "react";
-import "./UploadForm.css";
+import "./model.css";
 import ipfs from '../../ipfs'
-import web3 from "../../web3";
-import modeldatabase from "../../modeldatabase";
+import web3 from "../../contractInterfaces/web3";
+import modeldatabase from "../../contractInterfaces/modeldatabase";
 const getRevertReason = require('eth-revert-reason')
 
 function validate(modelName, description, buffer){

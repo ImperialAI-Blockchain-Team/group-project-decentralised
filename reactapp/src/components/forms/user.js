@@ -1,8 +1,8 @@
 import React from "react";
-import "./MainRegisterForm.css";
+import "./user.css";
 
-import web3 from "../../web3";
-import registrydatabase from "../../registrydatabase"
+import web3 from "../../contractInterfaces/web3";
+import registrydatabase from "../../contractInterfaces/registrydatabase"
 
 
 function validate(username, email, address, type){
@@ -22,19 +22,19 @@ function validate(username, email, address, type){
         errors.push("Please choose a type")
     }
 
-    
+
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    
+
     if ( re.test(email) ) {
         // this is a valid email address
-        
+
     }
     else {
         errors.push("Enter a valid email")
     }
 
     let re2 = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-    
+
     if (re2.test(address)){
 
     }
@@ -45,7 +45,7 @@ function validate(username, email, address, type){
     return errors
 }
 
-export class MainRegisterNodeForm extends React.Component {
+export class RegisterUserForm extends React.Component {
 
     constructor(props) {
         super(props);
@@ -71,9 +71,9 @@ export class MainRegisterNodeForm extends React.Component {
         this.setState({[name]: event.target.value});
     }
 
-    
-    
-   
+
+
+
 
     handleSubmit = async (event) => {
         event.preventDefault();
@@ -84,17 +84,17 @@ export class MainRegisterNodeForm extends React.Component {
             return;
         }
         alert("Your details have been submitted")
-        
+
         localStorage.setItem(JSON.stringify(this.state.name),JSON.stringify(this.state.address))
-        
-        
+
+
         //bring in user's metamask account address
         const accounts = await web3.eth.getAccounts();
         this.setState({account: accounts[0]})
 
         //obtain contract address from registrydatabase.js
         const ethAddress = await registrydatabase.options.address;
-        
+
         this.setState({ethAddress});
 
         //registering user
@@ -104,7 +104,7 @@ export class MainRegisterNodeForm extends React.Component {
         //const userCount = registrydatabase.methods.userCount()
         //alert(JSON.stringify(userCount))
         //alert(JSON.stringify(index))
-    
+
 
         /*
 
@@ -119,13 +119,13 @@ export class MainRegisterNodeForm extends React.Component {
 
         this.setState({index})
         console.log(JSON.stringify(this.state))
-        
+
         console.log(index)
         //console.log(userCount)
-        
 
-        
-        
+
+
+
 
 
     }
@@ -135,19 +135,19 @@ export class MainRegisterNodeForm extends React.Component {
 
     }
 
-    
+
 
     handleCheckChange = (event) => {
         // to find out if it's checked or not; returns true or false
         const checked = event.target.checked;
-        
+
         // to get the checked value
         const checkedValue = event.target.value;
 
         if (checkedValue == "Data Scientist") {
             this.state.data_scientist = true;
           }
-        
+
         if (checkedValue == "Aggregator") {
             this.state.aggregator = true;
           }
@@ -157,7 +157,7 @@ export class MainRegisterNodeForm extends React.Component {
           }
 
         this.state.type.push(JSON.stringify(checkedValue));
-    
+
     }
 
     render() {
@@ -189,7 +189,7 @@ export class MainRegisterNodeForm extends React.Component {
                     <input type="checkbox" id="checkbox" value = "Data Scientist" onChange={this.handleCheckChange.bind(this)}/><span>Data Scientist</span>
                     <input type="checkbox" id="checkbox" value = "Aggregator" onChange={this.handleCheckChange.bind(this)}/><span>Aggregator</span>
                     <input type="checkbox" id="checkbox" value = "Data Owner" onChange={this.handleCheckChange.bind(this)}/><span>Data Owner</span>
-                    
+
                     <br></br>
                     <br></br>
                     <button onClick={this.handleSubmit.bind(this)}>Register</button>

@@ -1,11 +1,10 @@
 import React from "react";
-import "./Browser.css"
+import "./dataset.css";
 import DownloadLink from "react-download-link";
-import web3 from "../../web3";
 import ipfs from '../../ipfs';
-import datasetdatabase from "../../datasetdatabase";
+import datasetdatabase from "../../contractInterfaces/datasetdatabase";
 
-export class DataBrowser extends React.Component {
+export class DatasetBrowser extends React.Component {
 
     constructor(props) {
         super(props);
