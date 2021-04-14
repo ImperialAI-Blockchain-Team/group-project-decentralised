@@ -12,8 +12,8 @@ contract Registry {
         bool registered;
   }
 
-  mapping(address => Registration) private registrations;
-  address[] private userHash;
+  mapping(address => Registration) public registrations;
+  address[] public userHash;
 
   event LogNewUser (address indexed userAddress,  string user_name, bool data_scientist, bool aggregator, bool hospital);
   event LogUpdateUser(address indexed userAddress, string user_name, bool data_scientist, bool aggregator, bool hospital);
