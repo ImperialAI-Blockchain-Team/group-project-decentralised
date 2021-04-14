@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from 'react-router-dom';
-import "./menuBar.css"
+import "./MenuBar.css"
 
 export class MenuBar extends React.Component {
 
