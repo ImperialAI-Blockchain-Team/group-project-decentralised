@@ -1,8 +1,8 @@
 import React from "react";
-import "./RegisterForm.css";
+import "./job.css";
 import { Button } from 'react-bootstrap';
 
-export class RegisterNodeForm extends React.Component {
+export class JobForm extends React.Component {
 
     constructor(props) {
         super(props);
@@ -146,7 +146,7 @@ export class RegisterNodeForm extends React.Component {
         <form onSubmit={this.handleSubmit}>
             <div className="container">
                 <div className='subContainer'>
-                    <h2>Register as a Federated Learning Aggregator</h2>
+                    <h2>Create a job to train your model!</h2>
                     <p>Please fill in this form.</p>
                     <hr />
 

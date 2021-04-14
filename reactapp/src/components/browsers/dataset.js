@@ -1,20 +1,23 @@
 import React from "react";
-import "./Browser.css"
+import "./dataset.css";
 import DownloadLink from "react-download-link";
-import web3 from "../../web3";
 import ipfs from '../../ipfs';
-import datasetdatabase from "../../datasetdatabase";
+import datasetdatabase from "../../contractInterfaces/datasetdatabase";
 
-export class DataBrowser extends React.Component {
+export class DatasetBrowser extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             searchValue: '',
             ethAddress: '',
-            numberOfDatasets: -1,
+            numberOfDatasets: '...',
             datasetList: [],
-            renderedDatasetList: this.renderLoadingPage(),
+            renderedDatasetList: (
+                                <div className="loadingCell">
+                                    <p><b> Loading ... </b></p>
+                                </div>
+                                ),
             datasetInfo: this.browserIntroduction(),
             samples: null
             }
@@ -34,18 +37,10 @@ export class DataBrowser extends React.Component {
         this.renderDatasets(this.state.datasetList);
     }
 
-    renderLoadingPage = () => {
-        return (
-            <div className="loadingCell">
-                <p><b> Loading ... </b></p>
-            </div>
-        )
-    }
-
     browserIntroduction = () => {
         return (
             <div className="datasetInfo">
-                <p><h3>Click on a dataset to display additional info! </h3></p>
+                <h3>Click on a dataset to display additional info! </h3>
             </div>
         )
     }
@@ -86,24 +81,22 @@ export class DataBrowser extends React.Component {
 
         const renderedDatasets = await subDatasetList.map(dataset => {
             return (
-            <div className="datasetContainer">
-                <div className="subDatasetContainer">
+                <div className="datasetContainer">
                     <p><b>Owner</b>: {dataset['owner']}</p>
                     <p><b>Name</b>: not implemented{}</p>
                     <p><b>Description</b>: {dataset['description']}</p>
                     <p><b>Creation Date</b>: {new Date(dataset['time']*1000).toLocaleDateString()}</p>
                     <p><button className="moreInfoButton" name={dataset['ipfsHash']} onClick={this.handleClick}>More Information</button></p>
-                </div>
             </div>
             )
         })
         this.setState({renderedDatasetList: renderedDatasets});
+
     }
 
     handleClick = async (event) => {
         const fileHash = event.target.name;
         await ipfs.files.get(fileHash, (err, files) => this.setState({'content': files[0]['content']}))
-
 
         let datasetInfo = (
             <div className="datasetInfo">
@@ -120,7 +113,6 @@ export class DataBrowser extends React.Component {
 
 
     render() {
-
         return (
             <div className="pageContainer">
                 <div className="headerContainer">
@@ -131,11 +123,9 @@ export class DataBrowser extends React.Component {
                     <hr />
                 </div>
                 <div className="resultContainer">
-                    <div className="datasetListContainer">
-                        <tr>
-                            <p>{this.state.renderedDatasetList}</p>
-                        </tr>
-                    </div>
+                    <tr>
+                        {this.state.renderedDatasetList}
+                    </tr>
                 </div>
                 <div className="dataSampleContainer">
                     {this.state.datasetInfo}

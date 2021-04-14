@@ -1,36 +1,38 @@
 .headerContainer {
-  width: 95%;
+  width: 100%;
   padding-bottom: 5px;
-  padding-top: 60px;
-  margin:auto;
+  padding-top: 30px;
+  /* margin:auto; */
+}
+
+.searchBarContainer {
+  width: 100%;
 }
 
 .resultContainer {
   width: 45%;
   float: left;
   padding-top: 5px;
-  padding-left: 25px;
+  padding-left: 0px;
 }
 
 .dataSampleContainer {
-  width: 45%;
+  width: 47%;
   float: right;
   padding-top: 5px;
-  padding-right: 25px;
+  padding-right: 0px;
 }
 
 #myInput {
-    background-image: url('./images/search_icon.png'); /* Add a search icon to input */
+    background-image: url('./images/search_icon.png'); /*Add a search icon to input*/
     background-size: 20px;
     background-position: 10px 12px; /* Position the search icon */
     background-repeat: no-repeat; /* Do not repeat the icon image */
-    float: centre;
-    width: 95%; /* Full-width */
+    width: 96%; /* Full-width */
     font-size: 16px; /* Increase font-size */
     padding-top: 13px;
-    padding-bottom: 13px;
     padding-left: 40px;
-    padding-right: -170px;
+    padding-bottom: 13px;
     border: 1px solid #ddd; /* Add a grey border */
     margin-bottom: 12px; /* Add some space below the input */
   }
@@ -40,18 +42,7 @@
 }
 
 
-.datasetListContainer {
-  width: 100%;
-
-}
-
 .datasetContainer {
-  width:100%;
-  padding-top: 2px;
-  padding-bottom: 5px;
-}
-
-.subDatasetContainer {
   width:100%;
   border-style: solid;
   border-color: rgb(34, 34, 34);
@@ -60,10 +51,11 @@
   border-width: 2px;
   padding-top: 0px;
   padding-bottom: 7px;
-  padding-right: 100px;
+  padding-right: 20px;
+  margin-bottom: 5px;
 }
 
-.subDatasetContainer p {
+.datasetContainer p {
   margin-left: 10px;
   margin-top: 1px;
   margin-bottom: 1px;
@@ -72,12 +64,13 @@
 .moreInfoButton {
   cursor:pointer;
   background-color: aqua;
-  padding: 3px;
+  padding: 1px;
   position: relative;
   border-radius: 5px;
 }
 
 .datasetInfo {
+  /* text-align: center; */
   width:100%;
   height: 700px;
   border-style: solid;
@@ -87,12 +80,12 @@
   border-width: 2px;
 }
 
+.datasetInfo h3 {
+  text-align: center;
+}
+
 .datasetInfo p {
   padding-left: 10px;
   padding-top: 3px;
   padding-bottom: 3px;
-}
-
-.datasetInfo p h3 {
-  text-align: center;
 }

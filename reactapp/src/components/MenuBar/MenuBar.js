@@ -1,48 +1,32 @@
 import React from "react";
-import "./MenuBar.css"
-import {RegisterNodeForm} from "../FLNodes/RegisterForm.js";
-import {UploadModelForm} from "../Models/UploadForm.js";
-import {UploadDatasetForm} from "../Datasets/UploadForm.js";
-import {ModelBrowser} from "../Models/Browser.js";
-import {MainRegisterNodeForm} from "../Registration/MainRegisterForm.js";
-import {DataBrowser} from "../Datasets/Browser.js"
+import {Link} from 'react-router-dom';
+import "./menuBar.css"
 
 export class MenuBar extends React.Component {
-
-    constructor() {
-        super()
-        this.state = {
-            form: "models"
-        }
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    handleClick(event) {
-        const target = event.target;
-        this.setState({form: target.name})
-        }
 
     render() {
 
         return (
-            <div className="mainBody">
-                <div className="tab">
-                    <button class="tablink" name="register" onClick={this.handleClick}>Register</button>
-                    <button class="tablink" name="models" onClick={this.handleClick}>ML Models</button>
-                    <button class="tablink" name="datasets" onClick={this.handleClick}>Datasets</button>
-                    <button class="tablink" name="FLnodes" onClick={this.handleClick}>FL Aggregators</button>
-                    <button class="tablink" name="search_model" onClick={this.handleClick}>Search Model</button>
-                    <button class="tablink" name="search_dataset" onClick={this.handleClick}>Search Dataset</button>
+                <div class="navbar">
+                    <Link to="/about">About</Link>
+                    <Link to="/sign_up">Sign Up</Link>
+                    <Link to="/my_account">My Account</Link>
+                    <div class="dropdown">
+                        <button class="dropbtn">Register your Assets<i class="fa fa-caret-down"></i></button>
+                        <div class="dropdown-content">
+                            <Link to="/register_model">Your Model</Link>
+                            <Link to="/register_dataset">Your Dataset</Link>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="dropbtn">Explore <i class="fa fa-caret-down"></i></button>
+                        <div class="dropdown-content">
+                            <Link to="/browse_models">Models</Link>
+                            <Link to="/browse_datasets">Datasets</Link>
+                            <Link to="/browse_jobs">Jobs</Link>
+                        </div>
+                    </div>
                 </div>
-                <div className="tabContent">
-                    {(this.state.form === "register") ? <MainRegisterNodeForm/>: null}
-                    {(this.state.form === "models") ? <UploadModelForm />: null}
-                    {(this.state.form === "datasets") ? <UploadDatasetForm /> : null}
-                    {(this.state.form === "FLnodes") ? <RegisterNodeForm />: null}
-                    {(this.state.form === "search_model") ? <ModelBrowser />: null}
-                    {(this.state.form === "search_dataset") ? <DataBrowser />: null}
-                </div>
-            </div>
         )
     }
 }

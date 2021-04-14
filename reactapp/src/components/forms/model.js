@@ -1,10 +1,9 @@
 import React from "react";
-import "./UploadForm.css";
+import "./model.css";
 import ipfs from '../../ipfs'
-import web3 from "../../web3";
-import modelDatabase from "../../modeldatabase";
-import registrydatabase from "../../registrydatabase";
-import modeldatabase from "../../modeldatabase";
+import modelDatabase from "../../contractInterfaces/modeldatabase";
+import registrydatabase from "../../contractInterfaces/registrydatabase";
+import web3 from "../../contractInterfaces/web3";
 
 const getRevertReason = require('eth-revert-reason')
 
@@ -153,7 +152,7 @@ export class UploadModelForm extends React.Component {
 
         <form onSubmit={this.handleSubmit}>
             <div className="container">
-                <div className='subContainer'>
+                <div className='sub-container'>
                     <h2>Register your Model</h2>
                     <p>Please fill in this form to register your model.</p>
                     <hr />

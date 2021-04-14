@@ -1,9 +1,9 @@
 import React from "react";
-import { DragZone } from "./DragZone";
-import "./UploadForm.css";
+import { DragZone } from "../dragZone/dragZone";
+import "./dataset.css";
 import ipfs from '../../ipfs'
-import web3 from "../../web3";
-import datasetdatabase from "../../datasetdatabase";
+import web3 from "../../contractInterfaces/web3";
+import datasetdatabase from "../../contractInterfaces/datasetdatabase";
 
 export class UploadDatasetForm extends React.Component {
 
@@ -75,7 +75,7 @@ export class UploadDatasetForm extends React.Component {
         return (
         <form onSubmit={this.handleSubmit}>
             <div className="container">
-                <div className='subContainer'>
+                <div className='sub-container'>
                     <h2>Register anonymised samples of your Dataset</h2>
                     <p>Please fill in this form to register your dataset.</p>
                     <hr />

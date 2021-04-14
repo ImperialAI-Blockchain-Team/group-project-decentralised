@@ -1,5 +1,5 @@
 import React from "react";
-import "./DragZone.css"
+import "./dragZone.css"
 
 export class DragZone extends React.Component {
 

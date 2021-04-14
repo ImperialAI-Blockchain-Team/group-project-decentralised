@@ -1,74 +1,43 @@
-import React, { useState } from "react";
-import { simpleStorage } from "./abi/abi";
-import Web3 from "web3";
+import React from "react";
+import { Route, Switch, Redirect } from 'react-router-dom';
 import "./App.css";
-import {MenuBar} from "./components/MenuBar/MenuBar.js";
-import logo from './logo.svg';
-
-// const web3 = new Web3(Web3.givenProvider);
-// const contractAddress = "0x659D25F48cd5d9Ee2b9f2cb243425D7df8cA2859";
-// const storageContract = new web3.eth.Contract(simpleStorage, contractAddress);
+import {MenuBar} from "./components/menuBar/menuBar.js";
+import {RegisterDatasetPage} from "./components/pages/RegisterAsset/dataset.js";
+import {RegisterModelPage} from "./components/pages/RegisterAsset/model.js";
+import {RegisterUserPage} from "./components/pages/SignUp/main.js";
+import {BrowseDatasetsPage} from "./components/pages/Explore/dataset.js";
+import {BrowseModelsPage} from "./components/pages/Explore/model.js";
+import {JobForm} from "./components/job.js";
 
 function App() {
 
   return (
     <body>
       <div className="header">
-        {/* <div className="uploadEthIcon"></div> */}
         <div className="title">
           <h1>Software Engineering Group Project</h1>
         </div>
       </div>
+
       <MenuBar />
+
+      <div className="page-container">
+        <Switch>
+          <Route exact path='/'>
+            <Redirect to="/about" />
+          </Route>
+          {/* <Route path='/about' component={}/> */}
+          <Route path='/sign_up' component={RegisterUserPage}/>
+          <Route path='/register_model' component={RegisterModelPage}/>
+          <Route path='/register_dataset' component={RegisterDatasetPage}/>
+          <Route path='/browse_models' component={BrowseModelsPage}/>
+          <Route path='/browse_datasets' component={BrowseDatasetsPage}/>
+          <Route path='/create_job' component={JobForm}/>
+          {/* <Route path='/browse_jobs' component={JobForm}/> */}
+        </Switch>
+      </div>
     </body>
   )
   }
-
-  {/* // const [number, setUint] = useState(0);
-  // const [getNumber, setGet] = useState("0");
-
-  // const numberSet = async (t) => {
-    t.preventDefault();
-    const accounts = await window.ethereum.enable();
-    const account = accounts[0];
-    const gas = await storageContract.methods.set(number).estimateGas();
-    const post = await storageContract.methods.set(number).send({
-      from: account,
-      gas,
-    });
-  };
-
-  // const numberGet = async (t) => {
-    t.preventDefault();
-    const post = await storageContract.methods.get().call();
-    setGet(post);
-  };
-
-  return (
-    <div className="main">
-      <div className="card">
-        <form className="form" onSubmit={numberSet}>
-          <label>
-            Set your uint256:
-            <input
-              className="input"
-              type="text"
-              name="name"
-              onChange={(t) => setUint(t.target.value)}
-            />
-          </label>
-          <button className="button" type="submit" value="Confirm">
-            Confirm
-          </button>
-        </form>
-        <br />
-        <button className="button" onClick={numberGet} type="button">
-          Get your uint256
-        </button>
-        {getNumber}
-      </div>
-    </div>
-  ); */}
-
 
  export default App;

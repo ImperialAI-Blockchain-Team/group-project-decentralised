@@ -1,34 +1,13 @@
 .header {
-  padding: 60px;
+  padding: 40px;
+  height: 130px;
   text-align: center;
   background: #303030;
   color: white;
   font-size: 30px;
 }
 
-.main {
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  background-color: #f2f1f5;
-  height: 100vh;
- }
- .card {
-  min-height: 50vh;
-  width: 50vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
- }
- .form {
-  height: 20vh;
-  width: 20vw;
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
- }
- .button {
-  width: 20vw;
-  height: 5vh;
- }
+.page-container {
+  margin-left: 20%;
+  margin-right: 20%;
+}
