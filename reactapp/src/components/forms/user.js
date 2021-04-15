@@ -71,6 +71,18 @@ export class RegisterUserForm extends React.Component {
         this.setState({[name]: event.target.value});
     }
 
+    onClick = async () => {
+        try{
+            this.setState({blockNumber:"waiting.."});
+            this.setState({gasUsed:"waiting..."});
+            await web3.eth.getTransactionReceipt(this.state.transactionHash,
+                (err, txReceipt)=>{console.log(err,txReceipt);
+                this.setState({txReceipt});
+            });
+        } catch(error){console.log(error)}
+        this.setState({displayTable:true})
+    }
+
 
 
 
@@ -97,25 +109,32 @@ export class RegisterUserForm extends React.Component {
 
         this.setState({ethAddress});
 
+        // return the transaction hash from the ethereum contract
+        registrydatabase.methods.insertUser(this.state.name, this.state.data_scientist,this.state.aggregator,this.state.data_owner).send({from: accounts[0]})
+        .on('transactionHash', (hash) =>{
+            console.log(hash);
+            this.setState({transactionHash:hash})
+        })
+        .on('error', async (error, receipt) => {
+            console.log(error);
+            this.setState({contractError: 'Contract Error: Model already registered'})
+            if (receipt) {
+                console.log(receipt["transactionHash"])
+                //let txHash = receipt["transactionHash"]
+                //let blockNum = receipt["blockNumber"]
+                //console.log(await getRevertReason(txHash,'ropsten'))
+            }
+        })
+
         //registering user
         //{from : accounts[0]}
-        const index = registrydatabase.methods.insertUser(this.state.name, this.state.data_scientist,this.state.aggregator,this.state.data_owner).call({from : accounts[0]})
+        const index =  await registrydatabase.methods.insertUser(this.state.name, this.state.data_scientist,this.state.aggregator,this.state.data_owner).call({from : accounts[0]})
         //const index = await registrydatabase.methods.insertUser(this.state.name, this.state.data_scientist,this.state.aggregator,this.state.data_owner).call()
         //const userCount = registrydatabase.methods.userCount()
         //alert(JSON.stringify(userCount))
         //alert(JSON.stringify(index))
 
-
-        /*
-
-        registrydatabase.getPastEvents('LogNewUser', {
-            fromBlock: 0,
-            toBlock: 'latest'
-        }, function(error, events){ console.log(events); })
-        .then(function(events){
-            console.log(events) // same results as the optional callback above
-        });
-        */
+        
 
         this.setState({index})
         console.log(JSON.stringify(this.state))
@@ -195,6 +214,30 @@ export class RegisterUserForm extends React.Component {
                     <button onClick={this.handleSubmit.bind(this)}>Register</button>
                 </div>
             </div>
+
+            {this.state.displayTable && <div className="center">
+                <table bordered responsive>
+                    <thead>
+                        <tr>
+                            <th>Tx Receipt Category</th>
+                            <th> </th>
+                            <th>Values</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Ethereum Contract Address</td>
+                            <td> : </td>
+                            <td>{this.state.ethAddress}</td>
+                        </tr>
+                        <tr>
+                            <td>Tx # </td>
+                            <td> : </td>
+                            <td>{this.state.transactionHash}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>}
         </form>
         )
     }
