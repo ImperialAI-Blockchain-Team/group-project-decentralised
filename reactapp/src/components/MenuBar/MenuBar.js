@@ -1,26 +1,26 @@
 import React from "react";
 import {Link} from 'react-router-dom';
-import "./menuBar.css"
+import "./MenuBar.css"
 
 export class MenuBar extends React.Component {
 
     render() {
 
         return (
-                <div class="navbar">
+                <div className="navbar">
                     <Link to="/about">About</Link>
                     <Link to="/sign_up">Sign Up</Link>
                     <Link to="/my_account">My Account</Link>
-                    <div class="dropdown">
-                        <button class="dropbtn">Register your Assets<i class="fa fa-caret-down"></i></button>
+                    <div className="dropdown">
+                        <button className="dropbtn">Register your Assets<i className="fa fa-caret-down"></i></button>
                         <div class="dropdown-content">
                             <Link to="/register_model">Your Model</Link>
                             <Link to="/register_dataset">Your Dataset</Link>
                         </div>
                     </div>
-                    <div class="dropdown">
-                        <button class="dropbtn">Explore <i class="fa fa-caret-down"></i></button>
-                        <div class="dropdown-content">
+                    <div className="dropdown">
+                        <button className="dropbtn">Explore <i className="fa fa-caret-down"></i></button>
+                        <div className="dropdown-content">
                             <Link to="/browse_models">Models</Link>
                             <Link to="/browse_datasets">Datasets</Link>
                             <Link to="/browse_jobs">Jobs</Link>
