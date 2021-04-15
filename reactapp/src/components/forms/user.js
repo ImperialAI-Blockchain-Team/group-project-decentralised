@@ -108,9 +108,9 @@ export class RegisterUserForm extends React.Component {
         const ethAddress = await registrydatabase.options.address;
 
         this.setState({ethAddress});
-
+        console.log(accounts)
         // return the transaction hash from the ethereum contract
-        registrydatabase.methods.insertUser(this.state.name, this.state.data_scientist,this.state.aggregator,this.state.data_owner).send({from: accounts[0]})
+        await registrydatabase.methods.insertUser(this.state.name, this.state.data_scientist,this.state.aggregator,this.state.data_owner).send({from: accounts[0]})
         .on('transactionHash', (hash) =>{
             console.log(hash);
             this.setState({transactionHash:hash})
@@ -128,7 +128,7 @@ export class RegisterUserForm extends React.Component {
 
         //registering user
         //{from : accounts[0]}
-        const index =  await registrydatabase.methods.insertUser(this.state.name, this.state.data_scientist,this.state.aggregator,this.state.data_owner).call({from : accounts[0]})
+        //const index =  await registrydatabase.methods.insertUser(this.state.name, this.state.data_scientist,this.state.aggregator,this.state.data_owner).call({from : accounts[0]})
         //const index = await registrydatabase.methods.insertUser(this.state.name, this.state.data_scientist,this.state.aggregator,this.state.data_owner).call()
         //const userCount = registrydatabase.methods.userCount()
         //alert(JSON.stringify(userCount))
@@ -136,10 +136,10 @@ export class RegisterUserForm extends React.Component {
 
         
 
-        this.setState({index})
+        //this.setState({index})
         console.log(JSON.stringify(this.state))
 
-        console.log(index)
+        //console.log(index)
         //console.log(userCount)
 
 
