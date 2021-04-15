@@ -1,11 +1,7 @@
 import React from "react";
 import { Route, Switch, Redirect } from 'react-router-dom';
 import "./App.css";
-<<<<<<< HEAD
 import {MenuBar} from "./components/menuBar/MenuBar.js";
-=======
-import {MenuBar} from "./components/MenuBar/MenuBar.js";
->>>>>>> db1c74363462cbac26fc14ffc930fcd03f2025ea
 import {RegisterDatasetPage} from "./components/pages/RegisterAsset/dataset.js";
 import {RegisterModelPage} from "./components/pages/RegisterAsset/model.js";
 import {RegisterUserPage} from "./components/pages/SignUp/main.js";
