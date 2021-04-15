@@ -44,7 +44,7 @@ export class UploadDatasetForm extends React.Component {
             this.setState({ ipfsHash:ipfsHash[0].hash });
             // call Ethereum contract method "sendHash" and .send IPFS hash to etheruem contract
             // return the transaction hash from the ethereum contract
-            datasetdatabase.methods.register_dataset(this.state.ipfsHash, this.state.name, 'Objective').send({
+            datasetdatabase.methods.registerDataset(this.state.ipfsHash, this.state.name, 'Objective').send({
                 from: accounts[0]},
                 (error, transactionHash) => {
                 console.log(transactionHash);

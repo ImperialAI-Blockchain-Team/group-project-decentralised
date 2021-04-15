@@ -1,5 +1,9 @@
 pragma solidity >=0.5.16;
 
+contract Registry {
+  function isDataScientist(address userAddress) public view returns(bool isIndeed) {}
+}
+
 contract ModelDatabase {
 
     uint number;
@@ -15,8 +19,18 @@ contract ModelDatabase {
     mapping(string => Model) public models;
     string[] public hashes;
 
+    Registry registry;
+
+    constructor(address _contractAddressRegistry) public {
+        registry = Registry(_contractAddressRegistry);
+    }
+
     // function to register a Model
-    function register_model(string memory _ipfsHash, string memory _description, string memory _objective) public {
+    function registerModel(string memory _ipfsHash, string memory _description, string memory _objective) public {
+        if (!registry.isDataScientist(msg.sender)){
+            revert("Must be registered as a data scientist");
+        }
+
         if (models[_ipfsHash].registered) {
             revert("This Model is already registered");
         }
@@ -29,7 +43,7 @@ contract ModelDatabase {
     }
 
     // function to modify model
-    function modify_model(string memory _ipfsHash, string memory _description, string memory _objective) public {
+    function modifyModel(string memory _ipfsHash, string memory _description, string memory _objective) public {
         require(models[_ipfsHash].owner == msg.sender);
         models[_ipfsHash].description = _description;
         models[_ipfsHash].objective = _objective;
@@ -37,9 +51,13 @@ contract ModelDatabase {
 
 
     // Allow owner to remove their Model from database
-    function delete_model(string memory _ipfsHash) public {
+    function deleteModel(string memory _ipfsHash) public {
         require(models[_ipfsHash].owner == msg.sender);
         delete(models[_ipfsHash]);
+    }
+
+    function getModelOwner(string memory _ipfsHash) public view returns(address) {
+        return models[_ipfsHash].owner;
     }
 
 }
