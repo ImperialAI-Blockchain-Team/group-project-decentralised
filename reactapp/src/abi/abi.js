@@ -856,7 +856,7 @@ export const jobs = [
       "inputs": [
         {
           "internalType": "string",
-          "name": "_modelIpfsHash",
+          "name": "_datasetIpfsHash",
           "type": "string"
         }
       ],

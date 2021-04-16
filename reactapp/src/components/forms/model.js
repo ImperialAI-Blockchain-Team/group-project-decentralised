@@ -24,7 +24,6 @@ function validate(modelName, description, buffer){
 }
 
 export class UploadModelForm extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -64,25 +63,12 @@ export class UploadModelForm extends React.Component {
         const accounts = await web3.eth.getAccounts();
 
          // First check if user is registered
-        let isRegistered = await registrydatabase.methods.isUser(accounts[0]).call();
-        console.log(isRegistered)
-        if (!isRegistered){
-            alert("Need to be registered, please register as a data-scientist first")
+        let isScientist = await registrydatabase.methods.isDataScientist(accounts[0]).call({from : accounts[0]});
+        console.log(isScientist)
+        if (!isScientist){
+            alert("Not registered as data scientist need to register as data scientist first")
             return;
         }
-
-        await registrydatabase.methods.getUser(accounts[0]).call({from : accounts[0]}, (error, result) =>{
-            if (error){
-                console.log(error.message)
-            }
-            if (result){
-                console.log(result)
-            }
-        })
-
-        // Then check if user is a data-scientist
-
-
 
         //obtain contract address from modelDatabase.js
         const ethAddress = await modelDatabase.options.address;

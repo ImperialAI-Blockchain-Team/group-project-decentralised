@@ -52,8 +52,8 @@ contract Jobs {
         return (owner == msg.sender);
     }
 
-    function isSenderDatasetOwner(string memory _modelIpfsHash) public view returns(bool) {
-        address owner = datasetDatabase.getDatasetOwner(_modelIpfsHash);
+    function isSenderDatasetOwner(string memory _datasetIpfsHash) public view returns(bool) {
+        address owner = datasetDatabase.getDatasetOwner(_datasetIpfsHash);
         return (owner == msg.sender);
     }
 

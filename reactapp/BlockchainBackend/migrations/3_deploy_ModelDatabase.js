@@ -1,5 +1,4 @@
 const ModelDatabase = artifacts.require("ModelDatabase.sol");
-const DatasetDatabase = artifacts.require("DatasetDatabase.sol");
 
 const fs = require('fs');
 
@@ -9,5 +8,4 @@ const contractAddressRegistry = contract.networks['3']['address'];
 
 module.exports = function(deployer) {
  deployer.deploy(ModelDatabase, contractAddressRegistry);
- deployer.deploy(DatasetDatabase, contractAddressRegistry)
 };

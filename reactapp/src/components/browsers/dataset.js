@@ -47,6 +47,7 @@ export class DatasetBrowser extends React.Component {
 
     getNumberOfDatasets = async () => {
         let numberOfDatasets = await datasetdatabase.methods.getNumberOfs().call();
+        console.log(numberOfDatasets)
         this.setState({numberOfDatasets: numberOfDatasets});
         return new Promise((resolve, reject) => {
             if (numberOfDatasets != -1) {
@@ -58,8 +59,7 @@ export class DatasetBrowser extends React.Component {
     }
 
     getDatasetList = async (numberOfDatasets) => {
-        var newDatasetHashList = [];
-        var newDatasetList = [];
+        let newDatasetList = [];
         for (var i=0; i<numberOfDatasets; i++) {
             const ipfsHash = await datasetdatabase.methods.hashes(i).call();
             const dataset = await datasetdatabase.methods.datasets(ipfsHash).call();

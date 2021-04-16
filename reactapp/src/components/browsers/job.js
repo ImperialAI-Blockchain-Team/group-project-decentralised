@@ -3,6 +3,9 @@ import "./job.css"
 import {Link} from 'react-router-dom';
 import jobsdatabase from "../../contractInterfaces/jobsdatabase";
 import modeldatabase from "../../contractInterfaces/modeldatabase";
+import FormDialog from "../forms/jobSignup"
+import { Container2 } from "../helpers/Container2";
+import {Container} from "../helpers/Container";
 
 export class JobBrowser extends React.Component {
 
@@ -19,7 +22,8 @@ export class JobBrowser extends React.Component {
                     <p><b> Loading ... </b></p>
                 </div>
                 ),
-            jobInfo: this.browserIntroduction()
+            jobInfo: this.browserIntroduction(),
+            triggerText: "Register"
             }
         this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
 
@@ -54,10 +58,8 @@ export class JobBrowser extends React.Component {
         let newJobList = [];
         for (let i=0; i<numberOfJobs; i++) {
             const job = await jobsdatabase.methods.jobs(i).call();
-            console.log(job)
             newJobList.push(job);
         }
-        newJobList.reverse();
         this.setState({jobList: newJobList})
 
         return new Promise((resolve, reject) => {
@@ -67,21 +69,20 @@ export class JobBrowser extends React.Component {
 
 
     renderJobs = async (jobList) => {
-        const subJobList = jobList.filter(job => {
-            return job['owner'].toLowerCase().startsWith(this.state.searchValue)
-        })
-
-        const renderedJobs = await subJobList.map(job => {
+        const { triggerText } = this.state.triggerText;
+        const renderedJobs = await jobList.map((job, jobID) => {
+            console.log(job)
+            console.log(jobID)
             return (
             <div className="jobContainer">
                 <p><b>Owner</b>: {job['owner']}</p>
-                <p><b>Name</b>: not implemented{}</p>
+                <p><b>ID</b>: {jobID}</p>
                 <p><b>Bounty</b>: {job['bounty']} wei </p>
                 <p><b>Holding Fee</b>: {job['holdingFee']} wei </p>
                 <p><b>Creation Date</b>: {new Date(job['initTime']*1000).toLocaleDateString()}</p>
                 <p><b>Registration End Date</b>: {new Date(job['initTime']*1000).toLocaleDateString()}</p>
                 <p><button className="moreInfoButton" name={job['ipfsHash']} onClick={this.handleClick}>More Information</button>
-                <Link to='create_job' id='jobButton'>Create Job</Link>
+                <Container2 triggerText={triggerText} job={jobID} />
                 {/* <button id='like'>like</button> */}
                 </p>
             </div>

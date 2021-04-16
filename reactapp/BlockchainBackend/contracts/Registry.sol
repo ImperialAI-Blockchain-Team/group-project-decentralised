@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.5.16;
 
-
 contract Registry {
 
   struct Registration {
@@ -40,7 +39,7 @@ contract Registry {
 
   // Check is user is a data owner
   function isDataOwner(address userAddress) public view returns(bool isIndeed) {
-      if(registrations[userAddress].data_scientist == true){
+      if(registrations[userAddress].hospital == true){
           isIndeed = true;
       } else {
           isIndeed = false;

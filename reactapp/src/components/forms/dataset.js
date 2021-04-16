@@ -4,6 +4,8 @@ import "./dataset.css";
 import ipfs from '../../ipfs'
 import web3 from "../../contractInterfaces/web3";
 import datasetdatabase from "../../contractInterfaces/datasetdatabase";
+import registrydatabase from "../../contractInterfaces/registrydatabase";
+import jobsdatabase from "../../contractInterfaces/jobsdatabase";
 
 export class UploadDatasetForm extends React.Component {
 
@@ -34,6 +36,14 @@ export class UploadDatasetForm extends React.Component {
         event.preventDefault();
         //bring in user's metamask account address
         const accounts = await web3.eth.getAccounts();
+        console.log(accounts)
+        let isDataOwner = await registrydatabase.methods.isDataOwner(accounts[0]).call({from : accounts[0]});
+        console.log(isDataOwner)
+        if (!isDataOwner){
+            alert("Not registered as data owner need to register as data-owner first")
+            return;
+        }
+
         //obtain contract address from storehash.js
         const ethAddress= await datasetdatabase.options.address;
         this.setState({ethAddress});
