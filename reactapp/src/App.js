@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch, Redirect } from 'react-router-dom';
 import "./App.css";
-import {MenuBar} from "./components/MenuBar/MenuBar.js";
+import {MenuBar} from "./components/menuBar/MenuBar.js";
 import {RegisterDatasetPage} from "./components/pages/RegisterAsset/dataset.js";
 import {RegisterModelPage} from "./components/pages/RegisterAsset/model.js";
 import {RegisterUserPage} from "./components/pages/SignUp/main.js";
