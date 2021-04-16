@@ -8,6 +8,7 @@ import {RegisterUserPage} from "./components/pages/SignUp/main.js";
 import {BrowseDatasetsPage} from "./components/pages/Explore/dataset.js";
 import {BrowseModelsPage} from "./components/pages/Explore/model.js";
 import {JobForm} from "./components/job.js";
+import {JobPage} from "./components/pages/Explore/job.js"
 
 function App() {
 
@@ -33,7 +34,7 @@ function App() {
           <Route path='/browse_models' component={BrowseModelsPage}/>
           <Route path='/browse_datasets' component={BrowseDatasetsPage}/>
           <Route path='/create_job' component={JobForm}/>
-          {/* <Route path='/browse_jobs' component={JobForm}/> */}
+          <Route path='/browse_jobs' component={JobPage}/>
         </Switch>
       </div>
     </body>

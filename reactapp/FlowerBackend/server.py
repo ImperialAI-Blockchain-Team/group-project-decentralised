@@ -12,12 +12,12 @@ job_contract_address = '0x2F2dbC0ca7Bf1390196DCE21B595BDA29834B6C5'
 contract = web3.eth.contract(address=job_contract_address, abi=abi.job_abi)
 
 # Tests
-job = contract.functions.jobs(0).call()
-print(job)
-strategy_hash = 'QmSajo76z4JZmNwe7FXzongTYCUDYwJWhWXAvpjmr3uMCy'
-params = (('arg', strategy_hash),)
-response = requests.post('https://ipfs.infura.io:5001/api/v0/get', params=params)
-print(vars(response))
+# job = contract.functions.jobs(0).call()
+# print(job)
+# strategy_hash = 'QmSajo76z4JZmNwe7FXzongTYCUDYwJWhWXAvpjmr3uMCy'
+# params = (('arg', strategy_hash),)
+# response = requests.post('https://ipfs.infura.io:5001/api/v0/get', params=params)
+# print(response.text)
 
 app = Flask(__name__)
 
@@ -41,7 +41,7 @@ def configure_flower_server():
     strategy_hash = job[2]
     params = (('arg', strategy_hash),)
     response = requests.post('https://ipfs.infura.io:5001/api/v0/get', params=params)
-    print(response)
+    print(response.text)
 
     # create strategy
 
@@ -49,7 +49,7 @@ def configure_flower_server():
     flower_server_address = "[::]:8080"
     thread = multiprocessing.Process(target=start_flower_server, args=(flower_server_address, strategy))
     thread.start()
-    return {"flower server address": flower_server_address}
+    return {"flower server address": flower_server_address}, 200
 
 
 def start_flower_server(server_address, strategy):
