@@ -2,6 +2,8 @@ import React from "react";
 import "./model.css"
 import modeldatabase from "../../contractInterfaces/modeldatabase";
 import {Link} from 'react-router-dom';
+import { Container } from "../helpers/Container";
+import web3 from "../../contractInterfaces/web3";
 
 export class ModelBrowser extends React.Component {
 
@@ -18,7 +20,8 @@ export class ModelBrowser extends React.Component {
                     <p><b> Loading ... </b></p>
                 </div>
                 ),
-            modelInfo: this.browserIntroduction()
+            modelInfo: this.browserIntroduction(),
+            triggerText: "Create Job"
             }
         this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
 
@@ -70,7 +73,12 @@ export class ModelBrowser extends React.Component {
         const subModelList = modelList.filter(model => {
             return model['description'].toLowerCase().startsWith(this.state.searchValue)
         })
-
+        const { triggerText } = this.state.triggerText;
+        const onSubmit = (event) => {
+            event.preventDefault(event);
+            console.log(event.target.name.value);
+            console.log(event.target.email.value);
+        };
         const renderedModels = await subModelList.map(model => {
             return (
             <div className="modelContainer">
@@ -79,7 +87,7 @@ export class ModelBrowser extends React.Component {
                 <p><b>Description</b>: {model['description']}</p>
                 <p><b>Creation Date</b>: {new Date(model['time']*1000).toLocaleDateString()}</p>
                 <p><button className="moreInfoButton" name={model['ipfsHash']} onClick={this.handleClick}>More Information</button>
-                <Link to='create_job' id='jobButton'>Create Job</Link>
+                <Container triggerText={triggerText} model={model['ipfsHash']} />
                 {/* <button id='like'>like</button> */}
                 </p>
             </div>
@@ -109,7 +117,6 @@ export class ModelBrowser extends React.Component {
     }
 
     render() {
-
         return (
             <div className="pageContainer">
                 <div className="headerContainer">

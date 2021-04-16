@@ -1,6 +1,9 @@
 import React from "react";
 import "./job.css";
 import { Button } from 'react-bootstrap';
+import jobsdatabase from "../../contractInterfaces/jobsdatabase";
+import web3 from "../../contractInterfaces/web3";
+import registrydatabase from "../../contractInterfaces/registrydatabase";
 
 export class JobForm extends React.Component {
 
@@ -37,7 +40,12 @@ export class JobForm extends React.Component {
             gain:'',
             fan:'',
             linear: 'relu',
-            slope:''
+            slope:'',
+            registrationPeriod: '',
+            bounty: '',
+            holdingFee: '',
+            transactionHash: '',
+            minClients: ''
 
         };
         this.open1 = this.open1.bind(this);
@@ -96,8 +104,38 @@ export class JobForm extends React.Component {
 
     });}
 
-    handleSubmit(event) {
+    handleSubmit = async (event) => {
         event.preventDefault()
+        console.log(this.props.model)
+        //bring in user's metamask account address
+        const accounts = await web3.eth.getAccounts();
+
+        // First check if user is registered
+        let isModelOwner = await jobsdatabase.methods.isSenderModelOwner(this.props.model).call({from : accounts[0]});
+        console.log(isModelOwner)
+        if (!isModelOwner){
+            alert("Not model owner, only model owner can create job for model")
+            return;
+        }
+        // Minimum payment amount
+        const amountToPay = parseInt(this.state.bounty) + 1000000
+        console.log(amountToPay)
+        // create job
+        //arg: _modelIpfsHash, _strategyHash, _minClients, _daysUntilStart, _bounty, _holdingFe
+        await jobsdatabase.methods.createJob(this.props.model, "strategyHash", parseInt(this.state.minClients),
+            parseInt(this.state.registrationPeriod), parseInt(this.state.bounty), parseInt(this.state.holdingFee)).send({from: accounts[0], value: amountToPay})
+        .on('transactionHash', (hash) =>{
+            console.log(hash);
+            this.setState({transactionHash:hash})
+        })
+        .on('error', async (error, receipt) => {
+            console.log(error);
+            if (receipt) {
+                console.log(receipt["transactionHash"])
+            }
+        })
+
+
     }
     open1() {
         const { showDiv1 } = this.state;
@@ -151,14 +189,29 @@ export class JobForm extends React.Component {
                     <hr />
 
                     <label>
-                    <b>Aggregator Username</b>:
+                    <b>Name</b>:
                     <input name="name" type="text" value={this.state.name} onChange={this.handleChange} />
                     </label>
+
                     <label>
-                    <b>IP Addres</b>:
-                    <input name="address" type="text" value={this.state.address} onChange={this.handleChange} />
+                    <b>Registration Period (in days)</b>:
+                    <input name="registrationPeriod" type="text" value={this.state.registrationPeriod} onChange={this.handleChange} />
                     </label>
 
+                    <label>
+                    <b>Bounty</b>:
+                    <input name="bounty" type="text" value={this.state.bounty} onChange={this.handleChange} />
+                    </label>
+
+                    <label>
+                    <b>Holding Fee</b>:
+                    <input name="holdingFee" type="text" value={this.state.holdingFee} onChange={this.handleChange} />
+                    </label>
+
+                    <label>
+                    <b>Minimum Number of clients</b>:
+                    <input name="minClients" type="text" value={this.state.minClients} onChange={this.handleChange} />
+                    </label>
 
                     <label>
                     <b>Aggregate Strategy (Choose one of below)</b>:

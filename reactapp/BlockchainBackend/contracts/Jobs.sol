@@ -10,7 +10,7 @@ contract DatasetDatabase {
 
 contract Jobs {
     
-    uint private jobsCreated = 0;
+    uint public jobsCreated = 0;
 
     DatasetDatabase datasetDatabase;
     ModelDatabase modelDatabase;
@@ -166,18 +166,10 @@ contract Jobs {
     }
 
     function getJobDetails(uint _id) public view returns(address, uint, uint, uint){
-        //jobs[id].owner
-        //jobs[id].minClients
-        //jobs[id].numAllow
-        //jobs[id].bounty
         return (jobs[_id].owner, jobs[_id].minClients, jobs[_id].numAllow, jobs[_id].bounty);
     }
 
     function getJobStatus(uint _id) public view returns(uint, uint, bool, bool){
-        //jobs[id].initTime
-        //jobs[id].daysUntilStart
-        //jobs[id].active
-        //jobs[id].trainingStarted
         return (jobs[_id].initTime, jobs[_id].daysUntilStart, jobs[_id].active, jobs[_id].trainingStarted);
     }
 
@@ -257,6 +249,4 @@ contract Jobs {
         }
     }
 
-
-    
 }
