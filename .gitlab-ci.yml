@@ -17,22 +17,5 @@ test:
   script:
     - CI=true npm test
   only:
-    - TestPipeline
-
-
-# pages:
-#   stage: deploy
-#   cache:
-#     paths:
-#       - node_modules/
-#   script:
-#     - CI=false npm install
-#     - npm run build
-#     - rm -rf public
-#     - cp build/index.html build/404.html
-#     - mv build public
-#   artifacts:
-#     paths:
-#       - public
-#   only:
-#     - TestPipeline
+    # - TestPipeline
+    - master
