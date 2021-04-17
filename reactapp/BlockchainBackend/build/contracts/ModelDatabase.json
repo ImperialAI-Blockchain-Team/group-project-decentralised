@@ -188,17 +188,17 @@
     "absolutePath": "/Users/marwanmousa/University/MSc_AI/Group_Project/group-project/reactapp/BlockchainBackend/contracts/ModelDatabase.sol",
     "exportedSymbols": {
       "ModelDatabase": [
-        1144
+        1172
       ],
       "Registry": [
-        979
+        1007
       ]
     },
-    "id": 1145,
+    "id": 1173,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 970,
+        "id": 998,
         "literals": [
           "solidity",
           ">=",
@@ -214,37 +214,37 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 979,
+        "id": 1007,
         "linearizedBaseContracts": [
-          979
+          1007
         ],
         "name": "Registry",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 977,
+              "id": 1005,
               "nodeType": "Block",
               "src": "130:2:3",
               "statements": []
             },
             "documentation": null,
-            "id": 978,
+            "id": 1006,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "isDataScientist",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 973,
+              "id": 1001,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 972,
+                  "id": 1000,
                   "name": "userAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 978,
+                  "scope": 1006,
                   "src": "74:19:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -253,7 +253,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 971,
+                    "id": 999,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "74:7:3",
@@ -270,15 +270,15 @@
               "src": "73:21:3"
             },
             "returnParameters": {
-              "id": 976,
+              "id": 1004,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 975,
+                  "id": 1003,
                   "name": "isIndeed",
                   "nodeType": "VariableDeclaration",
-                  "scope": 978,
+                  "scope": 1006,
                   "src": "115:13:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -287,7 +287,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 974,
+                    "id": 1002,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "115:4:3",
@@ -302,14 +302,14 @@
               ],
               "src": "114:15:3"
             },
-            "scope": 979,
+            "scope": 1007,
             "src": "49:83:3",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 1145,
+        "scope": 1173,
         "src": "27:107:3"
       },
       {
@@ -318,19 +318,19 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 1144,
+        "id": 1172,
         "linearizedBaseContracts": [
-          1144
+          1172
         ],
         "name": "ModelDatabase",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 981,
+            "id": 1009,
             "name": "number",
             "nodeType": "VariableDeclaration",
-            "scope": 1144,
+            "scope": 1172,
             "src": "166:11:3",
             "stateVariable": true,
             "storageLocation": "default",
@@ -339,7 +339,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 980,
+              "id": 1008,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
               "src": "166:4:3",
@@ -353,14 +353,14 @@
           },
           {
             "canonicalName": "ModelDatabase.Model",
-            "id": 992,
+            "id": 1020,
             "members": [
               {
                 "constant": false,
-                "id": 983,
+                "id": 1011,
                 "name": "owner",
                 "nodeType": "VariableDeclaration",
-                "scope": 992,
+                "scope": 1020,
                 "src": "207:13:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -369,7 +369,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 982,
+                  "id": 1010,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "207:7:3",
@@ -384,10 +384,10 @@
               },
               {
                 "constant": false,
-                "id": 985,
+                "id": 1013,
                 "name": "description",
                 "nodeType": "VariableDeclaration",
-                "scope": 992,
+                "scope": 1020,
                 "src": "230:18:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -396,7 +396,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 984,
+                  "id": 1012,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "230:6:3",
@@ -410,10 +410,10 @@
               },
               {
                 "constant": false,
-                "id": 987,
+                "id": 1015,
                 "name": "objective",
                 "nodeType": "VariableDeclaration",
-                "scope": 992,
+                "scope": 1020,
                 "src": "258:16:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -422,7 +422,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 986,
+                  "id": 1014,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "258:6:3",
@@ -436,10 +436,10 @@
               },
               {
                 "constant": false,
-                "id": 989,
+                "id": 1017,
                 "name": "time",
                 "nodeType": "VariableDeclaration",
-                "scope": 992,
+                "scope": 1020,
                 "src": "284:9:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -448,7 +448,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 988,
+                  "id": 1016,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "284:4:3",
@@ -462,10 +462,10 @@
               },
               {
                 "constant": false,
-                "id": 991,
+                "id": 1019,
                 "name": "registered",
                 "nodeType": "VariableDeclaration",
-                "scope": 992,
+                "scope": 1020,
                 "src": "303:15:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -474,7 +474,7 @@
                   "typeString": "bool"
                 },
                 "typeName": {
-                  "id": 990,
+                  "id": 1018,
                   "name": "bool",
                   "nodeType": "ElementaryTypeName",
                   "src": "303:4:3",
@@ -489,27 +489,27 @@
             ],
             "name": "Model",
             "nodeType": "StructDefinition",
-            "scope": 1144,
+            "scope": 1172,
             "src": "184:141:3",
             "visibility": "public"
           },
           {
             "constant": false,
-            "id": 996,
+            "id": 1024,
             "name": "models",
             "nodeType": "VariableDeclaration",
-            "scope": 1144,
+            "scope": 1172,
             "src": "331:38:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_Model_$992_storage_$",
+              "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_Model_$1020_storage_$",
               "typeString": "mapping(string => struct ModelDatabase.Model)"
             },
             "typeName": {
-              "id": 995,
+              "id": 1023,
               "keyType": {
-                "id": 993,
+                "id": 1021,
                 "name": "string",
                 "nodeType": "ElementaryTypeName",
                 "src": "339:6:3",
@@ -521,18 +521,18 @@
               "nodeType": "Mapping",
               "src": "331:24:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_Model_$992_storage_$",
+                "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_Model_$1020_storage_$",
                 "typeString": "mapping(string => struct ModelDatabase.Model)"
               },
               "valueType": {
                 "contractScope": null,
-                "id": 994,
+                "id": 1022,
                 "name": "Model",
                 "nodeType": "UserDefinedTypeName",
-                "referencedDeclaration": 992,
+                "referencedDeclaration": 1020,
                 "src": "349:5:3",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_Model_$992_storage_ptr",
+                  "typeIdentifier": "t_struct$_Model_$1020_storage_ptr",
                   "typeString": "struct ModelDatabase.Model"
                 }
               }
@@ -542,10 +542,10 @@
           },
           {
             "constant": false,
-            "id": 999,
+            "id": 1027,
             "name": "hashes",
             "nodeType": "VariableDeclaration",
-            "scope": 1144,
+            "scope": 1172,
             "src": "375:22:3",
             "stateVariable": true,
             "storageLocation": "default",
@@ -555,7 +555,7 @@
             },
             "typeName": {
               "baseType": {
-                "id": 997,
+                "id": 1025,
                 "name": "string",
                 "nodeType": "ElementaryTypeName",
                 "src": "375:6:3",
@@ -564,7 +564,7 @@
                   "typeString": "string"
                 }
               },
-              "id": 998,
+              "id": 1026,
               "length": null,
               "nodeType": "ArrayTypeName",
               "src": "375:8:3",
@@ -578,26 +578,26 @@
           },
           {
             "constant": false,
-            "id": 1001,
+            "id": 1029,
             "name": "registry",
             "nodeType": "VariableDeclaration",
-            "scope": 1144,
+            "scope": 1172,
             "src": "404:17:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_Registry_$979",
+              "typeIdentifier": "t_contract$_Registry_$1007",
               "typeString": "contract Registry"
             },
             "typeName": {
               "contractScope": null,
-              "id": 1000,
+              "id": 1028,
               "name": "Registry",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 979,
+              "referencedDeclaration": 1007,
               "src": "404:8:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Registry_$979",
+                "typeIdentifier": "t_contract$_Registry_$1007",
                 "typeString": "contract Registry"
               }
             },
@@ -606,28 +606,28 @@
           },
           {
             "body": {
-              "id": 1012,
+              "id": 1040,
               "nodeType": "Block",
               "src": "481:62:3",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1010,
+                    "id": 1038,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 1006,
+                      "id": 1034,
                       "name": "registry",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1001,
+                      "referencedDeclaration": 1029,
                       "src": "491:8:3",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_Registry_$979",
+                        "typeIdentifier": "t_contract$_Registry_$1007",
                         "typeString": "contract Registry"
                       }
                     },
@@ -638,11 +638,11 @@
                       "arguments": [
                         {
                           "argumentTypes": null,
-                          "id": 1008,
+                          "id": 1036,
                           "name": "_contractAddressRegistry",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1003,
+                          "referencedDeclaration": 1031,
                           "src": "511:24:3",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
@@ -657,18 +657,18 @@
                             "typeString": "address"
                           }
                         ],
-                        "id": 1007,
+                        "id": 1035,
                         "name": "Registry",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 979,
+                        "referencedDeclaration": 1007,
                         "src": "502:8:3",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_Registry_$979_$",
+                          "typeIdentifier": "t_type$_t_contract$_Registry_$1007_$",
                           "typeString": "type(contract Registry)"
                         }
                       },
-                      "id": 1009,
+                      "id": 1037,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -678,39 +678,39 @@
                       "nodeType": "FunctionCall",
                       "src": "502:34:3",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_Registry_$979",
+                        "typeIdentifier": "t_contract$_Registry_$1007",
                         "typeString": "contract Registry"
                       }
                     },
                     "src": "491:45:3",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_Registry_$979",
+                      "typeIdentifier": "t_contract$_Registry_$1007",
                       "typeString": "contract Registry"
                     }
                   },
-                  "id": 1011,
+                  "id": 1039,
                   "nodeType": "ExpressionStatement",
                   "src": "491:45:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 1013,
+            "id": 1041,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1004,
+              "id": 1032,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1003,
+                  "id": 1031,
                   "name": "_contractAddressRegistry",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1013,
+                  "scope": 1041,
                   "src": "440:32:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -719,7 +719,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1002,
+                    "id": 1030,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "440:7:3",
@@ -736,12 +736,12 @@
               "src": "439:34:3"
             },
             "returnParameters": {
-              "id": 1005,
+              "id": 1033,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "481:0:3"
             },
-            "scope": 1144,
+            "scope": 1172,
             "src": "428:115:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -749,14 +749,14 @@
           },
           {
             "body": {
-              "id": 1064,
+              "id": 1092,
               "nodeType": "Block",
               "src": "694:421:3",
               "statements": [
                 {
                   "condition": {
                     "argumentTypes": null,
-                    "id": 1027,
+                    "id": 1055,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -772,18 +772,18 @@
                           "argumentTypes": null,
                           "expression": {
                             "argumentTypes": null,
-                            "id": 1024,
+                            "id": 1052,
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 1515,
+                            "referencedDeclaration": 1543,
                             "src": "734:3:3",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
                               "typeString": "msg"
                             }
                           },
-                          "id": 1025,
+                          "id": 1053,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -807,32 +807,32 @@
                         ],
                         "expression": {
                           "argumentTypes": null,
-                          "id": 1022,
+                          "id": 1050,
                           "name": "registry",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1001,
+                          "referencedDeclaration": 1029,
                           "src": "709:8:3",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_Registry_$979",
+                            "typeIdentifier": "t_contract$_Registry_$1007",
                             "typeString": "contract Registry"
                           }
                         },
-                        "id": 1023,
+                        "id": 1051,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "memberName": "isDataScientist",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 978,
+                        "referencedDeclaration": 1006,
                         "src": "709:24:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_bool_$",
                           "typeString": "function (address) view external returns (bool)"
                         }
                       },
-                      "id": 1026,
+                      "id": 1054,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -852,11 +852,11 @@
                     }
                   },
                   "falseBody": null,
-                  "id": 1033,
+                  "id": 1061,
                   "nodeType": "IfStatement",
                   "src": "704:115:3",
                   "trueBody": {
-                    "id": 1032,
+                    "id": 1060,
                     "nodeType": "Block",
                     "src": "746:73:3",
                     "statements": [
@@ -867,7 +867,7 @@
                             {
                               "argumentTypes": null,
                               "hexValue": "4d75737420626520726567697374657265642061732061206461746120736369656e74697374",
-                              "id": 1029,
+                              "id": 1057,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
@@ -890,21 +890,21 @@
                                 "typeString": "literal_string \"Must be registered as a data scientist\""
                               }
                             ],
-                            "id": 1028,
+                            "id": 1056,
                             "name": "revert",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [
-                              1520,
-                              1521
+                              1548,
+                              1549
                             ],
-                            "referencedDeclaration": 1521,
+                            "referencedDeclaration": 1549,
                             "src": "760:6:3",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_revert_pure$_t_string_memory_ptr_$returns$__$",
                               "typeString": "function (string memory) pure"
                             }
                           },
-                          "id": 1030,
+                          "id": 1058,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -918,7 +918,7 @@
                             "typeString": "tuple()"
                           }
                         },
-                        "id": 1031,
+                        "id": 1059,
                         "nodeType": "ExpressionStatement",
                         "src": "760:48:3"
                       }
@@ -932,25 +932,25 @@
                       "argumentTypes": null,
                       "baseExpression": {
                         "argumentTypes": null,
-                        "id": 1034,
+                        "id": 1062,
                         "name": "models",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 996,
+                        "referencedDeclaration": 1024,
                         "src": "833:6:3",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_Model_$992_storage_$",
+                          "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_Model_$1020_storage_$",
                           "typeString": "mapping(string memory => struct ModelDatabase.Model storage ref)"
                         }
                       },
-                      "id": 1036,
+                      "id": 1064,
                       "indexExpression": {
                         "argumentTypes": null,
-                        "id": 1035,
+                        "id": 1063,
                         "name": "_ipfsHash",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1015,
+                        "referencedDeclaration": 1043,
                         "src": "840:9:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -964,18 +964,18 @@
                       "nodeType": "IndexAccess",
                       "src": "833:17:3",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Model_$992_storage",
+                        "typeIdentifier": "t_struct$_Model_$1020_storage",
                         "typeString": "struct ModelDatabase.Model storage ref"
                       }
                     },
-                    "id": 1037,
+                    "id": 1065,
                     "isConstant": false,
                     "isLValue": true,
                     "isPure": false,
                     "lValueRequested": false,
                     "memberName": "registered",
                     "nodeType": "MemberAccess",
-                    "referencedDeclaration": 991,
+                    "referencedDeclaration": 1019,
                     "src": "833:28:3",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
@@ -983,11 +983,11 @@
                     }
                   },
                   "falseBody": null,
-                  "id": 1043,
+                  "id": 1071,
                   "nodeType": "IfStatement",
                   "src": "829:101:3",
                   "trueBody": {
-                    "id": 1042,
+                    "id": 1070,
                     "nodeType": "Block",
                     "src": "863:67:3",
                     "statements": [
@@ -998,7 +998,7 @@
                             {
                               "argumentTypes": null,
                               "hexValue": "54686973204d6f64656c20697320616c72656164792072656769737465726564",
-                              "id": 1039,
+                              "id": 1067,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": true,
@@ -1021,21 +1021,21 @@
                                 "typeString": "literal_string \"This Model is already registered\""
                               }
                             ],
-                            "id": 1038,
+                            "id": 1066,
                             "name": "revert",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [
-                              1520,
-                              1521
+                              1548,
+                              1549
                             ],
-                            "referencedDeclaration": 1521,
+                            "referencedDeclaration": 1549,
                             "src": "877:6:3",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_revert_pure$_t_string_memory_ptr_$returns$__$",
                               "typeString": "function (string memory) pure"
                             }
                           },
-                          "id": 1040,
+                          "id": 1068,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -1049,7 +1049,7 @@
                             "typeString": "tuple()"
                           }
                         },
-                        "id": 1041,
+                        "id": 1069,
                         "nodeType": "ExpressionStatement",
                         "src": "877:42:3"
                       }
@@ -1059,7 +1059,7 @@
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1056,
+                    "id": 1084,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1068,25 +1068,25 @@
                       "argumentTypes": null,
                       "baseExpression": {
                         "argumentTypes": null,
-                        "id": 1044,
+                        "id": 1072,
                         "name": "models",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 996,
+                        "referencedDeclaration": 1024,
                         "src": "939:6:3",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_Model_$992_storage_$",
+                          "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_Model_$1020_storage_$",
                           "typeString": "mapping(string memory => struct ModelDatabase.Model storage ref)"
                         }
                       },
-                      "id": 1046,
+                      "id": 1074,
                       "indexExpression": {
                         "argumentTypes": null,
-                        "id": 1045,
+                        "id": 1073,
                         "name": "_ipfsHash",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1015,
+                        "referencedDeclaration": 1043,
                         "src": "946:9:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -1100,7 +1100,7 @@
                       "nodeType": "IndexAccess",
                       "src": "939:17:3",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Model_$992_storage",
+                        "typeIdentifier": "t_struct$_Model_$1020_storage",
                         "typeString": "struct ModelDatabase.Model storage ref"
                       }
                     },
@@ -1113,18 +1113,18 @@
                           "argumentTypes": null,
                           "expression": {
                             "argumentTypes": null,
-                            "id": 1048,
+                            "id": 1076,
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 1515,
+                            "referencedDeclaration": 1543,
                             "src": "973:3:3",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
                               "typeString": "msg"
                             }
                           },
-                          "id": 1049,
+                          "id": 1077,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -1140,11 +1140,11 @@
                         },
                         {
                           "argumentTypes": null,
-                          "id": 1050,
+                          "id": 1078,
                           "name": "_description",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1017,
+                          "referencedDeclaration": 1045,
                           "src": "998:12:3",
                           "typeDescriptions": {
                             "typeIdentifier": "t_string_memory_ptr",
@@ -1153,11 +1153,11 @@
                         },
                         {
                           "argumentTypes": null,
-                          "id": 1051,
+                          "id": 1079,
                           "name": "_objective",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1019,
+                          "referencedDeclaration": 1047,
                           "src": "1023:10:3",
                           "typeDescriptions": {
                             "typeIdentifier": "t_string_memory_ptr",
@@ -1168,18 +1168,18 @@
                           "argumentTypes": null,
                           "expression": {
                             "argumentTypes": null,
-                            "id": 1052,
+                            "id": 1080,
                             "name": "block",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 1505,
+                            "referencedDeclaration": 1533,
                             "src": "1041:5:3",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_block",
                               "typeString": "block"
                             }
                           },
-                          "id": 1053,
+                          "id": 1081,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -1196,7 +1196,7 @@
                         {
                           "argumentTypes": null,
                           "hexValue": "74727565",
-                          "id": 1054,
+                          "id": 1082,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -1235,18 +1235,18 @@
                             "typeString": "bool"
                           }
                         ],
-                        "id": 1047,
+                        "id": 1075,
                         "name": "Model",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 992,
+                        "referencedDeclaration": 1020,
                         "src": "959:5:3",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_struct$_Model_$992_storage_ptr_$",
+                          "typeIdentifier": "t_type$_t_struct$_Model_$1020_storage_ptr_$",
                           "typeString": "type(struct ModelDatabase.Model storage pointer)"
                         }
                       },
-                      "id": 1055,
+                      "id": 1083,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1262,17 +1262,17 @@
                       "nodeType": "FunctionCall",
                       "src": "959:117:3",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Model_$992_memory",
+                        "typeIdentifier": "t_struct$_Model_$1020_memory",
                         "typeString": "struct ModelDatabase.Model memory"
                       }
                     },
                     "src": "939:137:3",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Model_$992_storage",
+                      "typeIdentifier": "t_struct$_Model_$1020_storage",
                       "typeString": "struct ModelDatabase.Model storage ref"
                     }
                   },
-                  "id": 1057,
+                  "id": 1085,
                   "nodeType": "ExpressionStatement",
                   "src": "939:137:3"
                 },
@@ -1282,11 +1282,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 1061,
+                        "id": 1089,
                         "name": "_ipfsHash",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1015,
+                        "referencedDeclaration": 1043,
                         "src": "1098:9:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -1303,18 +1303,18 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 1058,
+                        "id": 1086,
                         "name": "hashes",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 999,
+                        "referencedDeclaration": 1027,
                         "src": "1086:6:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_array$_t_string_storage_$dyn_storage",
                           "typeString": "string storage ref[] storage ref"
                         }
                       },
-                      "id": 1060,
+                      "id": 1088,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1328,7 +1328,7 @@
                         "typeString": "function (string storage ref) returns (uint256)"
                       }
                     },
-                    "id": 1062,
+                    "id": 1090,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1342,29 +1342,29 @@
                       "typeString": "uint256"
                     }
                   },
-                  "id": 1063,
+                  "id": 1091,
                   "nodeType": "ExpressionStatement",
                   "src": "1086:22:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 1065,
+            "id": 1093,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "registerModel",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1020,
+              "id": 1048,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1015,
+                  "id": 1043,
                   "name": "_ipfsHash",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1065,
+                  "scope": 1093,
                   "src": "608:23:3",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1373,7 +1373,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 1014,
+                    "id": 1042,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "608:6:3",
@@ -1387,10 +1387,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1017,
+                  "id": 1045,
                   "name": "_description",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1065,
+                  "scope": 1093,
                   "src": "633:26:3",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1399,7 +1399,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 1016,
+                    "id": 1044,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "633:6:3",
@@ -1413,10 +1413,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1019,
+                  "id": 1047,
                   "name": "_objective",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1065,
+                  "scope": 1093,
                   "src": "661:24:3",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1425,7 +1425,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 1018,
+                    "id": 1046,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "661:6:3",
@@ -1441,12 +1441,12 @@
               "src": "607:79:3"
             },
             "returnParameters": {
-              "id": 1021,
+              "id": 1049,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "694:0:3"
             },
-            "scope": 1144,
+            "scope": 1172,
             "src": "585:530:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -1454,7 +1454,7 @@
           },
           {
             "body": {
-              "id": 1073,
+              "id": 1101,
               "nodeType": "Block",
               "src": "1176:37:3",
               "statements": [
@@ -1463,18 +1463,18 @@
                     "argumentTypes": null,
                     "expression": {
                       "argumentTypes": null,
-                      "id": 1070,
+                      "id": 1098,
                       "name": "hashes",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 999,
+                      "referencedDeclaration": 1027,
                       "src": "1193:6:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_array$_t_string_storage_$dyn_storage",
                         "typeString": "string storage ref[] storage ref"
                       }
                     },
-                    "id": 1071,
+                    "id": 1099,
                     "isConstant": false,
                     "isLValue": true,
                     "isPure": false,
@@ -1488,36 +1488,36 @@
                       "typeString": "uint256"
                     }
                   },
-                  "functionReturnParameters": 1069,
-                  "id": 1072,
+                  "functionReturnParameters": 1097,
+                  "id": 1100,
                   "nodeType": "Return",
                   "src": "1186:20:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 1074,
+            "id": 1102,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "getNumberOfModels",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1066,
+              "id": 1094,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1147:2:3"
             },
             "returnParameters": {
-              "id": 1069,
+              "id": 1097,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1068,
+                  "id": 1096,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1074,
+                  "scope": 1102,
                   "src": "1170:4:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1526,7 +1526,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1067,
+                    "id": 1095,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "1170:4:3",
@@ -1541,7 +1541,7 @@
               ],
               "src": "1169:6:3"
             },
-            "scope": 1144,
+            "scope": 1172,
             "src": "1121:92:3",
             "stateMutability": "view",
             "superFunction": null,
@@ -1549,7 +1549,7 @@
           },
           {
             "body": {
-              "id": 1107,
+              "id": 1135,
               "nodeType": "Block",
               "src": "1358:167:3",
               "statements": [
@@ -1563,7 +1563,7 @@
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         },
-                        "id": 1090,
+                        "id": 1118,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1574,25 +1574,25 @@
                             "argumentTypes": null,
                             "baseExpression": {
                               "argumentTypes": null,
-                              "id": 1084,
+                              "id": 1112,
                               "name": "models",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 996,
+                              "referencedDeclaration": 1024,
                               "src": "1376:6:3",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_Model_$992_storage_$",
+                                "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_Model_$1020_storage_$",
                                 "typeString": "mapping(string memory => struct ModelDatabase.Model storage ref)"
                               }
                             },
-                            "id": 1086,
+                            "id": 1114,
                             "indexExpression": {
                               "argumentTypes": null,
-                              "id": 1085,
+                              "id": 1113,
                               "name": "_ipfsHash",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 1076,
+                              "referencedDeclaration": 1104,
                               "src": "1383:9:3",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_string_memory_ptr",
@@ -1606,18 +1606,18 @@
                             "nodeType": "IndexAccess",
                             "src": "1376:17:3",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_struct$_Model_$992_storage",
+                              "typeIdentifier": "t_struct$_Model_$1020_storage",
                               "typeString": "struct ModelDatabase.Model storage ref"
                             }
                           },
-                          "id": 1087,
+                          "id": 1115,
                           "isConstant": false,
                           "isLValue": true,
                           "isPure": false,
                           "lValueRequested": false,
                           "memberName": "owner",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 983,
+                          "referencedDeclaration": 1011,
                           "src": "1376:23:3",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
@@ -1630,18 +1630,18 @@
                           "argumentTypes": null,
                           "expression": {
                             "argumentTypes": null,
-                            "id": 1088,
+                            "id": 1116,
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 1515,
+                            "referencedDeclaration": 1543,
                             "src": "1403:3:3",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
                               "typeString": "msg"
                             }
                           },
-                          "id": 1089,
+                          "id": 1117,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -1669,21 +1669,21 @@
                           "typeString": "bool"
                         }
                       ],
-                      "id": 1083,
+                      "id": 1111,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        1518,
-                        1519
+                        1546,
+                        1547
                       ],
-                      "referencedDeclaration": 1518,
+                      "referencedDeclaration": 1546,
                       "src": "1368:7:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
                         "typeString": "function (bool) pure"
                       }
                     },
-                    "id": 1091,
+                    "id": 1119,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1697,14 +1697,14 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1092,
+                  "id": 1120,
                   "nodeType": "ExpressionStatement",
                   "src": "1368:46:3"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1098,
+                    "id": 1126,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1715,25 +1715,25 @@
                         "argumentTypes": null,
                         "baseExpression": {
                           "argumentTypes": null,
-                          "id": 1093,
+                          "id": 1121,
                           "name": "models",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 996,
+                          "referencedDeclaration": 1024,
                           "src": "1424:6:3",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_Model_$992_storage_$",
+                            "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_Model_$1020_storage_$",
                             "typeString": "mapping(string memory => struct ModelDatabase.Model storage ref)"
                           }
                         },
-                        "id": 1095,
+                        "id": 1123,
                         "indexExpression": {
                           "argumentTypes": null,
-                          "id": 1094,
+                          "id": 1122,
                           "name": "_ipfsHash",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1076,
+                          "referencedDeclaration": 1104,
                           "src": "1431:9:3",
                           "typeDescriptions": {
                             "typeIdentifier": "t_string_memory_ptr",
@@ -1747,18 +1747,18 @@
                         "nodeType": "IndexAccess",
                         "src": "1424:17:3",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Model_$992_storage",
+                          "typeIdentifier": "t_struct$_Model_$1020_storage",
                           "typeString": "struct ModelDatabase.Model storage ref"
                         }
                       },
-                      "id": 1096,
+                      "id": 1124,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": true,
                       "memberName": "description",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 985,
+                      "referencedDeclaration": 1013,
                       "src": "1424:29:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_string_storage",
@@ -1769,11 +1769,11 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 1097,
+                      "id": 1125,
                       "name": "_description",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1078,
+                      "referencedDeclaration": 1106,
                       "src": "1456:12:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_string_memory_ptr",
@@ -1786,14 +1786,14 @@
                       "typeString": "string storage ref"
                     }
                   },
-                  "id": 1099,
+                  "id": 1127,
                   "nodeType": "ExpressionStatement",
                   "src": "1424:44:3"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1105,
+                    "id": 1133,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1804,25 +1804,25 @@
                         "argumentTypes": null,
                         "baseExpression": {
                           "argumentTypes": null,
-                          "id": 1100,
+                          "id": 1128,
                           "name": "models",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 996,
+                          "referencedDeclaration": 1024,
                           "src": "1478:6:3",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_Model_$992_storage_$",
+                            "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_Model_$1020_storage_$",
                             "typeString": "mapping(string memory => struct ModelDatabase.Model storage ref)"
                           }
                         },
-                        "id": 1102,
+                        "id": 1130,
                         "indexExpression": {
                           "argumentTypes": null,
-                          "id": 1101,
+                          "id": 1129,
                           "name": "_ipfsHash",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1076,
+                          "referencedDeclaration": 1104,
                           "src": "1485:9:3",
                           "typeDescriptions": {
                             "typeIdentifier": "t_string_memory_ptr",
@@ -1836,18 +1836,18 @@
                         "nodeType": "IndexAccess",
                         "src": "1478:17:3",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Model_$992_storage",
+                          "typeIdentifier": "t_struct$_Model_$1020_storage",
                           "typeString": "struct ModelDatabase.Model storage ref"
                         }
                       },
-                      "id": 1103,
+                      "id": 1131,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": true,
                       "memberName": "objective",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 987,
+                      "referencedDeclaration": 1015,
                       "src": "1478:27:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_string_storage",
@@ -1858,11 +1858,11 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 1104,
+                      "id": 1132,
                       "name": "_objective",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1080,
+                      "referencedDeclaration": 1108,
                       "src": "1508:10:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_string_memory_ptr",
@@ -1875,29 +1875,29 @@
                       "typeString": "string storage ref"
                     }
                   },
-                  "id": 1106,
+                  "id": 1134,
                   "nodeType": "ExpressionStatement",
                   "src": "1478:40:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 1108,
+            "id": 1136,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "modifyModel",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1081,
+              "id": 1109,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1076,
+                  "id": 1104,
                   "name": "_ipfsHash",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1108,
+                  "scope": 1136,
                   "src": "1272:23:3",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1906,7 +1906,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 1075,
+                    "id": 1103,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "1272:6:3",
@@ -1920,10 +1920,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1078,
+                  "id": 1106,
                   "name": "_description",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1108,
+                  "scope": 1136,
                   "src": "1297:26:3",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1932,7 +1932,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 1077,
+                    "id": 1105,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "1297:6:3",
@@ -1946,10 +1946,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 1080,
+                  "id": 1108,
                   "name": "_objective",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1108,
+                  "scope": 1136,
                   "src": "1325:24:3",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1958,7 +1958,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 1079,
+                    "id": 1107,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "1325:6:3",
@@ -1974,12 +1974,12 @@
               "src": "1271:79:3"
             },
             "returnParameters": {
-              "id": 1082,
+              "id": 1110,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1358:0:3"
             },
-            "scope": 1144,
+            "scope": 1172,
             "src": "1251:274:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -1987,7 +1987,7 @@
           },
           {
             "body": {
-              "id": 1129,
+              "id": 1157,
               "nodeType": "Block",
               "src": "1640:98:3",
               "statements": [
@@ -2001,7 +2001,7 @@
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         },
-                        "id": 1120,
+                        "id": 1148,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -2012,25 +2012,25 @@
                             "argumentTypes": null,
                             "baseExpression": {
                               "argumentTypes": null,
-                              "id": 1114,
+                              "id": 1142,
                               "name": "models",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 996,
+                              "referencedDeclaration": 1024,
                               "src": "1658:6:3",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_Model_$992_storage_$",
+                                "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_Model_$1020_storage_$",
                                 "typeString": "mapping(string memory => struct ModelDatabase.Model storage ref)"
                               }
                             },
-                            "id": 1116,
+                            "id": 1144,
                             "indexExpression": {
                               "argumentTypes": null,
-                              "id": 1115,
+                              "id": 1143,
                               "name": "_ipfsHash",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 1110,
+                              "referencedDeclaration": 1138,
                               "src": "1665:9:3",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_string_memory_ptr",
@@ -2044,18 +2044,18 @@
                             "nodeType": "IndexAccess",
                             "src": "1658:17:3",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_struct$_Model_$992_storage",
+                              "typeIdentifier": "t_struct$_Model_$1020_storage",
                               "typeString": "struct ModelDatabase.Model storage ref"
                             }
                           },
-                          "id": 1117,
+                          "id": 1145,
                           "isConstant": false,
                           "isLValue": true,
                           "isPure": false,
                           "lValueRequested": false,
                           "memberName": "owner",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 983,
+                          "referencedDeclaration": 1011,
                           "src": "1658:23:3",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
@@ -2068,18 +2068,18 @@
                           "argumentTypes": null,
                           "expression": {
                             "argumentTypes": null,
-                            "id": 1118,
+                            "id": 1146,
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 1515,
+                            "referencedDeclaration": 1543,
                             "src": "1685:3:3",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
                               "typeString": "msg"
                             }
                           },
-                          "id": 1119,
+                          "id": 1147,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -2107,21 +2107,21 @@
                           "typeString": "bool"
                         }
                       ],
-                      "id": 1113,
+                      "id": 1141,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        1518,
-                        1519
+                        1546,
+                        1547
                       ],
-                      "referencedDeclaration": 1518,
+                      "referencedDeclaration": 1546,
                       "src": "1650:7:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
                         "typeString": "function (bool) pure"
                       }
                     },
-                    "id": 1121,
+                    "id": 1149,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2135,14 +2135,14 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1122,
+                  "id": 1150,
                   "nodeType": "ExpressionStatement",
                   "src": "1650:46:3"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1127,
+                    "id": 1155,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2158,25 +2158,25 @@
                           "argumentTypes": null,
                           "baseExpression": {
                             "argumentTypes": null,
-                            "id": 1123,
+                            "id": 1151,
                             "name": "models",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 996,
+                            "referencedDeclaration": 1024,
                             "src": "1713:6:3",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_Model_$992_storage_$",
+                              "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_Model_$1020_storage_$",
                               "typeString": "mapping(string memory => struct ModelDatabase.Model storage ref)"
                             }
                           },
-                          "id": 1125,
+                          "id": 1153,
                           "indexExpression": {
                             "argumentTypes": null,
-                            "id": 1124,
+                            "id": 1152,
                             "name": "_ipfsHash",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 1110,
+                            "referencedDeclaration": 1138,
                             "src": "1720:9:3",
                             "typeDescriptions": {
                               "typeIdentifier": "t_string_memory_ptr",
@@ -2190,12 +2190,12 @@
                           "nodeType": "IndexAccess",
                           "src": "1713:17:3",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_Model_$992_storage",
+                            "typeIdentifier": "t_struct$_Model_$1020_storage",
                             "typeString": "struct ModelDatabase.Model storage ref"
                           }
                         }
                       ],
-                      "id": 1126,
+                      "id": 1154,
                       "isConstant": false,
                       "isInlineArray": false,
                       "isLValue": true,
@@ -2204,7 +2204,7 @@
                       "nodeType": "TupleExpression",
                       "src": "1712:19:3",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Model_$992_storage",
+                        "typeIdentifier": "t_struct$_Model_$1020_storage",
                         "typeString": "struct ModelDatabase.Model storage ref"
                       }
                     },
@@ -2213,29 +2213,29 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1128,
+                  "id": 1156,
                   "nodeType": "ExpressionStatement",
                   "src": "1706:25:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 1130,
+            "id": 1158,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "deleteModel",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1111,
+              "id": 1139,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1110,
+                  "id": 1138,
                   "name": "_ipfsHash",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1130,
+                  "scope": 1158,
                   "src": "1608:23:3",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -2244,7 +2244,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 1109,
+                    "id": 1137,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "1608:6:3",
@@ -2260,12 +2260,12 @@
               "src": "1607:25:3"
             },
             "returnParameters": {
-              "id": 1112,
+              "id": 1140,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1640:0:3"
             },
-            "scope": 1144,
+            "scope": 1172,
             "src": "1587:151:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -2273,7 +2273,7 @@
           },
           {
             "body": {
-              "id": 1142,
+              "id": 1170,
               "nodeType": "Block",
               "src": "1821:47:3",
               "statements": [
@@ -2284,25 +2284,25 @@
                       "argumentTypes": null,
                       "baseExpression": {
                         "argumentTypes": null,
-                        "id": 1137,
+                        "id": 1165,
                         "name": "models",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 996,
+                        "referencedDeclaration": 1024,
                         "src": "1838:6:3",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_Model_$992_storage_$",
+                          "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_Model_$1020_storage_$",
                           "typeString": "mapping(string memory => struct ModelDatabase.Model storage ref)"
                         }
                       },
-                      "id": 1139,
+                      "id": 1167,
                       "indexExpression": {
                         "argumentTypes": null,
-                        "id": 1138,
+                        "id": 1166,
                         "name": "_ipfsHash",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1132,
+                        "referencedDeclaration": 1160,
                         "src": "1845:9:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -2316,48 +2316,48 @@
                       "nodeType": "IndexAccess",
                       "src": "1838:17:3",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Model_$992_storage",
+                        "typeIdentifier": "t_struct$_Model_$1020_storage",
                         "typeString": "struct ModelDatabase.Model storage ref"
                       }
                     },
-                    "id": 1140,
+                    "id": 1168,
                     "isConstant": false,
                     "isLValue": true,
                     "isPure": false,
                     "lValueRequested": false,
                     "memberName": "owner",
                     "nodeType": "MemberAccess",
-                    "referencedDeclaration": 983,
+                    "referencedDeclaration": 1011,
                     "src": "1838:23:3",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
-                  "functionReturnParameters": 1136,
-                  "id": 1141,
+                  "functionReturnParameters": 1164,
+                  "id": 1169,
                   "nodeType": "Return",
                   "src": "1831:30:3"
                 }
               ]
             },
             "documentation": null,
-            "id": 1143,
+            "id": 1171,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "getModelOwner",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1133,
+              "id": 1161,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1132,
+                  "id": 1160,
                   "name": "_ipfsHash",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1143,
+                  "scope": 1171,
                   "src": "1767:23:3",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -2366,7 +2366,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 1131,
+                    "id": 1159,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "1767:6:3",
@@ -2382,15 +2382,15 @@
               "src": "1766:25:3"
             },
             "returnParameters": {
-              "id": 1136,
+              "id": 1164,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1135,
+                  "id": 1163,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1143,
+                  "scope": 1171,
                   "src": "1812:7:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2399,7 +2399,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1134,
+                    "id": 1162,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1812:7:3",
@@ -2415,14 +2415,14 @@
               ],
               "src": "1811:9:3"
             },
-            "scope": 1144,
+            "scope": 1172,
             "src": "1744:124:3",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 1145,
+        "scope": 1173,
         "src": "136:1735:3"
       }
     ],
@@ -2433,10 +2433,10 @@
       "absolutePath": "/Users/marwanmousa/University/MSc_AI/Group_Project/group-project/reactapp/BlockchainBackend/contracts/ModelDatabase.sol",
       "exportedSymbols": {
         "ModelDatabase": [
-          1144
+          1172
         ],
         "Registry": [
-          979
+          1007
         ]
       }
     },
@@ -2450,7 +2450,7 @@
             ".16"
           ]
         },
-        "id": 970,
+        "id": 998,
         "name": "PragmaDirective",
         "src": "0:25:3"
       },
@@ -2466,10 +2466,10 @@
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            979
+            1007
           ],
           "name": "Registry",
-          "scope": 1145
+          "scope": 1173
         },
         "children": [
           {
@@ -2482,7 +2482,7 @@
                 null
               ],
               "name": "isDataScientist",
-              "scope": 979,
+              "scope": 1007,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -2494,7 +2494,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "userAddress",
-                      "scope": 978,
+                      "scope": 1006,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -2508,17 +2508,17 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 971,
+                        "id": 999,
                         "name": "ElementaryTypeName",
                         "src": "74:7:3"
                       }
                     ],
-                    "id": 972,
+                    "id": 1000,
                     "name": "VariableDeclaration",
                     "src": "74:19:3"
                   }
                 ],
-                "id": 973,
+                "id": 1001,
                 "name": "ParameterList",
                 "src": "73:21:3"
               },
@@ -2528,7 +2528,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "isIndeed",
-                      "scope": 978,
+                      "scope": 1006,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -2541,17 +2541,17 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 974,
+                        "id": 1002,
                         "name": "ElementaryTypeName",
                         "src": "115:4:3"
                       }
                     ],
-                    "id": 975,
+                    "id": 1003,
                     "name": "VariableDeclaration",
                     "src": "115:13:3"
                   }
                 ],
-                "id": 976,
+                "id": 1004,
                 "name": "ParameterList",
                 "src": "114:15:3"
               },
@@ -2562,17 +2562,17 @@
                   ]
                 },
                 "children": [],
-                "id": 977,
+                "id": 1005,
                 "name": "Block",
                 "src": "130:2:3"
               }
             ],
-            "id": 978,
+            "id": 1006,
             "name": "FunctionDefinition",
             "src": "49:83:3"
           }
         ],
-        "id": 979,
+        "id": 1007,
         "name": "ContractDefinition",
         "src": "27:107:3"
       },
@@ -2588,17 +2588,17 @@
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            1144
+            1172
           ],
           "name": "ModelDatabase",
-          "scope": 1145
+          "scope": 1173
         },
         "children": [
           {
             "attributes": {
               "constant": false,
               "name": "number",
-              "scope": 1144,
+              "scope": 1172,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "uint256",
@@ -2611,12 +2611,12 @@
                   "name": "uint",
                   "type": "uint256"
                 },
-                "id": 980,
+                "id": 1008,
                 "name": "ElementaryTypeName",
                 "src": "166:4:3"
               }
             ],
-            "id": 981,
+            "id": 1009,
             "name": "VariableDeclaration",
             "src": "166:11:3"
           },
@@ -2624,7 +2624,7 @@
             "attributes": {
               "canonicalName": "ModelDatabase.Model",
               "name": "Model",
-              "scope": 1144,
+              "scope": 1172,
               "visibility": "public"
             },
             "children": [
@@ -2632,7 +2632,7 @@
                 "attributes": {
                   "constant": false,
                   "name": "owner",
-                  "scope": 992,
+                  "scope": 1020,
                   "stateVariable": false,
                   "storageLocation": "default",
                   "type": "address",
@@ -2646,12 +2646,12 @@
                       "stateMutability": "nonpayable",
                       "type": "address"
                     },
-                    "id": 982,
+                    "id": 1010,
                     "name": "ElementaryTypeName",
                     "src": "207:7:3"
                   }
                 ],
-                "id": 983,
+                "id": 1011,
                 "name": "VariableDeclaration",
                 "src": "207:13:3"
               },
@@ -2659,7 +2659,7 @@
                 "attributes": {
                   "constant": false,
                   "name": "description",
-                  "scope": 992,
+                  "scope": 1020,
                   "stateVariable": false,
                   "storageLocation": "default",
                   "type": "string",
@@ -2672,12 +2672,12 @@
                       "name": "string",
                       "type": "string"
                     },
-                    "id": 984,
+                    "id": 1012,
                     "name": "ElementaryTypeName",
                     "src": "230:6:3"
                   }
                 ],
-                "id": 985,
+                "id": 1013,
                 "name": "VariableDeclaration",
                 "src": "230:18:3"
               },
@@ -2685,7 +2685,7 @@
                 "attributes": {
                   "constant": false,
                   "name": "objective",
-                  "scope": 992,
+                  "scope": 1020,
                   "stateVariable": false,
                   "storageLocation": "default",
                   "type": "string",
@@ -2698,12 +2698,12 @@
                       "name": "string",
                       "type": "string"
                     },
-                    "id": 986,
+                    "id": 1014,
                     "name": "ElementaryTypeName",
                     "src": "258:6:3"
                   }
                 ],
-                "id": 987,
+                "id": 1015,
                 "name": "VariableDeclaration",
                 "src": "258:16:3"
               },
@@ -2711,7 +2711,7 @@
                 "attributes": {
                   "constant": false,
                   "name": "time",
-                  "scope": 992,
+                  "scope": 1020,
                   "stateVariable": false,
                   "storageLocation": "default",
                   "type": "uint256",
@@ -2724,12 +2724,12 @@
                       "name": "uint",
                       "type": "uint256"
                     },
-                    "id": 988,
+                    "id": 1016,
                     "name": "ElementaryTypeName",
                     "src": "284:4:3"
                   }
                 ],
-                "id": 989,
+                "id": 1017,
                 "name": "VariableDeclaration",
                 "src": "284:9:3"
               },
@@ -2737,7 +2737,7 @@
                 "attributes": {
                   "constant": false,
                   "name": "registered",
-                  "scope": 992,
+                  "scope": 1020,
                   "stateVariable": false,
                   "storageLocation": "default",
                   "type": "bool",
@@ -2750,17 +2750,17 @@
                       "name": "bool",
                       "type": "bool"
                     },
-                    "id": 990,
+                    "id": 1018,
                     "name": "ElementaryTypeName",
                     "src": "303:4:3"
                   }
                 ],
-                "id": 991,
+                "id": 1019,
                 "name": "VariableDeclaration",
                 "src": "303:15:3"
               }
             ],
-            "id": 992,
+            "id": 1020,
             "name": "StructDefinition",
             "src": "184:141:3"
           },
@@ -2768,7 +2768,7 @@
             "attributes": {
               "constant": false,
               "name": "models",
-              "scope": 1144,
+              "scope": 1172,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "mapping(string => struct ModelDatabase.Model)",
@@ -2786,7 +2786,7 @@
                       "name": "string",
                       "type": "string"
                     },
-                    "id": 993,
+                    "id": 1021,
                     "name": "ElementaryTypeName",
                     "src": "339:6:3"
                   },
@@ -2794,20 +2794,20 @@
                     "attributes": {
                       "contractScope": null,
                       "name": "Model",
-                      "referencedDeclaration": 992,
+                      "referencedDeclaration": 1020,
                       "type": "struct ModelDatabase.Model"
                     },
-                    "id": 994,
+                    "id": 1022,
                     "name": "UserDefinedTypeName",
                     "src": "349:5:3"
                   }
                 ],
-                "id": 995,
+                "id": 1023,
                 "name": "Mapping",
                 "src": "331:24:3"
               }
             ],
-            "id": 996,
+            "id": 1024,
             "name": "VariableDeclaration",
             "src": "331:38:3"
           },
@@ -2815,7 +2815,7 @@
             "attributes": {
               "constant": false,
               "name": "hashes",
-              "scope": 1144,
+              "scope": 1172,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "string[]",
@@ -2834,17 +2834,17 @@
                       "name": "string",
                       "type": "string"
                     },
-                    "id": 997,
+                    "id": 1025,
                     "name": "ElementaryTypeName",
                     "src": "375:6:3"
                   }
                 ],
-                "id": 998,
+                "id": 1026,
                 "name": "ArrayTypeName",
                 "src": "375:8:3"
               }
             ],
-            "id": 999,
+            "id": 1027,
             "name": "VariableDeclaration",
             "src": "375:22:3"
           },
@@ -2852,7 +2852,7 @@
             "attributes": {
               "constant": false,
               "name": "registry",
-              "scope": 1144,
+              "scope": 1172,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "contract Registry",
@@ -2864,15 +2864,15 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "Registry",
-                  "referencedDeclaration": 979,
+                  "referencedDeclaration": 1007,
                   "type": "contract Registry"
                 },
-                "id": 1000,
+                "id": 1028,
                 "name": "UserDefinedTypeName",
                 "src": "404:8:3"
               }
             ],
-            "id": 1001,
+            "id": 1029,
             "name": "VariableDeclaration",
             "src": "404:17:3"
           },
@@ -2886,7 +2886,7 @@
                 null
               ],
               "name": "",
-              "scope": 1144,
+              "scope": 1172,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -2898,7 +2898,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_contractAddressRegistry",
-                      "scope": 1013,
+                      "scope": 1041,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -2912,17 +2912,17 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 1002,
+                        "id": 1030,
                         "name": "ElementaryTypeName",
                         "src": "440:7:3"
                       }
                     ],
-                    "id": 1003,
+                    "id": 1031,
                     "name": "VariableDeclaration",
                     "src": "440:32:3"
                   }
                 ],
-                "id": 1004,
+                "id": 1032,
                 "name": "ParameterList",
                 "src": "439:34:3"
               },
@@ -2933,7 +2933,7 @@
                   ]
                 },
                 "children": [],
-                "id": 1005,
+                "id": 1033,
                 "name": "ParameterList",
                 "src": "481:0:3"
               },
@@ -2958,11 +2958,11 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1001,
+                              "referencedDeclaration": 1029,
                               "type": "contract Registry",
                               "value": "registry"
                             },
-                            "id": 1006,
+                            "id": 1034,
                             "name": "Identifier",
                             "src": "491:8:3"
                           },
@@ -2992,11 +2992,11 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 979,
+                                  "referencedDeclaration": 1007,
                                   "type": "type(contract Registry)",
                                   "value": "Registry"
                                 },
-                                "id": 1007,
+                                "id": 1035,
                                 "name": "Identifier",
                                 "src": "502:8:3"
                               },
@@ -3006,36 +3006,36 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1003,
+                                  "referencedDeclaration": 1031,
                                   "type": "address",
                                   "value": "_contractAddressRegistry"
                                 },
-                                "id": 1008,
+                                "id": 1036,
                                 "name": "Identifier",
                                 "src": "511:24:3"
                               }
                             ],
-                            "id": 1009,
+                            "id": 1037,
                             "name": "FunctionCall",
                             "src": "502:34:3"
                           }
                         ],
-                        "id": 1010,
+                        "id": 1038,
                         "name": "Assignment",
                         "src": "491:45:3"
                       }
                     ],
-                    "id": 1011,
+                    "id": 1039,
                     "name": "ExpressionStatement",
                     "src": "491:45:3"
                   }
                 ],
-                "id": 1012,
+                "id": 1040,
                 "name": "Block",
                 "src": "481:62:3"
               }
             ],
-            "id": 1013,
+            "id": 1041,
             "name": "FunctionDefinition",
             "src": "428:115:3"
           },
@@ -3049,7 +3049,7 @@
                 null
               ],
               "name": "registerModel",
-              "scope": 1144,
+              "scope": 1172,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -3061,7 +3061,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_ipfsHash",
-                      "scope": 1065,
+                      "scope": 1093,
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "type": "string",
@@ -3074,12 +3074,12 @@
                           "name": "string",
                           "type": "string"
                         },
-                        "id": 1014,
+                        "id": 1042,
                         "name": "ElementaryTypeName",
                         "src": "608:6:3"
                       }
                     ],
-                    "id": 1015,
+                    "id": 1043,
                     "name": "VariableDeclaration",
                     "src": "608:23:3"
                   },
@@ -3087,7 +3087,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_description",
-                      "scope": 1065,
+                      "scope": 1093,
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "type": "string",
@@ -3100,12 +3100,12 @@
                           "name": "string",
                           "type": "string"
                         },
-                        "id": 1016,
+                        "id": 1044,
                         "name": "ElementaryTypeName",
                         "src": "633:6:3"
                       }
                     ],
-                    "id": 1017,
+                    "id": 1045,
                     "name": "VariableDeclaration",
                     "src": "633:26:3"
                   },
@@ -3113,7 +3113,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_objective",
-                      "scope": 1065,
+                      "scope": 1093,
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "type": "string",
@@ -3126,17 +3126,17 @@
                           "name": "string",
                           "type": "string"
                         },
-                        "id": 1018,
+                        "id": 1046,
                         "name": "ElementaryTypeName",
                         "src": "661:6:3"
                       }
                     ],
-                    "id": 1019,
+                    "id": 1047,
                     "name": "VariableDeclaration",
                     "src": "661:24:3"
                   }
                 ],
-                "id": 1020,
+                "id": 1048,
                 "name": "ParameterList",
                 "src": "607:79:3"
               },
@@ -3147,7 +3147,7 @@
                   ]
                 },
                 "children": [],
-                "id": 1021,
+                "id": 1049,
                 "name": "ParameterList",
                 "src": "694:0:3"
               },
@@ -3198,7 +3198,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "isDataScientist",
-                                  "referencedDeclaration": 978,
+                                  "referencedDeclaration": 1006,
                                   "type": "function (address) view external returns (bool)"
                                 },
                                 "children": [
@@ -3208,16 +3208,16 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 1001,
+                                      "referencedDeclaration": 1029,
                                       "type": "contract Registry",
                                       "value": "registry"
                                     },
-                                    "id": 1022,
+                                    "id": 1050,
                                     "name": "Identifier",
                                     "src": "709:8:3"
                                   }
                                 ],
-                                "id": 1023,
+                                "id": 1051,
                                 "name": "MemberAccess",
                                 "src": "709:24:3"
                               },
@@ -3239,26 +3239,26 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 1515,
+                                      "referencedDeclaration": 1543,
                                       "type": "msg",
                                       "value": "msg"
                                     },
-                                    "id": 1024,
+                                    "id": 1052,
                                     "name": "Identifier",
                                     "src": "734:3:3"
                                   }
                                 ],
-                                "id": 1025,
+                                "id": 1053,
                                 "name": "MemberAccess",
                                 "src": "734:10:3"
                               }
                             ],
-                            "id": 1026,
+                            "id": 1054,
                             "name": "FunctionCall",
                             "src": "709:36:3"
                           }
                         ],
-                        "id": 1027,
+                        "id": 1055,
                         "name": "UnaryOperation",
                         "src": "708:37:3"
                       },
@@ -3290,14 +3290,14 @@
                                         }
                                       ],
                                       "overloadedDeclarations": [
-                                        1520,
-                                        1521
+                                        1548,
+                                        1549
                                       ],
-                                      "referencedDeclaration": 1521,
+                                      "referencedDeclaration": 1549,
                                       "type": "function (string memory) pure",
                                       "value": "revert"
                                     },
-                                    "id": 1028,
+                                    "id": 1056,
                                     "name": "Identifier",
                                     "src": "760:6:3"
                                   },
@@ -3314,27 +3314,27 @@
                                       "type": "literal_string \"Must be registered as a data scientist\"",
                                       "value": "Must be registered as a data scientist"
                                     },
-                                    "id": 1029,
+                                    "id": 1057,
                                     "name": "Literal",
                                     "src": "767:40:3"
                                   }
                                 ],
-                                "id": 1030,
+                                "id": 1058,
                                 "name": "FunctionCall",
                                 "src": "760:48:3"
                               }
                             ],
-                            "id": 1031,
+                            "id": 1059,
                             "name": "ExpressionStatement",
                             "src": "760:48:3"
                           }
                         ],
-                        "id": 1032,
+                        "id": 1060,
                         "name": "Block",
                         "src": "746:73:3"
                       }
                     ],
-                    "id": 1033,
+                    "id": 1061,
                     "name": "IfStatement",
                     "src": "704:115:3"
                   },
@@ -3351,7 +3351,7 @@
                           "isPure": false,
                           "lValueRequested": false,
                           "member_name": "registered",
-                          "referencedDeclaration": 991,
+                          "referencedDeclaration": 1019,
                           "type": "bool"
                         },
                         "children": [
@@ -3371,11 +3371,11 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 996,
+                                  "referencedDeclaration": 1024,
                                   "type": "mapping(string memory => struct ModelDatabase.Model storage ref)",
                                   "value": "models"
                                 },
-                                "id": 1034,
+                                "id": 1062,
                                 "name": "Identifier",
                                 "src": "833:6:3"
                               },
@@ -3385,21 +3385,21 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1015,
+                                  "referencedDeclaration": 1043,
                                   "type": "string memory",
                                   "value": "_ipfsHash"
                                 },
-                                "id": 1035,
+                                "id": 1063,
                                 "name": "Identifier",
                                 "src": "840:9:3"
                               }
                             ],
-                            "id": 1036,
+                            "id": 1064,
                             "name": "IndexAccess",
                             "src": "833:17:3"
                           }
                         ],
-                        "id": 1037,
+                        "id": 1065,
                         "name": "MemberAccess",
                         "src": "833:28:3"
                       },
@@ -3431,14 +3431,14 @@
                                         }
                                       ],
                                       "overloadedDeclarations": [
-                                        1520,
-                                        1521
+                                        1548,
+                                        1549
                                       ],
-                                      "referencedDeclaration": 1521,
+                                      "referencedDeclaration": 1549,
                                       "type": "function (string memory) pure",
                                       "value": "revert"
                                     },
-                                    "id": 1038,
+                                    "id": 1066,
                                     "name": "Identifier",
                                     "src": "877:6:3"
                                   },
@@ -3455,27 +3455,27 @@
                                       "type": "literal_string \"This Model is already registered\"",
                                       "value": "This Model is already registered"
                                     },
-                                    "id": 1039,
+                                    "id": 1067,
                                     "name": "Literal",
                                     "src": "884:34:3"
                                   }
                                 ],
-                                "id": 1040,
+                                "id": 1068,
                                 "name": "FunctionCall",
                                 "src": "877:42:3"
                               }
                             ],
-                            "id": 1041,
+                            "id": 1069,
                             "name": "ExpressionStatement",
                             "src": "877:42:3"
                           }
                         ],
-                        "id": 1042,
+                        "id": 1070,
                         "name": "Block",
                         "src": "863:67:3"
                       }
                     ],
-                    "id": 1043,
+                    "id": 1071,
                     "name": "IfStatement",
                     "src": "829:101:3"
                   },
@@ -3508,11 +3508,11 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 996,
+                                  "referencedDeclaration": 1024,
                                   "type": "mapping(string memory => struct ModelDatabase.Model storage ref)",
                                   "value": "models"
                                 },
-                                "id": 1044,
+                                "id": 1072,
                                 "name": "Identifier",
                                 "src": "939:6:3"
                               },
@@ -3522,16 +3522,16 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1015,
+                                  "referencedDeclaration": 1043,
                                   "type": "string memory",
                                   "value": "_ipfsHash"
                                 },
-                                "id": 1045,
+                                "id": 1073,
                                 "name": "Identifier",
                                 "src": "946:9:3"
                               }
                             ],
-                            "id": 1046,
+                            "id": 1074,
                             "name": "IndexAccess",
                             "src": "939:17:3"
                           },
@@ -3581,11 +3581,11 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 992,
+                                  "referencedDeclaration": 1020,
                                   "type": "type(struct ModelDatabase.Model storage pointer)",
                                   "value": "Model"
                                 },
-                                "id": 1047,
+                                "id": 1075,
                                 "name": "Identifier",
                                 "src": "959:5:3"
                               },
@@ -3607,16 +3607,16 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 1515,
+                                      "referencedDeclaration": 1543,
                                       "type": "msg",
                                       "value": "msg"
                                     },
-                                    "id": 1048,
+                                    "id": 1076,
                                     "name": "Identifier",
                                     "src": "973:3:3"
                                   }
                                 ],
-                                "id": 1049,
+                                "id": 1077,
                                 "name": "MemberAccess",
                                 "src": "973:10:3"
                               },
@@ -3626,11 +3626,11 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1017,
+                                  "referencedDeclaration": 1045,
                                   "type": "string memory",
                                   "value": "_description"
                                 },
-                                "id": 1050,
+                                "id": 1078,
                                 "name": "Identifier",
                                 "src": "998:12:3"
                               },
@@ -3640,11 +3640,11 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1019,
+                                  "referencedDeclaration": 1047,
                                   "type": "string memory",
                                   "value": "_objective"
                                 },
-                                "id": 1051,
+                                "id": 1079,
                                 "name": "Identifier",
                                 "src": "1023:10:3"
                               },
@@ -3666,16 +3666,16 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 1505,
+                                      "referencedDeclaration": 1533,
                                       "type": "block",
                                       "value": "block"
                                     },
-                                    "id": 1052,
+                                    "id": 1080,
                                     "name": "Identifier",
                                     "src": "1041:5:3"
                                   }
                                 ],
-                                "id": 1053,
+                                "id": 1081,
                                 "name": "MemberAccess",
                                 "src": "1041:15:3"
                               },
@@ -3692,22 +3692,22 @@
                                   "type": "bool",
                                   "value": "true"
                                 },
-                                "id": 1054,
+                                "id": 1082,
                                 "name": "Literal",
                                 "src": "1070:4:3"
                               }
                             ],
-                            "id": 1055,
+                            "id": 1083,
                             "name": "FunctionCall",
                             "src": "959:117:3"
                           }
                         ],
-                        "id": 1056,
+                        "id": 1084,
                         "name": "Assignment",
                         "src": "939:137:3"
                       }
                     ],
-                    "id": 1057,
+                    "id": 1085,
                     "name": "ExpressionStatement",
                     "src": "939:137:3"
                   },
@@ -3751,16 +3751,16 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 999,
+                                  "referencedDeclaration": 1027,
                                   "type": "string storage ref[] storage ref",
                                   "value": "hashes"
                                 },
-                                "id": 1058,
+                                "id": 1086,
                                 "name": "Identifier",
                                 "src": "1086:6:3"
                               }
                             ],
-                            "id": 1060,
+                            "id": 1088,
                             "name": "MemberAccess",
                             "src": "1086:11:3"
                           },
@@ -3770,31 +3770,31 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1015,
+                              "referencedDeclaration": 1043,
                               "type": "string memory",
                               "value": "_ipfsHash"
                             },
-                            "id": 1061,
+                            "id": 1089,
                             "name": "Identifier",
                             "src": "1098:9:3"
                           }
                         ],
-                        "id": 1062,
+                        "id": 1090,
                         "name": "FunctionCall",
                         "src": "1086:22:3"
                       }
                     ],
-                    "id": 1063,
+                    "id": 1091,
                     "name": "ExpressionStatement",
                     "src": "1086:22:3"
                   }
                 ],
-                "id": 1064,
+                "id": 1092,
                 "name": "Block",
                 "src": "694:421:3"
               }
             ],
-            "id": 1065,
+            "id": 1093,
             "name": "FunctionDefinition",
             "src": "585:530:3"
           },
@@ -3808,7 +3808,7 @@
                 null
               ],
               "name": "getNumberOfModels",
-              "scope": 1144,
+              "scope": 1172,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -3821,7 +3821,7 @@
                   ]
                 },
                 "children": [],
-                "id": 1066,
+                "id": 1094,
                 "name": "ParameterList",
                 "src": "1147:2:3"
               },
@@ -3831,7 +3831,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 1074,
+                      "scope": 1102,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -3844,17 +3844,17 @@
                           "name": "uint",
                           "type": "uint256"
                         },
-                        "id": 1067,
+                        "id": 1095,
                         "name": "ElementaryTypeName",
                         "src": "1170:4:3"
                       }
                     ],
-                    "id": 1068,
+                    "id": 1096,
                     "name": "VariableDeclaration",
                     "src": "1170:4:3"
                   }
                 ],
-                "id": 1069,
+                "id": 1097,
                 "name": "ParameterList",
                 "src": "1169:6:3"
               },
@@ -3862,7 +3862,7 @@
                 "children": [
                   {
                     "attributes": {
-                      "functionReturnParameters": 1069
+                      "functionReturnParameters": 1097
                     },
                     "children": [
                       {
@@ -3883,31 +3883,31 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 999,
+                              "referencedDeclaration": 1027,
                               "type": "string storage ref[] storage ref",
                               "value": "hashes"
                             },
-                            "id": 1070,
+                            "id": 1098,
                             "name": "Identifier",
                             "src": "1193:6:3"
                           }
                         ],
-                        "id": 1071,
+                        "id": 1099,
                         "name": "MemberAccess",
                         "src": "1193:13:3"
                       }
                     ],
-                    "id": 1072,
+                    "id": 1100,
                     "name": "Return",
                     "src": "1186:20:3"
                   }
                 ],
-                "id": 1073,
+                "id": 1101,
                 "name": "Block",
                 "src": "1176:37:3"
               }
             ],
-            "id": 1074,
+            "id": 1102,
             "name": "FunctionDefinition",
             "src": "1121:92:3"
           },
@@ -3921,7 +3921,7 @@
                 null
               ],
               "name": "modifyModel",
-              "scope": 1144,
+              "scope": 1172,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -3933,7 +3933,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_ipfsHash",
-                      "scope": 1108,
+                      "scope": 1136,
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "type": "string",
@@ -3946,12 +3946,12 @@
                           "name": "string",
                           "type": "string"
                         },
-                        "id": 1075,
+                        "id": 1103,
                         "name": "ElementaryTypeName",
                         "src": "1272:6:3"
                       }
                     ],
-                    "id": 1076,
+                    "id": 1104,
                     "name": "VariableDeclaration",
                     "src": "1272:23:3"
                   },
@@ -3959,7 +3959,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_description",
-                      "scope": 1108,
+                      "scope": 1136,
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "type": "string",
@@ -3972,12 +3972,12 @@
                           "name": "string",
                           "type": "string"
                         },
-                        "id": 1077,
+                        "id": 1105,
                         "name": "ElementaryTypeName",
                         "src": "1297:6:3"
                       }
                     ],
-                    "id": 1078,
+                    "id": 1106,
                     "name": "VariableDeclaration",
                     "src": "1297:26:3"
                   },
@@ -3985,7 +3985,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_objective",
-                      "scope": 1108,
+                      "scope": 1136,
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "type": "string",
@@ -3998,17 +3998,17 @@
                           "name": "string",
                           "type": "string"
                         },
-                        "id": 1079,
+                        "id": 1107,
                         "name": "ElementaryTypeName",
                         "src": "1325:6:3"
                       }
                     ],
-                    "id": 1080,
+                    "id": 1108,
                     "name": "VariableDeclaration",
                     "src": "1325:24:3"
                   }
                 ],
-                "id": 1081,
+                "id": 1109,
                 "name": "ParameterList",
                 "src": "1271:79:3"
               },
@@ -4019,7 +4019,7 @@
                   ]
                 },
                 "children": [],
-                "id": 1082,
+                "id": 1110,
                 "name": "ParameterList",
                 "src": "1358:0:3"
               },
@@ -4051,14 +4051,14 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                1518,
-                                1519
+                                1546,
+                                1547
                               ],
-                              "referencedDeclaration": 1518,
+                              "referencedDeclaration": 1546,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
-                            "id": 1083,
+                            "id": 1111,
                             "name": "Identifier",
                             "src": "1368:7:3"
                           },
@@ -4085,7 +4085,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "owner",
-                                  "referencedDeclaration": 983,
+                                  "referencedDeclaration": 1011,
                                   "type": "address"
                                 },
                                 "children": [
@@ -4105,11 +4105,11 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 996,
+                                          "referencedDeclaration": 1024,
                                           "type": "mapping(string memory => struct ModelDatabase.Model storage ref)",
                                           "value": "models"
                                         },
-                                        "id": 1084,
+                                        "id": 1112,
                                         "name": "Identifier",
                                         "src": "1376:6:3"
                                       },
@@ -4119,21 +4119,21 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 1076,
+                                          "referencedDeclaration": 1104,
                                           "type": "string memory",
                                           "value": "_ipfsHash"
                                         },
-                                        "id": 1085,
+                                        "id": 1113,
                                         "name": "Identifier",
                                         "src": "1383:9:3"
                                       }
                                     ],
-                                    "id": 1086,
+                                    "id": 1114,
                                     "name": "IndexAccess",
                                     "src": "1376:17:3"
                                   }
                                 ],
-                                "id": 1087,
+                                "id": 1115,
                                 "name": "MemberAccess",
                                 "src": "1376:23:3"
                               },
@@ -4155,31 +4155,31 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 1515,
+                                      "referencedDeclaration": 1543,
                                       "type": "msg",
                                       "value": "msg"
                                     },
-                                    "id": 1088,
+                                    "id": 1116,
                                     "name": "Identifier",
                                     "src": "1403:3:3"
                                   }
                                 ],
-                                "id": 1089,
+                                "id": 1117,
                                 "name": "MemberAccess",
                                 "src": "1403:10:3"
                               }
                             ],
-                            "id": 1090,
+                            "id": 1118,
                             "name": "BinaryOperation",
                             "src": "1376:37:3"
                           }
                         ],
-                        "id": 1091,
+                        "id": 1119,
                         "name": "FunctionCall",
                         "src": "1368:46:3"
                       }
                     ],
-                    "id": 1092,
+                    "id": 1120,
                     "name": "ExpressionStatement",
                     "src": "1368:46:3"
                   },
@@ -4204,7 +4204,7 @@
                               "isPure": false,
                               "lValueRequested": true,
                               "member_name": "description",
-                              "referencedDeclaration": 985,
+                              "referencedDeclaration": 1013,
                               "type": "string storage ref"
                             },
                             "children": [
@@ -4224,11 +4224,11 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 996,
+                                      "referencedDeclaration": 1024,
                                       "type": "mapping(string memory => struct ModelDatabase.Model storage ref)",
                                       "value": "models"
                                     },
-                                    "id": 1093,
+                                    "id": 1121,
                                     "name": "Identifier",
                                     "src": "1424:6:3"
                                   },
@@ -4238,21 +4238,21 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 1076,
+                                      "referencedDeclaration": 1104,
                                       "type": "string memory",
                                       "value": "_ipfsHash"
                                     },
-                                    "id": 1094,
+                                    "id": 1122,
                                     "name": "Identifier",
                                     "src": "1431:9:3"
                                   }
                                 ],
-                                "id": 1095,
+                                "id": 1123,
                                 "name": "IndexAccess",
                                 "src": "1424:17:3"
                               }
                             ],
-                            "id": 1096,
+                            "id": 1124,
                             "name": "MemberAccess",
                             "src": "1424:29:3"
                           },
@@ -4262,21 +4262,21 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1078,
+                              "referencedDeclaration": 1106,
                               "type": "string memory",
                               "value": "_description"
                             },
-                            "id": 1097,
+                            "id": 1125,
                             "name": "Identifier",
                             "src": "1456:12:3"
                           }
                         ],
-                        "id": 1098,
+                        "id": 1126,
                         "name": "Assignment",
                         "src": "1424:44:3"
                       }
                     ],
-                    "id": 1099,
+                    "id": 1127,
                     "name": "ExpressionStatement",
                     "src": "1424:44:3"
                   },
@@ -4301,7 +4301,7 @@
                               "isPure": false,
                               "lValueRequested": true,
                               "member_name": "objective",
-                              "referencedDeclaration": 987,
+                              "referencedDeclaration": 1015,
                               "type": "string storage ref"
                             },
                             "children": [
@@ -4321,11 +4321,11 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 996,
+                                      "referencedDeclaration": 1024,
                                       "type": "mapping(string memory => struct ModelDatabase.Model storage ref)",
                                       "value": "models"
                                     },
-                                    "id": 1100,
+                                    "id": 1128,
                                     "name": "Identifier",
                                     "src": "1478:6:3"
                                   },
@@ -4335,21 +4335,21 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 1076,
+                                      "referencedDeclaration": 1104,
                                       "type": "string memory",
                                       "value": "_ipfsHash"
                                     },
-                                    "id": 1101,
+                                    "id": 1129,
                                     "name": "Identifier",
                                     "src": "1485:9:3"
                                   }
                                 ],
-                                "id": 1102,
+                                "id": 1130,
                                 "name": "IndexAccess",
                                 "src": "1478:17:3"
                               }
                             ],
-                            "id": 1103,
+                            "id": 1131,
                             "name": "MemberAccess",
                             "src": "1478:27:3"
                           },
@@ -4359,31 +4359,31 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1080,
+                              "referencedDeclaration": 1108,
                               "type": "string memory",
                               "value": "_objective"
                             },
-                            "id": 1104,
+                            "id": 1132,
                             "name": "Identifier",
                             "src": "1508:10:3"
                           }
                         ],
-                        "id": 1105,
+                        "id": 1133,
                         "name": "Assignment",
                         "src": "1478:40:3"
                       }
                     ],
-                    "id": 1106,
+                    "id": 1134,
                     "name": "ExpressionStatement",
                     "src": "1478:40:3"
                   }
                 ],
-                "id": 1107,
+                "id": 1135,
                 "name": "Block",
                 "src": "1358:167:3"
               }
             ],
-            "id": 1108,
+            "id": 1136,
             "name": "FunctionDefinition",
             "src": "1251:274:3"
           },
@@ -4397,7 +4397,7 @@
                 null
               ],
               "name": "deleteModel",
-              "scope": 1144,
+              "scope": 1172,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -4409,7 +4409,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_ipfsHash",
-                      "scope": 1130,
+                      "scope": 1158,
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "type": "string",
@@ -4422,17 +4422,17 @@
                           "name": "string",
                           "type": "string"
                         },
-                        "id": 1109,
+                        "id": 1137,
                         "name": "ElementaryTypeName",
                         "src": "1608:6:3"
                       }
                     ],
-                    "id": 1110,
+                    "id": 1138,
                     "name": "VariableDeclaration",
                     "src": "1608:23:3"
                   }
                 ],
-                "id": 1111,
+                "id": 1139,
                 "name": "ParameterList",
                 "src": "1607:25:3"
               },
@@ -4443,7 +4443,7 @@
                   ]
                 },
                 "children": [],
-                "id": 1112,
+                "id": 1140,
                 "name": "ParameterList",
                 "src": "1640:0:3"
               },
@@ -4475,14 +4475,14 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                1518,
-                                1519
+                                1546,
+                                1547
                               ],
-                              "referencedDeclaration": 1518,
+                              "referencedDeclaration": 1546,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
-                            "id": 1113,
+                            "id": 1141,
                             "name": "Identifier",
                             "src": "1650:7:3"
                           },
@@ -4509,7 +4509,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "owner",
-                                  "referencedDeclaration": 983,
+                                  "referencedDeclaration": 1011,
                                   "type": "address"
                                 },
                                 "children": [
@@ -4529,11 +4529,11 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 996,
+                                          "referencedDeclaration": 1024,
                                           "type": "mapping(string memory => struct ModelDatabase.Model storage ref)",
                                           "value": "models"
                                         },
-                                        "id": 1114,
+                                        "id": 1142,
                                         "name": "Identifier",
                                         "src": "1658:6:3"
                                       },
@@ -4543,21 +4543,21 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 1110,
+                                          "referencedDeclaration": 1138,
                                           "type": "string memory",
                                           "value": "_ipfsHash"
                                         },
-                                        "id": 1115,
+                                        "id": 1143,
                                         "name": "Identifier",
                                         "src": "1665:9:3"
                                       }
                                     ],
-                                    "id": 1116,
+                                    "id": 1144,
                                     "name": "IndexAccess",
                                     "src": "1658:17:3"
                                   }
                                 ],
-                                "id": 1117,
+                                "id": 1145,
                                 "name": "MemberAccess",
                                 "src": "1658:23:3"
                               },
@@ -4579,31 +4579,31 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 1515,
+                                      "referencedDeclaration": 1543,
                                       "type": "msg",
                                       "value": "msg"
                                     },
-                                    "id": 1118,
+                                    "id": 1146,
                                     "name": "Identifier",
                                     "src": "1685:3:3"
                                   }
                                 ],
-                                "id": 1119,
+                                "id": 1147,
                                 "name": "MemberAccess",
                                 "src": "1685:10:3"
                               }
                             ],
-                            "id": 1120,
+                            "id": 1148,
                             "name": "BinaryOperation",
                             "src": "1658:37:3"
                           }
                         ],
-                        "id": 1121,
+                        "id": 1149,
                         "name": "FunctionCall",
                         "src": "1650:46:3"
                       }
                     ],
-                    "id": 1122,
+                    "id": 1150,
                     "name": "ExpressionStatement",
                     "src": "1650:46:3"
                   },
@@ -4648,11 +4648,11 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 996,
+                                      "referencedDeclaration": 1024,
                                       "type": "mapping(string memory => struct ModelDatabase.Model storage ref)",
                                       "value": "models"
                                     },
-                                    "id": 1123,
+                                    "id": 1151,
                                     "name": "Identifier",
                                     "src": "1713:6:3"
                                   },
@@ -4662,41 +4662,41 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 1110,
+                                      "referencedDeclaration": 1138,
                                       "type": "string memory",
                                       "value": "_ipfsHash"
                                     },
-                                    "id": 1124,
+                                    "id": 1152,
                                     "name": "Identifier",
                                     "src": "1720:9:3"
                                   }
                                 ],
-                                "id": 1125,
+                                "id": 1153,
                                 "name": "IndexAccess",
                                 "src": "1713:17:3"
                               }
                             ],
-                            "id": 1126,
+                            "id": 1154,
                             "name": "TupleExpression",
                             "src": "1712:19:3"
                           }
                         ],
-                        "id": 1127,
+                        "id": 1155,
                         "name": "UnaryOperation",
                         "src": "1706:25:3"
                       }
                     ],
-                    "id": 1128,
+                    "id": 1156,
                     "name": "ExpressionStatement",
                     "src": "1706:25:3"
                   }
                 ],
-                "id": 1129,
+                "id": 1157,
                 "name": "Block",
                 "src": "1640:98:3"
               }
             ],
-            "id": 1130,
+            "id": 1158,
             "name": "FunctionDefinition",
             "src": "1587:151:3"
           },
@@ -4710,7 +4710,7 @@
                 null
               ],
               "name": "getModelOwner",
-              "scope": 1144,
+              "scope": 1172,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -4722,7 +4722,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_ipfsHash",
-                      "scope": 1143,
+                      "scope": 1171,
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "type": "string",
@@ -4735,17 +4735,17 @@
                           "name": "string",
                           "type": "string"
                         },
-                        "id": 1131,
+                        "id": 1159,
                         "name": "ElementaryTypeName",
                         "src": "1767:6:3"
                       }
                     ],
-                    "id": 1132,
+                    "id": 1160,
                     "name": "VariableDeclaration",
                     "src": "1767:23:3"
                   }
                 ],
-                "id": 1133,
+                "id": 1161,
                 "name": "ParameterList",
                 "src": "1766:25:3"
               },
@@ -4755,7 +4755,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 1143,
+                      "scope": 1171,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -4769,17 +4769,17 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 1134,
+                        "id": 1162,
                         "name": "ElementaryTypeName",
                         "src": "1812:7:3"
                       }
                     ],
-                    "id": 1135,
+                    "id": 1163,
                     "name": "VariableDeclaration",
                     "src": "1812:7:3"
                   }
                 ],
-                "id": 1136,
+                "id": 1164,
                 "name": "ParameterList",
                 "src": "1811:9:3"
               },
@@ -4787,7 +4787,7 @@
                 "children": [
                   {
                     "attributes": {
-                      "functionReturnParameters": 1136
+                      "functionReturnParameters": 1164
                     },
                     "children": [
                       {
@@ -4798,7 +4798,7 @@
                           "isPure": false,
                           "lValueRequested": false,
                           "member_name": "owner",
-                          "referencedDeclaration": 983,
+                          "referencedDeclaration": 1011,
                           "type": "address"
                         },
                         "children": [
@@ -4818,11 +4818,11 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 996,
+                                  "referencedDeclaration": 1024,
                                   "type": "mapping(string memory => struct ModelDatabase.Model storage ref)",
                                   "value": "models"
                                 },
-                                "id": 1137,
+                                "id": 1165,
                                 "name": "Identifier",
                                 "src": "1838:6:3"
                               },
@@ -4832,46 +4832,46 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1132,
+                                  "referencedDeclaration": 1160,
                                   "type": "string memory",
                                   "value": "_ipfsHash"
                                 },
-                                "id": 1138,
+                                "id": 1166,
                                 "name": "Identifier",
                                 "src": "1845:9:3"
                               }
                             ],
-                            "id": 1139,
+                            "id": 1167,
                             "name": "IndexAccess",
                             "src": "1838:17:3"
                           }
                         ],
-                        "id": 1140,
+                        "id": 1168,
                         "name": "MemberAccess",
                         "src": "1838:23:3"
                       }
                     ],
-                    "id": 1141,
+                    "id": 1169,
                     "name": "Return",
                     "src": "1831:30:3"
                   }
                 ],
-                "id": 1142,
+                "id": 1170,
                 "name": "Block",
                 "src": "1821:47:3"
               }
             ],
-            "id": 1143,
+            "id": 1171,
             "name": "FunctionDefinition",
             "src": "1744:124:3"
           }
         ],
-        "id": 1144,
+        "id": 1172,
         "name": "ContractDefinition",
         "src": "136:1735:3"
       }
     ],
-    "id": 1145,
+    "id": 1173,
     "name": "SourceUnit",
     "src": "0:1871:3"
   },
@@ -4883,12 +4883,12 @@
     "3": {
       "events": {},
       "links": {},
-      "address": "0x93ED36F5504E3aAc18e739Bfcd4d0a19afeb3ce6",
-      "transactionHash": "0xe898c48eb3a2e31511b2bbadffd4d95bbb9dfd74187db99f27ae4fae6ec44d36"
+      "address": "0x7cEa8Ab60435Cc9D72e43943CD9293FafD9F61f6",
+      "transactionHash": "0x272eab5a00a07ab4b5f4fee1aeef98fff2c3404a071ef560e10982bf6d289e86"
     }
   },
   "schemaVersion": "3.3.3",
-  "updatedAt": "2021-04-16T17:34:54.175Z",
+  "updatedAt": "2021-04-17T04:01:58.673Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

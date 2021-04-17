@@ -23,7 +23,8 @@ export class JobBrowser extends React.Component {
                 </div>
                 ),
             jobInfo: this.browserIntroduction(),
-            triggerText: "Register"
+            triggerText: "Register",
+            targetJob: {}
             }
         this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
 
@@ -70,6 +71,7 @@ export class JobBrowser extends React.Component {
 
     renderJobs = async (jobList) => {
         const { triggerText } = this.state.triggerText;
+        console.log(jobList)
         const renderedJobs = await jobList.map((job, jobID) => {
             console.log(job)
             console.log(jobID)
@@ -80,8 +82,8 @@ export class JobBrowser extends React.Component {
                 <p><b>Bounty</b>: {job['bounty']} wei </p>
                 <p><b>Holding Fee</b>: {job['holdingFee']} wei </p>
                 <p><b>Creation Date</b>: {new Date(job['initTime']*1000).toLocaleDateString()}</p>
-                <p><b>Registration End Date</b>: {new Date(job['initTime']*1000).toLocaleDateString()}</p>
-                <p><button className="moreInfoButton" name={job['ipfsHash']} onClick={this.handleClick}>More Information</button>
+                <p><b>Registration Deadline</b>: {new Date(job['initTime']*1000).toLocaleDateString()}</p>
+                <p><button className="moreInfoButton" name={jobID} onClick={this.handleClick}>More Information</button>
                 <Container2 triggerText={triggerText} job={jobID} />
                 {/* <button id='like'>like</button> */}
                 </p>
@@ -92,6 +94,13 @@ export class JobBrowser extends React.Component {
     }
 
     handleClick = async (event) => {
+        const target = event.target;
+        const id = target.name;
+        console.log(id)
+        const numRegistered = await jobsdatabase.methods.getNumRegistered(id).call();
+        console.log(numRegistered)
+        const registered = await jobsdatabase.methods.getJobRegistered(id).call();
+        console.log(registered)
 
         let jobInfo = (
             <div className="jobInfo">

@@ -1045,6 +1045,48 @@ export const jobs = [
           "type": "uint256"
         }
       ],
+      "name": "getJobRegistered",
+      "outputs": [
+        {
+          "internalType": "address payable[]",
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_id",
+          "type": "uint256"
+        }
+      ],
+      "name": "getJobAllowed",
+      "outputs": [
+        {
+          "internalType": "address payable[]",
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_id",
+          "type": "uint256"
+        }
+      ],
       "name": "getJobDetails",
       "outputs": [
         {
@@ -1153,4 +1195,4 @@ export const jobs = [
       "stateMutability": "nonpayable",
       "type": "function"
     }
-];
+]

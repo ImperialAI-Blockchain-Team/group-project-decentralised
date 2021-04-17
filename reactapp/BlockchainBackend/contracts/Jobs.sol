@@ -165,6 +165,14 @@ contract Jobs {
         return jobs[_id].arrAllowList.length;
     }
 
+    function getJobRegistered(uint _id) public view returns(address payable [] memory){
+      return jobs[_id].arrDatasetOwners;
+    }
+
+    function getJobAllowed(uint _id) public view returns(address payable [] memory){
+      return jobs[_id].arrAllowList;
+    }
+
     function getJobDetails(uint _id) public view returns(address, uint, uint, uint){
         return (jobs[_id].owner, jobs[_id].minClients, jobs[_id].numAllow, jobs[_id].bounty);
     }
