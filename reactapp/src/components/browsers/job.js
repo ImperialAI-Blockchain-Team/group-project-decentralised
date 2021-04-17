@@ -24,9 +24,13 @@ export class JobBrowser extends React.Component {
                 ),
             jobInfo: this.browserIntroduction(),
             triggerText: "Register",
-            targetJob: {}
+            targetJob: {},
+            targetJobId: -1
+
             }
         this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
+        this.startJob = this.startJob.bind(this);
+        this.withdrawFee = this.withdrawFee.bind(this);
 
         // call smart contract to render jobs
         this.getNumberOfJobs()
@@ -71,9 +75,8 @@ export class JobBrowser extends React.Component {
 
     renderJobs = async (jobList) => {
         const { triggerText } = this.state.triggerText;
-        console.log(jobList)
         const renderedJobs = await jobList.map((job, jobID) => {
-            console.log(job)
+            console.log(parseInt(job['daysUntilStart'])*24*60*60)
             console.log(jobID)
             return (
             <div className="jobContainer">
@@ -82,10 +85,11 @@ export class JobBrowser extends React.Component {
                 <p><b>Bounty</b>: {job['bounty']} wei </p>
                 <p><b>Holding Fee</b>: {job['holdingFee']} wei </p>
                 <p><b>Creation Date</b>: {new Date(job['initTime']*1000).toLocaleDateString()}</p>
-                <p><b>Registration Deadline</b>: {new Date(job['initTime']*1000).toLocaleDateString()}</p>
-                <p><button className="moreInfoButton" name={jobID} onClick={this.handleClick}>More Information</button>
+                <p><b>Registration Deadline</b>: {new Date((job['initTime'])*1000+parseInt(job['daysUntilStart'])*24*60*60*1000).toLocaleDateString()}</p>
+                <p>
+                    <button className="moreInfoButton" name={jobID} onClick={this.handleClick}>Job Details</button>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                 <Container2 triggerText={triggerText} job={jobID} />
-                {/* <button id='like'>like</button> */}
                 </p>
             </div>
             )
@@ -96,18 +100,34 @@ export class JobBrowser extends React.Component {
     handleClick = async (event) => {
         const target = event.target;
         const id = target.name;
-        console.log(id)
-        const numRegistered = await jobsdatabase.methods.getNumRegistered(id).call();
-        console.log(numRegistered)
+        const targetJob = await jobsdatabase.methods.jobs(id).call();
+        console.log(targetJob);
+        const numAllowed = await jobsdatabase.methods.getNumRegistered(id).call();
         const registered = await jobsdatabase.methods.getJobRegistered(id).call();
-        console.log(registered)
+        const allowed = await jobsdatabase.methods.getJobAllowed(id).call();
 
+        this.setState({targetJob: targetJob})
+        this.setState({targetJobId: id})
+
+        const registeredUsers = await registered.map((dataOwner, dataOwnerID) => {
+            return (
+                <p><b>Registered User {dataOwnerID}:</b> {dataOwner}</p>
+            )
+        })
+
+        this.setState({registeredUsers: registeredUsers});
         let jobInfo = (
             <div className="jobInfo">
-                <p><b>Info1</b>: something</p>
-                <p><b>Info2</b>: something</p>
-                <p><b>Info3</b>: something</p>
-                <p><b>Info3</b>: something</p>
+                <h3> Registered Data Owners</h3>
+                {registeredUsers}
+
+                <h3> Job Owner-approved Clients</h3>
+
+                <p>
+                    <button className="startJobButton" name={this.state.targetJobId} onClick={this.startJob}>Start Training</button>
+                &nbsp; &nbsp; &nbsp;
+                    <button className="withdrawFundsButton" name={this.state.targetJobId} onClick={this.withdrawFee}>Withdraw Fee</button>
+                </p>
             </div>
             )
         this.setState({jobInfo: jobInfo})
@@ -118,6 +138,20 @@ export class JobBrowser extends React.Component {
         const name = target.name;
         await this.setState({searchValue: event.target.value});
         this.renderJobs(this.state.jobList);
+    }
+
+    startJob = async (event) =>{
+        const target = event.target;
+        const id = target.name;
+        console.log(id);
+
+    }
+
+    withdrawFee = async (event) =>{
+        const target = event.target;
+        const id = target.name;
+        console.log(id);
+
     }
 
     render() {
