@@ -12,7 +12,7 @@ import {JobForm} from "./components/job.js";
 function App() {
 
   return (
-    <body>
+    <div>
       <div className="header">
         <div className="title">
           <h1>Software Engineering Group Project</h1>
@@ -36,7 +36,7 @@ function App() {
           {/* <Route path='/browse_jobs' component={JobForm}/> */}
         </Switch>
       </div>
-    </body>
+    </div>
   )
   }
 

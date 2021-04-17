@@ -13,7 +13,7 @@ export class MenuBar extends React.Component {
                     <Link to="/my_account">My Account</Link>
                     <div className="dropdown">
                         <button className="dropbtn">Register your Assets<i className="fa fa-caret-down"></i></button>
-                        <div class="dropdown-content">
+                        <div className="dropdown-content">
                             <Link to="/register_model">Your Model</Link>
                             <Link to="/register_dataset">Your Dataset</Link>
                         </div>

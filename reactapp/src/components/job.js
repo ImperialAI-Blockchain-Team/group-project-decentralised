@@ -1,6 +1,7 @@
 import React from "react";
 import "./job.css";
 import { Button } from 'react-bootstrap';
+import axios from 'axios';
 
 export class JobForm extends React.Component {
 
@@ -16,6 +17,7 @@ export class JobForm extends React.Component {
             name: '',
             address: '',
             strategy: '',
+            lr:'',
             epoch: '',
             batch_size: '',
             round:'',
@@ -37,7 +39,9 @@ export class JobForm extends React.Component {
             gain:'',
             fan:'',
             linear: 'relu',
-            slope:''
+            slope:'',
+            yes:false,
+            no:false
 
         };
         this.open1 = this.open1.bind(this);
@@ -47,6 +51,7 @@ export class JobForm extends React.Component {
         this.openx = this.openx.bind(this);
         this.openk = this.openk.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleReset = this.handleReset.bind(this);
         this.handleDefault1 = this.handleDefault1.bind(this);
         this.handleDefault2 = this.handleDefault2.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -58,17 +63,58 @@ export class JobForm extends React.Component {
         this.setState({[name]: event.target.value});
     }
 
+    handleReset() {
+        this.setState({
+            showDiv1: false,
+            showDiv2: false,
+            showX: false,
+            showN: false,
+            showU: false,
+            showK: false,
+            name: '',
+            address: '',
+            strategy: '',
+            lr:'',
+            epoch: '',
+            batch_size: '',
+            round:'',
+            fraction_eval:'',
+            fraction_fit:'',
+            min_fit_clients:'',
+            min_eval_clients:'',
+            min_clients:'',
+            failure:'',
+            beta:'',
+            slr:'',
+            clr:'',
+            da:'',
+            distr:'',
+            mean:'',
+            std:'',
+            ub:'',
+            lb:'',
+            gain:'',
+            fan:'',
+            linear: 'relu',
+            slope:'',
+            yes:false,
+            no:false
+    });}
+
     handleDefault1() {
         this.setState({
             epoch: 10,
             batch_size: 32,
             round:10,
+            lr:0.001,
             fraction_eval:0.2,
             fraction_fit:0.3,
             min_fit_clients:2,
             min_eval_clients:2,
             min_clients:2,
             failure: true,
+            yes:false,
+            no:false
 
     });}
     handleDefault2() {
@@ -76,6 +122,7 @@ export class JobForm extends React.Component {
             epoch: 10,
             batch_size: 32,
             round:10,
+            lr:0.001,
             fraction_eval:0.2,
             fraction_fit:0.3,
             min_fit_clients:2,
@@ -93,23 +140,67 @@ export class JobForm extends React.Component {
             showK: false,
             mean:0,
             std:0.01,
+            yes:false,
+            no:false
 
     });}
 
-    handleSubmit(event) {
-        event.preventDefault()
+    handleSubmit = async (e) => {
+        e.preventDefault();
+        this.setState({
+            yes: true,
+            no: true
+        });
+
+        const data ={
+            name: this.state.name,
+            address: this.state.address,
+            strategy: this.state.strategy,
+            epoch: this.state.epoch,
+            batch_size: this.state.batch_size,
+            round:this.state.round,
+            lr:this.state.lr,
+            fraction_eval:this.state.fraction_eval,
+            fraction_fit:this.state.fraction_fit,
+            min_fit_clients:this.state.min_fit_clients,
+            min_eval_clients:this.min_eval_clients,
+            min_clients:this.state.min_clients,
+            failure:this.state.failure,
+            beta:this.state.beta,
+            slr:this.state.slr,
+            clr:this.state.clr,
+            da:this.state.da,
+            distr:this.state.distr,
+            mean:this.state.mean,
+            std:this.state.std,
+            ub:this.state.ub,
+            lb:this.state.lb,
+            gain:this.state.gain,
+            fan:this.state.fan,
+            linear: this.state.linear,
+            slope:this.state.slope,
+        }
+        axios.post("http://localhost:5000/start", data, {})
+        .then(res => {
+          console.log(data);
+        }).catch(err => console.log("Error ", err));
     }
+
     open1() {
         const { showDiv1 } = this.state;
         this.setState({
         showDiv1: !showDiv1,
             showDiv2: false,
+            yes:false,
+            no:false
     });}
     open2() {
         const { showDiv2 } = this.state;
         this.setState({
         showDiv2: !showDiv2,
             showDiv1: false,
+            yes:false,
+            no:false
     });}
     openn() {
         this.setState({
@@ -117,6 +208,8 @@ export class JobForm extends React.Component {
             showU: false,
             showX: false,
             showK: false,
+            yes:false,
+            no:false
     });}
     openu() {
         this.setState({
@@ -124,6 +217,8 @@ export class JobForm extends React.Component {
             showN: false,
             showX: false,
             showK: false,
+            yes:false,
+            no:false
     });}
     openx() {
         this.setState({
@@ -131,6 +226,8 @@ export class JobForm extends React.Component {
             showU: false,
             showN: false,
             showK: false,
+            yes:false,
+            no:false
     });}
     openk() {
         this.setState({
@@ -138,7 +235,25 @@ export class JobForm extends React.Component {
             showU: false,
             showX: false,
             showN: false,
+            yes:false,
+            no:false
     });}
+
+    renderResetButton = () => {
+        if (this.state.no) {
+        return (
+            <Button type="button" className="button" onClick={this.handleReset}>Reset</Button>
+        );
+        }
+    }
+
+    renderConfirmButton = () => {
+        if (this.state.yes) {
+        return (
+            <form action="http://localhost:5000/flower" method="post"><button type="submit" className="button2">Confirm</button></form>
+        )
+        }
+    }
     render() {
 
         return (
@@ -197,6 +312,8 @@ export class JobForm extends React.Component {
                         <input name="batch_size" type="number" value={this.state.batch_size} onChange={this.handleChange} /><br />
                         training round:
                         <input name="round" type="number" value={this.state.round} onChange={this.handleChange} /><br />
+                        learning rate:
+                        <input name="lr" type="number" value={this.state.lr} onChange={this.handleChange} /><br />
                         fraction_eval:
                         <input name="fraction_eval" type="number" value={this.state.fraction_eval} onChange={this.handleChange} /><br />
                         fraction_fit:
@@ -226,6 +343,8 @@ export class JobForm extends React.Component {
                         <input name="batch_size" type="number" value={this.state.batch_size} onChange={this.handleChange} /><br />
                         training round:
                         <input name="round" type="number" value={this.state.round} onChange={this.handleChange} /><br />
+                        learning rate:
+                        <input name="lr" type="number" value={this.state.lr} onChange={this.handleChange} /><br />
                         fraction_eval:
                         <input name="fraction_eval" type="number" value={this.state.fraction_eval} onChange={this.handleChange} /><br />
                         fraction_fit:
@@ -294,7 +413,8 @@ export class JobForm extends React.Component {
                             <div className={this.state.linear}>slope:<input name="slope" type="number" value={this.state.slope} onChange={this.handleChange} /><br /></div>
                         </div>}
                     </div> }
-
+                    <div>{this.renderConfirmButton()}</div>
+                    <div>{this.renderResetButton()}</div>
                     <input type="submit" value="Register" className="register"/>
                 </div>
             </div>
