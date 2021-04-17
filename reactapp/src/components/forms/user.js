@@ -190,28 +190,28 @@ export class RegisterUserForm extends React.Component {
 
                     <label>
                     <b>Username</b>:
-                    <input name="name" type="text" value={this.state.name} onChange={this.handleChange} />
+                    <input name="name" id ="name-input" type="text" value={this.state.name} onChange={this.handleChange} />
                     </label>
                     <label>
                     <b>Email Address</b>:
-                    <input name="email" type="text" value={this.state.email} onChange={this.handleChange} />
+                    <input name="email" id ="email-input" type="text" value={this.state.email} onChange={this.handleChange} />
                     </label>
                     <label>
                     <b>IP Address</b>:
-                    <input name="address" type="text" value={this.state.address} onChange={this.handleChange} />
+                    <input name="address" id ="address-input"type="text" value={this.state.address} onChange={this.handleChange} />
                     </label>
                     <label>
                     <b> User Type</b>:
                     </label>
                     <br></br>
                     <br></br>
-                    <input type="checkbox" id="checkbox" value = "Data Scientist" onChange={this.handleCheckChange.bind(this)}/><span>Data Scientist</span>
-                    <input type="checkbox" id="checkbox" value = "Aggregator" onChange={this.handleCheckChange.bind(this)}/><span>Aggregator</span>
-                    <input type="checkbox" id="checkbox" value = "Data Owner" onChange={this.handleCheckChange.bind(this)}/><span>Data Owner</span>
+                    <input type="checkbox" id="checkbox" data-testid="check1"value = "Data Scientist" onChange={this.handleCheckChange.bind(this)}/><span>Data Scientist</span>
+                    <input type="checkbox" id="checkbox" data-testid="check2"value = "Aggregator" onChange={this.handleCheckChange.bind(this)}/><span>Aggregator</span>
+                    <input type="checkbox" id="checkbox" data-testid="check3"value = "Data Owner" onChange={this.handleCheckChange.bind(this)}/><span>Data Owner</span>
 
                     <br></br>
                     <br></br>
-                    <button onClick={this.handleSubmit.bind(this)}>Register</button>
+                    <button type = "button" onClick={this.handleSubmit.bind(this)}>Register</button>
                 </div>
             </div>
 
