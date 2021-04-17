@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap';
 import jobsdatabase from "../../contractInterfaces/jobsdatabase";
 import web3 from "../../contractInterfaces/web3";
 import registrydatabase from "../../contractInterfaces/registrydatabase";
+import ipfs from '../../ipfs';
 
 export class JobForm extends React.Component {
 
@@ -45,7 +46,8 @@ export class JobForm extends React.Component {
             bounty: '',
             holdingFee: '',
             transactionHash: '',
-            minClients: ''
+            minClients: '',
+            strategyHash: null,
 
         };
         this.open1 = this.open1.bind(this);
@@ -120,23 +122,69 @@ export class JobForm extends React.Component {
         // Minimum payment amount
         const amountToPay = parseInt(this.state.bounty) + 1000000
         console.log(amountToPay)
-        // create job
-        //arg: _modelIpfsHash, _strategyHash, _minClients, _daysUntilStart, _bounty, _holdingFe
-        await jobsdatabase.methods.createJob(this.props.model, "strategyHash", parseInt(this.state.minClients),
+        // Create strategy metadata 
+        const allowedKeys = [
+                            "address",
+                            "strategy", 
+                            "epoch", 
+                            "batch_size", 
+                            "round", 
+                            "fraction_eval", 
+                            "fraction_fit", 
+                            "min_fit_clients", 
+                            "min_eval_clients", 
+                            "min_clients", 
+                            "failure", 
+                            "beta", 
+                            "slr", 
+                            "clr", 
+                            "da", 
+                            "distr", 
+                            "mean", 
+                            "std", 
+                            "ub", 
+                            "lb", 
+                            "gain", 
+                            "fan", 
+                            "linear", 
+                            "slope", 
+                            "minClients"
+                        ];
+        const strategyMetadata = Object.keys(this.state)
+            .filter(key => allowedKeys.includes(key))
+            .reduce((obj, key) => {
+                obj[key] = this.state[key];
+                return obj;
+            }, {});
+        console.log(strategyMetadata);
+        // Save strategy metadata to ipfs
+        ipfs.add(Buffer.from(JSON.stringify(strategyMetadata)))
+        .then(res => {
+            const hash = res[0].hash
+            this.setState({strategyHash:hash});
+            console.log('strategy hash', this.state.strategyHash);
+            return hash
+        })
+        .then(output => {
+            // how to retrieve the strategy
+            // const strategy = ipfs.files.cat(output);
+            // console.log('retrieved strategy Hash', JSON.parse(strategy));
+            // create job
+            jobsdatabase.methods.createJob(this.props.model, output, parseInt(this.state.minClients),
             parseInt(this.state.registrationPeriod), parseInt(this.state.bounty), parseInt(this.state.holdingFee)).send({from: accounts[0], value: amountToPay})
         .on('transactionHash', (hash) =>{
-            console.log(hash);
+            console.log('transaction hash', hash);
             this.setState({transactionHash:hash})
         })
         .on('error', async (error, receipt) => {
             console.log(error);
             if (receipt) {
                 console.log(receipt["transactionHash"])
-            }
+                }
+            })
         })
-
-
     }
+
     open1() {
         const { showDiv1 } = this.state;
         this.setState({
