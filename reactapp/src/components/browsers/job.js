@@ -6,6 +6,7 @@ import modeldatabase from "../../contractInterfaces/modeldatabase";
 import FormDialog from "../forms/jobSignup"
 import { Container2 } from "../helpers/Container2";
 import {Container} from "../helpers/Container";
+import web3 from "../../contractInterfaces/web3";
 
 export class JobBrowser extends React.Component {
 
@@ -102,16 +103,30 @@ export class JobBrowser extends React.Component {
         const id = target.name;
         const targetJob = await jobsdatabase.methods.jobs(id).call();
         console.log(targetJob);
-        const numAllowed = await jobsdatabase.methods.getNumRegistered(id).call();
+        const numAllowed = await jobsdatabase.methods.getNumAllow(id).call();
         const registered = await jobsdatabase.methods.getJobRegistered(id).call();
         const allowed = await jobsdatabase.methods.getJobAllowed(id).call();
+        console.log(allowed)
 
         this.setState({targetJob: targetJob})
         this.setState({targetJobId: id})
 
+        // Get user to registered (committed) to job
         const registeredUsers = await registered.map((dataOwner, dataOwnerID) => {
             return (
-                <p><b>Registered User {dataOwnerID}:</b> {dataOwner}</p>
+                <p>
+                    <b>Registered User {dataOwnerID+1}:</b> {dataOwner}
+                    <button className="addAllowListButton" name={dataOwner} onClick={this.addClientAllow}>Add</button>
+                </p>
+            )
+        })
+
+        // Get allowed users i.e. registered data owners added to allow list by data-scientist
+        const allowedUsers = await allowed.map((allowedUser, allowedUserID) => {
+            return (
+                <p>
+                    <b>Allowed User {allowedUserID+1}:</b> {allowedUser}
+                </p>
             )
         })
 
@@ -122,6 +137,7 @@ export class JobBrowser extends React.Component {
                 {registeredUsers}
 
                 <h3> Job Owner-approved Clients</h3>
+                {allowedUsers}
 
                 <p>
                     <button className="startJobButton" name={this.state.targetJobId} onClick={this.startJob}>Start Training</button>
@@ -138,6 +154,33 @@ export class JobBrowser extends React.Component {
         const name = target.name;
         await this.setState({searchValue: event.target.value});
         this.renderJobs(this.state.jobList);
+    }
+
+    addClientAllow = async (event) =>{
+        const target = event.target;
+        const clientAddress = target.name;
+        console.log(clientAddress);
+        const accounts = await web3.eth.getAccounts();
+        console.log(this.state.targetJob["owner"])
+        let isJobOwner = this.state.targetJob["owner"] == accounts[0]
+        if (!isJobOwner){
+            alert("Not job owner, only model owner can create job for model")
+            return;
+        }
+
+        // add registered owner to allow list
+        //arg: _jobID, _datasetOwner
+        await jobsdatabase.methods.addToAllowList(this.state.targetJobId, clientAddress).send({from: accounts[0]})
+        .on('transactionHash', (hash) =>{
+            console.log(hash);
+        })
+        .on('error', async (error, receipt) => {
+            console.log(error);
+            if (receipt) {
+               console.log(receipt);
+            }
+        })
+
     }
 
     startJob = async (event) =>{

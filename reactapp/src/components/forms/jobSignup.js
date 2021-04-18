@@ -56,7 +56,7 @@ export class JobSignup extends React.Component {
         console.log(amountToPay)
 
         // register dataset to job
-        //arg: _modelIpfsHash, _strategyHash, _minClients, _daysUntilStart, _bounty, _holdingFe
+        //arg: _jobID, _datasetHash
         await jobsdatabase.methods.registerDatasetOwner(this.props.job, this.state.ipfsHash).send({from: accounts[0], value: amountToPay})
         .on('transactionHash', (hash) =>{
             console.log(hash);
