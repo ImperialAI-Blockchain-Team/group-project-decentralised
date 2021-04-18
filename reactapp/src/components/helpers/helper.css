@@ -88,7 +88,7 @@
 .createJobButton {
   cursor:pointer;
   background-color: red;
-  padding: 1px;
+  padding: 10px;
   position: relative;
-  border-radius: 5px;
+  border-radius: 50px;
 }
