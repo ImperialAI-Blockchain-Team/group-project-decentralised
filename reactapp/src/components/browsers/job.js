@@ -340,6 +340,7 @@ export class JobBrowser extends React.Component {
                         <input type="text" id="myInput" onKeyUp={this.handleOnKeyUp} placeholder="Search model (by description)" />
                     </div>
                     <p id="numberOfJobs">{this.state.numberOfJobs} jobs already uploaded to the system</p>
+                    <Link to="/clientPackage.zip" target="_blank" download>Client Package</Link>
                     <hr />
                 </div>
                 <div className="resultContainer">

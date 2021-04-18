@@ -13,7 +13,7 @@ export class ModelBrowser extends React.Component {
         this.state = {
             searchValue: '',
             ethAddress: '',
-            numberOfModels: -1,
+            numberOfModels: 'Loading...',
             modelList: [],
             renderedModelList: (
                 <div className="loadingCell">
@@ -58,6 +58,7 @@ export class ModelBrowser extends React.Component {
             const ipfsHash = await modeldatabase.methods.hashes(i).call();
             const model = await modeldatabase.methods.models(ipfsHash).call();
             model['ipfsHash'] = ipfsHash;
+            model['index'] = i;
             newModelList.push(model);
         }
         newModelList.reverse();
@@ -71,7 +72,7 @@ export class ModelBrowser extends React.Component {
 
     renderModels = async (modelList) => {
         const subModelList = modelList.filter(model => {
-            return model['description'].toLowerCase().startsWith(this.state.searchValue)
+            return model['name'].toLowerCase().startsWith(this.state.searchValue)
         })
         const { triggerText } = this.state.triggerText;
         const onSubmit = (event) => {
@@ -83,13 +84,12 @@ export class ModelBrowser extends React.Component {
             return (
             <div className="modelContainer">
                 <p><b>Owner</b>: {model['owner']}</p>
-                <p><b>Name</b>: not implemented{}</p>
-                <p><b>Description</b>: {model['description']}</p>
+                <p><b>Name</b>: {model['name']}</p>
+                <p><b>Objective</b>: {model['objective']}</p>
                 <p><b>Creation Date</b>: {new Date(model['time']*1000).toLocaleDateString()}</p>
-                <p>
-                    <button className="moreInfoButton" name={model['ipfsHash']} onClick={this.handleClick}>More Information</button>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    <b>Start Job -> </b><Container triggerText={triggerText} model={model['ipfsHash']} />
+                <p><button className="moreInfoButton" name={model['index']} onClick={this.handleClick}>More Information</button>
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                <b>Start Job -> </b><Container triggerText={triggerText} model={model['ipfsHash']} />
                 </p>
 
 
@@ -102,13 +102,14 @@ export class ModelBrowser extends React.Component {
     }
 
     handleClick = async (event) => {
-
+        let model_index = Number(event.target.name);
         let modelInfo = (
             <div className="modelInfo">
-                <p><b>Info1</b>: something</p>
-                <p><b>Info2</b>: something</p>
-                <p><b>Info3</b>: something</p>
-                <p><b>Info3</b>: something</p>
+                <p><b>Owner</b>:<br/> {this.statemodelList[model_index]['owner']}</p>
+                <p><b>Name</b>:<br/> {this.statemodelList[model_index]['name']}</p>
+                <p><b>Objective</b>:<br/> {this.statemodelList[model_index]['objective']}</p>
+                <p><b>Description</b>:<br/> {this.statemodelList[model_index]['description']}</p>
+                <p><b>Data Requirements</b>:<br/> {this.statemodelList[model_index]['dataRequirements']}</p>
             </div>
             )
         this.setState({modelInfo: modelInfo})
@@ -127,7 +128,7 @@ export class ModelBrowser extends React.Component {
                 <div className="headerContainer">
                     <div className="searchBarContainer">
 
-                        <input type="text" id="myInput" onKeyUp={this.handleOnKeyUp} placeholder="Search model (by description)" />
+                        <input type="text" id="myInput" onKeyUp={this.handleOnKeyUp} placeholder="Search model by name" />
                     </div>
                     <p id="numberOfModels">{this.state.numberOfModels} models already uploaded to the system</p>
                     <hr />

@@ -10,8 +10,10 @@ contract ModelDatabase {
 
     struct Model {
         address owner;
-        string description;
+        string name;
         string objective;
+        string description;
+        string dataRequirements;
         uint time;
         bool registered;
     }
@@ -26,7 +28,11 @@ contract ModelDatabase {
     }
 
     // function to register a Model
-    function registerModel(string memory _ipfsHash, string memory _description, string memory _objective) public {
+    function registerModel(string memory _ipfsHash,
+                            string memory _name,
+                            string memory _objective,
+                            string memory _description,
+                            string memory _dataRequirements) public {
         if (!registry.isDataScientist(msg.sender)){
             revert("Must be registered as a data scientist");
         }
@@ -34,7 +40,13 @@ contract ModelDatabase {
         if (models[_ipfsHash].registered) {
             revert("This Model is already registered");
         }
-        models[_ipfsHash] = Model({owner: msg.sender, description: _description, objective: _objective, time: block.timestamp, registered: true});
+        models[_ipfsHash] = Model({owner: msg.sender,
+                                name: _name,
+                                description: _description,
+                                objective: _objective,
+                                dataRequirements: _dataRequirements,
+                                time: block.timestamp,
+                                registered: true});
         hashes.push(_ipfsHash);
     }
 

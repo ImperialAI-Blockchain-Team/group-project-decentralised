@@ -14,6 +14,7 @@ contract Jobs {
 
     DatasetDatabase datasetDatabase;
     ModelDatabase modelDatabase;
+    Registry registry;
 
     uint gracePeriod = 1 days;
 

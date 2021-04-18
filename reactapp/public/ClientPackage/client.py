@@ -12,25 +12,32 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-"""Flower client example using PyTorch for CIFAR-10 image classification."""
 
+#################################################
+#################################################
+##  DRAG YOUR DATASET INSIDE THE PACKAGE AND   ##
+##  INPUT ITS PATH IN THE VARIABLE BELLOW      ##
+#################################################
+#################################################
+
+DATA_ROOT = "data/patient.csv"
+
+#################################################
+#################################################
+##    DO NOT MODIFY CODE OUTSIDE THIS BOX      ##
+#################################################
+#################################################
 
 import argparse
 import timeit
-
 import torch
 import torchvision
-
 import flwr as fl
 from flwr.common import EvaluateIns, EvaluateRes, FitIns, FitRes, ParametersRes, Weights
-
-import retrieved_models.model as ICU
+import model as ICU
 
 DEFAULT_SERVER_ADDRESS = "[::]:8080"
-DATA_ROOT = "data/patient.csv"
-# pylint: disable=no-member
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-# pylint: enable=no-member
 
 
 class CifarClient(fl.client.Client):

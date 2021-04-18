@@ -4,6 +4,7 @@ import ipfs from '../../ipfs'
 import modelDatabase from "../../contractInterfaces/modeldatabase";
 import registrydatabase from "../../contractInterfaces/registrydatabase";
 import web3 from "../../contractInterfaces/web3";
+import {Link} from 'react-router-dom';
 
 const getRevertReason = require('eth-revert-reason')
 
@@ -28,7 +29,9 @@ export class UploadModelForm extends React.Component {
         super(props);
         this.state = {
             name: '',
-            description: '',
+            objective: '',
+            description: 'What do you want to achieve? What is the purpose of your model? What would you need to succeed?',
+            dataRequirements: '',
             ipfsHash: null,
             buffer: '',
             ethAddress: '',
@@ -81,7 +84,11 @@ export class UploadModelForm extends React.Component {
             this.setState({ipfsHash: ipfsHash[0].hash});
 
             // return the transaction hash from the ethereum contract
-            modelDatabase.methods.registerModel(this.state.ipfsHash, this.state.name, 'Objective').send({from: accounts[0]})
+            modelDatabase.methods.registerModel(this.state.ipfsHash,
+                                                this.state.name,
+                                                this.state.objective,
+                                                this.state.description,
+                                                this.state.dataRequirements).send({from: accounts[0]})
                 .on('transactionHash', (hash) =>{
                     console.log(hash);
                     this.setState({transactionHash:hash})
@@ -140,19 +147,46 @@ export class UploadModelForm extends React.Component {
             <div className="container">
                 <div className='sub-container'>
                     <h2>Register your Model</h2>
-                    <p>Please fill in this form to register your model.</p>
+                    <p>Please fill in this form to register your model. <br /> <br />
+                    After clicking <b>submit</b>, your model will be displayed in the <b>Explore</b> tab.
+                    Data Owners can then register interest in your model! If your model is popular enougth,
+                    you can then create a training configuration!
+                    </p>
                     <hr />
                     <label>
                     <b>Model Name</b>:
-                    <input name="name" type="text" value={this.state.name} onChange={this.handleChange} />
+                    <input name="name" type="text" value={this.state.name} onChange={this.handleChange}
+                    placeholder="Give your model a name."
+                    />
+                    </label>
+                    <label>
+                    <b>Objective</b>:
+                    <input name="objective" type="text" value={this.state.objective} onChange={this.handleChange}
+                    placeholder="Describe in a few words the overall aim of your model."
+                    />
                     </label>
                     <label>
                     <b>Description</b>:
-                    <input name="description" type="text" value={this.state.description} onChange={this.handleChange} />
+                    <textArea name="description" type="text" onChange={this.handleChange}
+                    placeholder="What do you want to achieve with your model? How much data would you need to fully train it?"
+                    />
                     </label>
-
                     <label>
-                    <b>Model</b>:
+                    <b>Data Requirements</b>:
+                    <textArea name="dataRequirements" type="text" onChange={this.handleChange}
+                    placeholder="In what format does your model require the data to be in?
+                    Please describe each attribute (data type, are missing values acceptable etc.) and the potential preprocessing required."
+                    />
+                    </label>
+                    <label>
+                    <b>Model: </b><br/>
+                    <p>Your model must inherit from <b>torch.nn.Module</b>.
+                    Additional classes relative to dataloading, training and testing must also be implemented. <br />
+                    Please see the template for the full details.
+                    </p>
+                    <Link to="/model.py" target="_blank" download>
+                        <p>download template</p>
+                    </Link>
                     <input name= "model" type = "file" accept=".py"
                                onChange = {this.captureFile}
                     />
