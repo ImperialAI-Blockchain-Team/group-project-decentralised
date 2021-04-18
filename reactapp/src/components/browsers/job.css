@@ -84,7 +84,7 @@
 
 .startJobButton {
   cursor:pointer;
-  background-color: firebrick;
+  background-color: limegreen;
   padding: 1px;
   position: relative;
   border-radius: 5px;
@@ -92,6 +92,14 @@
 
 
 .withdrawFundsButton {
+  cursor:pointer;
+  background-color: darkorange;
+  padding: 1px;
+  position: relative;
+  border-radius: 5px;
+}
+
+.downloadModelButton {
   cursor:pointer;
   background-color: cornflowerblue;
   padding: 1px;

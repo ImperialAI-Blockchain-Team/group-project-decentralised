@@ -3,10 +3,9 @@ import "./job.css"
 import {Link} from 'react-router-dom';
 import jobsdatabase from "../../contractInterfaces/jobsdatabase";
 import modeldatabase from "../../contractInterfaces/modeldatabase";
-import FormDialog from "../forms/jobSignup"
 import { Container2 } from "../helpers/Container2";
-import {Container} from "../helpers/Container";
 import web3 from "../../contractInterfaces/web3";
+import ipfs from '../../ipfs'
 
 export class JobBrowser extends React.Component {
 
@@ -36,6 +35,7 @@ export class JobBrowser extends React.Component {
         this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
         this.startJob = this.startJob.bind(this);
         this.withdrawFeeClick = this.withdrawFeeClick.bind(this);
+        this.downloadModel = this.downloadModel.bind(this);
 
         // call smart contract to render jobs
         this.getNumberOfJobs()
@@ -92,8 +92,8 @@ export class JobBrowser extends React.Component {
                 <p><b>Deadline</b>: {new Date((job['initTime'])*1000+parseInt(job['daysUntilStart'])*24*60*60*1000).toUTCString()}</p>
                 <p>
                     <button className="moreInfoButton" name={jobID} onClick={this.handleClick}>Job Details</button>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                <Container2 triggerText={triggerText} job={jobID} />
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    <b>Register Dataset -></b> <Container2 triggerText={triggerText} job={jobID} />
                 </p>
             </div>
             )
@@ -151,8 +151,10 @@ export class JobBrowser extends React.Component {
 
                 <p>
                     <button className="startJobButton" name={this.state.targetJobId} onClick={this.startJob}>Start Training</button>
-                &nbsp; &nbsp; &nbsp;
+                &nbsp; &nbsp;
                     <button className="withdrawFundsButton" name={this.state.targetJobId} onClick={this.withdrawFeeClick}>Withdraw Fee</button>
+                &nbsp; &nbsp;
+                    <button className="downloadModelButton" name={this.state.targetJob} onClick={this.downloadModel}>Download Model</button>
                 </p>
             </div>
             )
@@ -283,6 +285,24 @@ export class JobBrowser extends React.Component {
                console.log(receipt);
             }
         })
+
+    }
+
+    downloadModel = async (event) => {
+        //const target = event.target;
+        //const job = target.name;
+        const cid = this.state.targetJob["modelIpfsHash"]
+        console.log(cid)
+        //const cid = 'QmQ2r6iMNpky5f1m4cnm3Yqw8VSvjuKpTcK1X7dBR1LkJF'
+
+
+        const chunks = []
+        //for await (const chunk of ipfs.cat(cid, {timeout: 1000})) {
+        //    chunks.push(chunk)
+        //}
+        await ipfs.cat(cid)
+        console.log(Buffer.concat(chunks).toString());
+
 
     }
 

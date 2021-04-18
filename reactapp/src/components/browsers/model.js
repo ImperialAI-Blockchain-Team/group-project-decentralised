@@ -88,9 +88,13 @@ export class ModelBrowser extends React.Component {
                 <p><b>Objective</b>: {model['objective']}</p>
                 <p><b>Creation Date</b>: {new Date(model['time']*1000).toLocaleDateString()}</p>
                 <p><button className="moreInfoButton" name={model['index']} onClick={this.handleClick}>More Information</button>
-                <Container triggerText={triggerText} model={model['ipfsHash']} />
-                {/* <button id='like'>like</button> */}
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                <b>Start Job -> </b><Container triggerText={triggerText} model={model['ipfsHash']} />
                 </p>
+
+
+                {/* <button id='like'>like</button> */}
+
             </div>
             )
         })
