@@ -109,3 +109,4 @@ if os.path.exists('data.json'):
     f.close()
     if data['name'] != "":
         launch_fl_server()
+

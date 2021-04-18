@@ -47,6 +47,7 @@ export class DatasetBrowser extends React.Component {
 
     getNumberOfDatasets = async () => {
         let numberOfDatasets = await datasetdatabase.methods.getNumberOfs().call();
+        console.log(numberOfDatasets)
         this.setState({numberOfDatasets: numberOfDatasets});
         return new Promise((resolve, reject) => {
             if (numberOfDatasets != -1) {
@@ -58,8 +59,7 @@ export class DatasetBrowser extends React.Component {
     }
 
     getDatasetList = async (numberOfDatasets) => {
-        var newDatasetHashList = [];
-        var newDatasetList = [];
+        let newDatasetList = [];
         for (var i=0; i<numberOfDatasets; i++) {
             const ipfsHash = await datasetdatabase.methods.hashes(i).call();
             const dataset = await datasetdatabase.methods.datasets(ipfsHash).call();
@@ -83,7 +83,7 @@ export class DatasetBrowser extends React.Component {
             return (
                 <div className="datasetContainer">
                     <p><b>Owner</b>: {dataset['owner']}</p>
-                    <p><b>Name</b>: not implemented{}</p>
+                    <p><b>Name</b>: {dataset['ipfsHash']}</p>
                     <p><b>Description</b>: {dataset['description']}</p>
                     <p><b>Creation Date</b>: {new Date(dataset['time']*1000).toLocaleDateString()}</p>
                     <p><button className="moreInfoButton" name={dataset['ipfsHash']} onClick={this.handleClick}>More Information</button></p>

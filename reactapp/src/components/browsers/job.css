@@ -1,0 +1,136 @@
+.headerContainer {
+  width: 100%;
+  padding-bottom: 5px;
+  padding-top: 30px;
+  /* margin:auto; */
+}
+
+.searchBarContainer {
+  width: 100%;
+}
+
+.resultContainer {
+  width: 45%;
+  float: left;
+  padding-top: 5px;
+  padding-left: 0px;
+}
+
+.jobInfoContainer {
+  width: 47%;
+  float: right;
+  padding-top: 5px;
+  padding-right: 0px;
+}
+
+#myInput {
+    background-image: url('./images/search_icon.png'); /*Add a search icon to input*/
+    background-size: 20px;
+    background-position: 10px 12px; /* Position the search icon */
+    background-repeat: no-repeat; /* Do not repeat the icon image */
+    width: 96%; /* Full-width */
+    font-size: 16px; /* Increase font-size */
+    padding-top: 13px;
+    padding-left: 40px;
+    padding-bottom: 13px;
+    border: 1px solid #ddd; /* Add a grey border */
+    margin-bottom: 12px; /* Add some space below the input */
+  }
+
+.loadingCell p {
+  text-align: center;
+}
+
+
+.jobContainer {
+  width:100%;
+  border-style: solid;
+  border-color: rgb(34, 34, 34);
+  background-color: rgb(236, 236, 236);
+  border-radius: 15px;
+  border-width: 2px;
+  padding-top: 0px;
+  padding-bottom: 7px;
+  padding-right: 20px;
+  margin-bottom: 5px;
+}
+
+.jobContainer p {
+  margin-left: 10px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.moreInfoButton {
+  cursor:pointer;
+  background-color: aqua;
+  padding: 1px;
+  position: relative;
+  border-radius: 5px;
+}
+
+.addAllowListButton{
+  cursor:pointer;
+  background-color: forestgreen;
+  padding: 1px;
+  position: relative;
+  border-radius: 5px;
+}
+
+.startJobButton {
+  cursor:pointer;
+  background-color: firebrick;
+  padding: 1px;
+  position: relative;
+  border-radius: 5px;
+}
+
+
+.withdrawFundsButton {
+  cursor:pointer;
+  background-color: cornflowerblue;
+  padding: 1px;
+  position: relative;
+  border-radius: 5px;
+}
+
+
+#jobButton {
+  cursor:pointer;
+  float: right;
+  color: black;
+  /* background-color: aqua; */
+  /* position: right; */
+  /* padding: 1px; */
+  /* border-style: solid; */
+  /* border-width: 2px; */
+  /* border-radius: 5px; */
+}
+
+#like {
+  cursor: pointer;
+  float: right;
+  color: black;
+}
+
+.jobInfo {
+  /* text-align: center; */
+  width:100%;
+  height: 1000px;
+  border-style: solid;
+  border-color: rgb(34, 34, 34);
+  background-color: rgb(248, 248, 248);
+  border-radius: 15px;
+  border-width: 2px;
+}
+
+.jobInfo h3 {
+  text-align: center;
+}
+
+.jobInfo p {
+  width:80%;
+  padding-left: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}

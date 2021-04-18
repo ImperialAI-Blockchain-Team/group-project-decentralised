@@ -1,0 +1,48 @@
+.container {
+    padding-left: 1px;
+    padding-right:1px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+
+    /* border-style: solid;
+    border-color: #b1b1b1; */
+}
+
+.subContainer {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 15px;
+    padding-bottom: 45px;
+    border-width:2px;
+    border-style: solid;
+    border-color: #858585;
+}
+
+hr {
+    border: 1px solid #333333;
+    margin-bottom: 25px;
+  }
+
+.register {
+    background-color: #333533;
+    color: white;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+}
+
+input[type=text] {
+    width: 100%;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+  }
+
+.leakyrelu{display: block;}
+.relu{display: none;}

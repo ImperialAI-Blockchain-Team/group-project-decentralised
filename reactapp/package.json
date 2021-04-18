@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
@@ -10,6 +11,7 @@
     "axios": "^0.21.1",
     "enzyme": "^3.11.0",
     "eth-revert-reason": "^1.0.3",
+    "focus-trap-react": "^8.4.2",
     "ipfs-api": "^26.1.2",
     "react": "^17.0.2",
     "react-bootstrap": "^1.5.2",
