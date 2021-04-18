@@ -26,12 +26,16 @@ export class JobBrowser extends React.Component {
             jobInfo: this.browserIntroduction(),
             triggerText: "Register",
             targetJob: {},
-            targetJobId: -1
+            targetJobId: -1,
+            targetJobDeadline: -1,
+            targetJobGrace: -1,
+            targetRegistered: [],
+            targetAllowed: []
 
             }
         this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
         this.startJob = this.startJob.bind(this);
-        this.withdrawFee = this.withdrawFee.bind(this);
+        this.withdrawFeeClick = this.withdrawFeeClick.bind(this);
 
         // call smart contract to render jobs
         this.getNumberOfJobs()
@@ -78,15 +82,14 @@ export class JobBrowser extends React.Component {
         const { triggerText } = this.state.triggerText;
         const renderedJobs = await jobList.map((job, jobID) => {
             console.log(parseInt(job['daysUntilStart'])*24*60*60)
-            console.log(jobID)
             return (
             <div className="jobContainer">
                 <p><b>Owner</b>: {job['owner']}</p>
                 <p><b>ID</b>: {jobID}</p>
                 <p><b>Bounty</b>: {job['bounty']} wei </p>
                 <p><b>Holding Fee</b>: {job['holdingFee']} wei </p>
-                <p><b>Creation Date</b>: {new Date(job['initTime']*1000).toLocaleDateString()}</p>
-                <p><b>Registration Deadline</b>: {new Date((job['initTime'])*1000+parseInt(job['daysUntilStart'])*24*60*60*1000).toLocaleDateString()}</p>
+                <p><b>Creation Date</b>: {new Date(job['initTime']*1000).toUTCString()}</p>
+                <p><b>Deadline</b>: {new Date((job['initTime'])*1000+parseInt(job['daysUntilStart'])*24*60*60*1000).toUTCString()}</p>
                 <p>
                     <button className="moreInfoButton" name={jobID} onClick={this.handleClick}>Job Details</button>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
@@ -102,14 +105,21 @@ export class JobBrowser extends React.Component {
         const target = event.target;
         const id = target.name;
         const targetJob = await jobsdatabase.methods.jobs(id).call();
-        console.log(targetJob);
+        const targetJobDeadline = targetJob['initTime'] + targetJob['daysUntilStart']*24*60*60
+        const targetJobGrace = targetJobDeadline + 1*24*60*60
+
+
         const numAllowed = await jobsdatabase.methods.getNumAllow(id).call();
         const registered = await jobsdatabase.methods.getJobRegistered(id).call();
         const allowed = await jobsdatabase.methods.getJobAllowed(id).call();
-        console.log(allowed)
 
+        // Set target job info
         this.setState({targetJob: targetJob})
         this.setState({targetJobId: id})
+        this.setState({targetJobDeadline: targetJobDeadline})
+        this.setState({targetJobGrace:targetJobGrace})
+        this.setState({targetRegistered:registered})
+        this.setState({targetAllowed:allowed})
 
         // Get user to registered (committed) to job
         const registeredUsers = await registered.map((dataOwner, dataOwnerID) => {
@@ -142,7 +152,7 @@ export class JobBrowser extends React.Component {
                 <p>
                     <button className="startJobButton" name={this.state.targetJobId} onClick={this.startJob}>Start Training</button>
                 &nbsp; &nbsp; &nbsp;
-                    <button className="withdrawFundsButton" name={this.state.targetJobId} onClick={this.withdrawFee}>Withdraw Fee</button>
+                    <button className="withdrawFundsButton" name={this.state.targetJobId} onClick={this.withdrawFeeClick}>Withdraw Fee</button>
                 </p>
             </div>
             )
@@ -159,12 +169,27 @@ export class JobBrowser extends React.Component {
     addClientAllow = async (event) =>{
         const target = event.target;
         const clientAddress = target.name;
-        console.log(clientAddress);
-        const accounts = await web3.eth.getAccounts();
-        console.log(this.state.targetJob["owner"])
+
+        const accounts = await web3.eth.getAccounts()
+
+        // Only job owner can add clients to allow list
         let isJobOwner = this.state.targetJob["owner"] == accounts[0]
         if (!isJobOwner){
-            alert("Not job owner, only model owner can create job for model")
+            alert("Not job owner, only job owner can add registered users to job allow list")
+            return;
+        }
+
+        // Check is registration period is over
+        let isRegistrationOver = this.state.targetJobDeadline > (Date.now()/1000)
+        if (isRegistrationOver){
+            alert("Registration period over, can't add more clients.")
+            return;
+        }
+
+        // Check is user has already been added to allow list
+        let alreadyAllowed = this.state.targetAllowed.includes(clientAddress)
+        if (alreadyAllowed){
+            alert("Cannot add a data owner twice, this data owner has already been added to the allow list")
             return;
         }
 
@@ -188,12 +213,76 @@ export class JobBrowser extends React.Component {
         const id = target.name;
         console.log(id);
 
+        const accounts = await web3.eth.getAccounts();
+
+        // Check if user is job owner
+        let isJobOwner = this.state.targetJob["owner"] == accounts[0]
+        if (!isJobOwner){
+            alert("Not job owner, only job owner can start training")
+            return;
+        }
+
+        // Check registration period is over
+        let isRegistrationOver = this.state.targetJobDeadline > (Date.now()/1000)
+        if (!isRegistrationOver){
+            alert("Registration Period not over, can only start period after registration deadline")
+            return;
+        }
+
+        // Check if minimum clients available to start job
+        let minClients = this.state.targetJob["minClients"]
+        let isMinClients = this.state.targetAllowed.length >= minClients
+        if (!isMinClients){
+            alert("Not enough clients to start job")
+            return;
+        }
+
+        // TODO
+        // Change to camelCase
+        // start training for job
+        //arg: _jobID, _datasetOwner
+        await jobsdatabase.methods.start_job(this.state.targetJobId).send({from: accounts[0]})
+        .on('transactionHash', (hash) =>{
+            console.log(hash);
+        })
+        .on('error', async (error, receipt) => {
+            console.log(error);
+            if (receipt) {
+               console.log(receipt);
+            }
+        })
+
     }
 
-    withdrawFee = async (event) =>{
+    withdrawFeeClick = async (event) =>{
         const target = event.target;
         const id = target.name;
         console.log(id);
+
+        const accounts = await web3.eth.getAccounts();
+
+        let isGraceOver = (Date.now()/1000) > this.state.targetJobGrace;
+        if(!isGraceOver){
+            alert("Cannot withdraw funds yet")
+            return;
+        }
+
+        let hasTrained = this.state.targetJob["trainingStarted"];
+        if(hasTrained){
+            alert("Cannot withdraw funds for this job")
+            return;
+        }
+
+        await jobsdatabase.methods.withdrawFee(id).send({from: accounts[0]})
+        .on('transactionHash', (hash) =>{
+            console.log(hash);
+        })
+        .on('error', async (error, receipt) => {
+            console.log(error);
+            if (receipt) {
+               console.log(receipt);
+            }
+        })
 
     }
 
