@@ -1,26 +1,23 @@
 # image: node:latest
 # # image: nikolaik/python-nodejs:latest
+image: zapier/python-node-browser:latest
 
-# before_script:
-#   - apt-get install software-properties-common
-#   - add-apt-repository ppa:deadsnakes/ppa
-#   - apt-get update
-#   - apt-get install python3.8
-#   - cd ./reactapp    # enter the React app directory
-#   - rm -rf build     # remove the existing build
-#   - CI=true npm install     # install required packages
+before_script:
+  - cd ./reactapp    # enter the React app directory
+  - rm -rf build     # remove the existing build
+  - CI=true npm install     # install required packages
 
-# cache:
-#   paths:
-#     - node_modules/
+cache:
+  paths:
+    - node_modules/
 
-# stages:
-#   - test
+stages:
+  - test
 
-# test:
-#   stage: test
-#   script:
-#     - CI=true npm test
-#   only:
-#     # - TestPipeline
-#     - master
+test:
+  stage: test
+  script:
+    - CI=true npm test
+  only:
+    # - TestPipeline
+    - master
