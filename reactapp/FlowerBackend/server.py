@@ -1,7 +1,6 @@
 import flwr as fl
 from strategies.FedAvg import FedAvg
 from strategies.FedOpt import FedOpt
-import multiprocessing
 import flwr as fl
 from typing import Callable, Dict, List, Optional, Tuple
 import uploads.model as ICU
@@ -102,7 +101,7 @@ def configure_flower_server():
 
 def launch_fl_server():
     strategy = configure_flower_server()
-    fl.server.start_server(DEFAULT_SERVER_ADDRESS, config={"num_rounds": data["round"]}, strategy=strategy)
+    fl.server.start_server("0.0.0.0:8080", config={"num_rounds": data["round"]}, strategy=strategy)
 
 if os.path.exists('data.json'):
     f = open('data.json', )
