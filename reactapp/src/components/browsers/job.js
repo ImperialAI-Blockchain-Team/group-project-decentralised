@@ -29,7 +29,8 @@ export class JobBrowser extends React.Component {
             targetJobDeadline: -1,
             targetJobGrace: -1,
             targetRegistered: [],
-            targetAllowed: []
+            targetAllowed: [],
+            targetTrainingStarted: false
 
             }
         this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
@@ -81,7 +82,7 @@ export class JobBrowser extends React.Component {
     renderJobs = async (jobList) => {
         const { triggerText } = this.state.triggerText;
         const renderedJobs = await jobList.map((job, jobID) => {
-            console.log(parseInt(job['daysUntilStart'])*24*60*60)
+            //console.log(parseInt(job['daysUntilStart'])*24*60*60)
             return (
             <div className="jobContainer">
                 <p><b>Owner</b>: {job['owner']}</p>
@@ -107,6 +108,7 @@ export class JobBrowser extends React.Component {
         const targetJob = await jobsdatabase.methods.jobs(id).call();
         const targetJobDeadline = targetJob['initTime'] + targetJob['daysUntilStart']*24*60*60
         const targetJobGrace = targetJobDeadline + 1*24*60*60
+        const targetTrainingStarted = targetJob['trainingStarted']
 
 
         const numAllowed = await jobsdatabase.methods.getNumAllow(id).call();
@@ -114,12 +116,14 @@ export class JobBrowser extends React.Component {
         const allowed = await jobsdatabase.methods.getJobAllowed(id).call();
 
         // Set target job info
+        console.log(targetJob)
         this.setState({targetJob: targetJob})
         this.setState({targetJobId: id})
         this.setState({targetJobDeadline: targetJobDeadline})
         this.setState({targetJobGrace:targetJobGrace})
         this.setState({targetRegistered:registered})
         this.setState({targetAllowed:allowed})
+        this.setState({targetTrainingStarted:targetTrainingStarted})
 
         // Get user to registered (committed) to job
         const registeredUsers = await registered.map((dataOwner, dataOwnerID) => {
@@ -275,6 +279,13 @@ export class JobBrowser extends React.Component {
             return;
         }
 
+        // Check is user has already been registered
+        let alreadyRegistered = this.state.registered.includes(accounts[0])
+        if (alreadyRegistered){
+            alert("Cannot register twice, you have already registered to this job")
+            return;
+        }
+
         await jobsdatabase.methods.withdrawFee(id).send({from: accounts[0]})
         .on('transactionHash', (hash) =>{
             console.log(hash);
@@ -288,21 +299,34 @@ export class JobBrowser extends React.Component {
 
     }
 
-    downloadModel = async (event) => {
-        //const target = event.target;
-        //const job = target.name;
+    downloadModel = async () => {
+        const accounts = await web3.eth.getAccounts();
+
+        // Check is user has already been added to allow list
+        let isAllowed = this.state.targetAllowed.includes(accounts[0])
+        if (!isAllowed){
+            alert("Only data owners on the job's allow list can download the model")
+            return;
+        }
+
+        // Check if training period
+        let isTrainingStarted = this.state.targetTrainingStarted
+        if (!isTrainingStarted){
+            alert("Can only download model during training period")
+            return
+        }
+
         const cid = this.state.targetJob["modelIpfsHash"]
         console.log(cid)
-        //const cid = 'QmQ2r6iMNpky5f1m4cnm3Yqw8VSvjuKpTcK1X7dBR1LkJF'
+        const chunks = await ipfs.cat(cid)
 
+        console.log(chunks.toString())
 
-        const chunks = []
-        //for await (const chunk of ipfs.cat(cid, {timeout: 1000})) {
-        //    chunks.push(chunk)
-        //}
-        await ipfs.cat(cid)
-        console.log(Buffer.concat(chunks).toString());
-
+        const element = document.createElement("a");
+        const file = new Blob([chunks], {type: 'uint8'});
+        element.href = URL.createObjectURL(file);
+        element.download = "model.py";
+        element.click();
 
     }
 
