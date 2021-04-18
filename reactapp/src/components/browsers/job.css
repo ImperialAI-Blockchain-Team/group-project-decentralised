@@ -9,6 +9,11 @@
   width: 100%;
 }
 
+/* Link {
+  position: relative;
+  float: right;
+} */
+
 .resultContainer {
   width: 45%;
   float: left;

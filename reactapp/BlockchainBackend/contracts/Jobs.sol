@@ -22,6 +22,7 @@ contract Jobs {
 
     DatasetDatabase datasetDatabase;
     ModelDatabase modelDatabase;
+    Registry registry;
 
     struct Job {
         uint id;
