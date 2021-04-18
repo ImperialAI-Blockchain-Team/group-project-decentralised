@@ -108,9 +108,9 @@ export class RegisterUserForm extends React.Component {
         const ethAddress = await registrydatabase.options.address;
 
         this.setState({ethAddress});
-
+        console.log(accounts)
         // return the transaction hash from the ethereum contract
-        registrydatabase.methods.insertUser(this.state.name, this.state.data_scientist,this.state.aggregator,this.state.data_owner).send({from: accounts[0]})
+        await registrydatabase.methods.insertUser(this.state.name, this.state.data_scientist,this.state.aggregator,this.state.data_owner).send({from: accounts[0]})
         .on('transactionHash', (hash) =>{
             console.log(hash);
             this.setState({transactionHash:hash})
@@ -128,7 +128,7 @@ export class RegisterUserForm extends React.Component {
 
         //registering user
         //{from : accounts[0]}
-        const index =  await registrydatabase.methods.insertUser(this.state.name, this.state.data_scientist,this.state.aggregator,this.state.data_owner).call({from : accounts[0]})
+        //const index =  await registrydatabase.methods.insertUser(this.state.name, this.state.data_scientist,this.state.aggregator,this.state.data_owner).call({from : accounts[0]})
         //const index = await registrydatabase.methods.insertUser(this.state.name, this.state.data_scientist,this.state.aggregator,this.state.data_owner).call()
         //const userCount = registrydatabase.methods.userCount()
         //alert(JSON.stringify(userCount))
@@ -136,10 +136,10 @@ export class RegisterUserForm extends React.Component {
 
         
 
-        this.setState({index})
+        //this.setState({index})
         console.log(JSON.stringify(this.state))
 
-        console.log(index)
+        //console.log(index)
         //console.log(userCount)
 
 
@@ -190,28 +190,28 @@ export class RegisterUserForm extends React.Component {
 
                     <label>
                     <b>Username</b>:
-                    <input name="name" type="text" value={this.state.name} onChange={this.handleChange} />
+                    <input name="name" id ="name-input" type="text" value={this.state.name} onChange={this.handleChange} />
                     </label>
                     <label>
                     <b>Email Address</b>:
-                    <input name="email" type="text" value={this.state.email} onChange={this.handleChange} />
+                    <input name="email" id ="email-input" type="text" value={this.state.email} onChange={this.handleChange} />
                     </label>
                     <label>
                     <b>IP Address</b>:
-                    <input name="address" type="text" value={this.state.address} onChange={this.handleChange} />
+                    <input name="address" id ="address-input"type="text" value={this.state.address} onChange={this.handleChange} />
                     </label>
                     <label>
                     <b> User Type</b>:
                     </label>
                     <br></br>
                     <br></br>
-                    <input type="checkbox" id="checkbox" value = "Data Scientist" onChange={this.handleCheckChange.bind(this)}/><span>Data Scientist</span>
-                    <input type="checkbox" id="checkbox" value = "Aggregator" onChange={this.handleCheckChange.bind(this)}/><span>Aggregator</span>
-                    <input type="checkbox" id="checkbox" value = "Data Owner" onChange={this.handleCheckChange.bind(this)}/><span>Data Owner</span>
+                    <input type="checkbox" id="checkbox" data-testid="check1"value = "Data Scientist" onChange={this.handleCheckChange.bind(this)}/><span>Data Scientist</span>
+                    <input type="checkbox" id="checkbox" data-testid="check2"value = "Aggregator" onChange={this.handleCheckChange.bind(this)}/><span>Aggregator</span>
+                    <input type="checkbox" id="checkbox" data-testid="check3"value = "Data Owner" onChange={this.handleCheckChange.bind(this)}/><span>Data Owner</span>
 
                     <br></br>
                     <br></br>
-                    <button onClick={this.handleSubmit.bind(this)}>Register</button>
+                    <button type = "button" onClick={this.handleSubmit.bind(this)}>Register</button>
                 </div>
             </div>
 

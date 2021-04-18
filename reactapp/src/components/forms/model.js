@@ -66,7 +66,7 @@ export class UploadModelForm extends React.Component {
          // First check if user is registered
         let isRegistered = await registrydatabase.methods.isUser(accounts[0]).call();
         console.log(isRegistered)
-        if (isRegistered){
+        if (!isRegistered){
             alert("Need to be registered, please register as a data-scientist first")
             return;
         }
@@ -95,7 +95,7 @@ export class UploadModelForm extends React.Component {
             this.setState({ipfsHash: ipfsHash[0].hash});
 
             // return the transaction hash from the ethereum contract
-            modelDatabase.methods.register_model(this.state.ipfsHash, this.state.name, 'Objective').send({from: accounts[0]})
+            modelDatabase.methods.registerModel(this.state.ipfsHash, this.state.name, 'Objective').send({from: accounts[0]})
                 .on('transactionHash', (hash) =>{
                     console.log(hash);
                     this.setState({transactionHash:hash})

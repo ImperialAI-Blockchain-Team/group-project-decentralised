@@ -27,6 +27,27 @@ contract Registry {
       }
       return (isIndeed);
   }
+
+  // Check if user is a data scientist
+  function isDataScientist(address userAddress) public view returns(bool isIndeed) {
+      if(registrations[userAddress].data_scientist == true){
+          isIndeed = true;
+      } else {
+          isIndeed = false;
+      }
+      return (isIndeed);
+    }
+
+  // Check is user is a data owner
+  function isDataOwner(address userAddress) public view returns(bool isIndeed) {
+      if(registrations[userAddress].data_scientist == true){
+          isIndeed = true;
+      } else {
+          isIndeed = false;
+      }
+      return (isIndeed);
+    }
+
 // Inserts a User if he hasnt been registered
   function insertUser(string memory user_name, bool data_scientist, bool aggregator, bool hospital) public returns(uint index) {
       if(isUser(msg.sender)) revert("You have already registered");
@@ -39,7 +60,7 @@ contract Registry {
       emit LogNewUser(msg.sender, user_name, data_scientist,aggregator,hospital);
       return userHash.length-1;
   }
-// Retreives the User
+// Retrieves the User
   function getUser(address  userAddress) public view returns(string memory user_name, bool data_scientist, bool aggregator, bool hospital){
     if(!isUser(userAddress)) revert("This account is not registered");
     return(registrations[userAddress].user_name, registrations[userAddress].data_scientist,registrations[userAddress].aggregator,registrations[userAddress].hospital);
