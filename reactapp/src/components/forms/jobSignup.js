@@ -51,7 +51,7 @@ export class JobSignup extends React.Component {
         let isDataOwner = await jobsdatabase.methods.isSenderDatasetOwner(this.state.ipfsHash).call({from : accounts[0]});
         console.log(isDataOwner )
         if (!isDataOwner ){
-            alert("Not dataset owner, only dataset owner can register for this job")
+            alert("Not valid dataset or not dataset owner, only dataset owner can register for this job")
             return;
         }
 
@@ -97,7 +97,7 @@ export class JobSignup extends React.Component {
         <form onSubmit={this.handleSubmit}>
             <div className="container">
                 <div className='subContainer'>
-                    <h2>Create a job to train your model!</h2>
+                    <h2>Register dataset to job</h2>
                     <hr />
                     <label>
                     <b>Dataset IPFS hash</b>:
