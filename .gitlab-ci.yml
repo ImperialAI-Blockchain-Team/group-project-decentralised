@@ -1,6 +1,6 @@
 # image: node:latest
 # # image: nikolaik/python-nodejs:latest
-image: zapier/python-node-browser:latest
+image: zapier/python-node-browsers:latest
 
 before_script:
   - cd ./reactapp    # enter the React app directory
