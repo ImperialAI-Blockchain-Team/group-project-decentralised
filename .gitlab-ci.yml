@@ -1,4 +1,5 @@
-image: node:latest
+# image: node:latest
+image: nikolaik/python-nodejs:latest
 
 before_script:
   - cd ./reactapp    # enter the React app directory
