@@ -26,6 +26,7 @@ export class MenuBar extends React.Component {
                             <Link to="/browse_jobs">Jobs</Link>
                         </div>
                     </div>
+                    <Link to="/test_components">Test Component</Link>
                 </div>
         )
     }
