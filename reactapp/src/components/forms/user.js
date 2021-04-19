@@ -93,12 +93,12 @@ export class RegisterUserForm extends React.Component {
             return;
         }
 
-        const userNames = await registrydatabase.methods.arrNames().call()
-        let nameExists = userNames.includes(this.state.name);
-        if (nameExists){
-            alert("Data name already taken, choose another name");
-            return;
-        }
+        //const userNames = await registrydatabase.methods.arrNames().call()
+        //let nameExists = userNames.includes(this.state.name);
+        //if (nameExists){
+        //    alert("Data name already taken, choose another name");
+        //    return;
+        //}
 
         //obtain contract address from registrydatabase.js
         const ethAddress = await registrydatabase.options.address;

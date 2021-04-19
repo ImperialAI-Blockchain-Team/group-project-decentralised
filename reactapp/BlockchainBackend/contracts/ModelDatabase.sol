@@ -25,7 +25,7 @@ contract ModelDatabase {
     mapping(string => Model) public models;
     string[] public hashes;
     mapping (string => bool) public names;
-    string [] arrNames;
+    string [] public arrNames;
 
     Registry registry;
 

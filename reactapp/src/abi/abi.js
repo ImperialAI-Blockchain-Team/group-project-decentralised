@@ -20,6 +20,27 @@ export const modelDatabase = [
           "type": "uint256"
         }
       ],
+      "name": "arrNames",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "name": "hashes",
       "outputs": [
         {
@@ -296,6 +317,27 @@ export const datasetDatabase =  [
       "constant": true,
       "inputs": [
         {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "arrNames",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
           "internalType": "string",
           "name": "",
           "type": "string"
@@ -508,7 +550,6 @@ export const datasetDatabase =  [
       "type": "function"
     }
 ]
-
 
 export const registry = [
     {

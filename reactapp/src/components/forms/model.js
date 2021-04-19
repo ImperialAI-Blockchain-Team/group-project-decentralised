@@ -74,13 +74,12 @@ export class UploadModelForm extends React.Component {
             return;
         }
 
-        const names = await modelDatabase.methods.arrNames().call()
-
-        let nameExists = names.includes(this.state.name);
-        if (nameExists){
-            alert("Data name already taken, choose another name");
-            return;
-        }
+        //const names = await modelDatabase.methods.arrNames(0).call()
+        //let nameExists = names.includes(this.state.name);
+        //if (nameExists){
+        //    alert("Data name already taken, choose another name");
+        //    return;
+        //}
 
         //obtain contract address from modelDatabase.js
         const ethAddress = await modelDatabase.options.address;

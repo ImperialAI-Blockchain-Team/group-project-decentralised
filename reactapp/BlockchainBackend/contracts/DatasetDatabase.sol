@@ -24,7 +24,7 @@ contract DatasetDatabase {
     string[] public hashes;
 
     mapping (string => bool) public names;
-    string [] arrNames;
+    string [] public arrNames;
 
     constructor(address _contractAddressRegistry) public {
         registry = Registry(_contractAddressRegistry);

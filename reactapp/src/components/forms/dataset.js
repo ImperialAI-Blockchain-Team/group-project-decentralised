@@ -45,13 +45,13 @@ export class UploadDatasetForm extends React.Component {
             return;
         }
 
-        const names = await datasetdatabase.methods.arrNames().call()
+        //const names = await datasetdatabase.methods.arrNames().call()
 
-        let nameExists = names.includes(this.state.name);
-        if (nameExists){
-            alert("Data name already taken, choose another name");
-            return;
-        }
+        //let nameExists = names.includes(this.state.name);
+        //if (nameExists){
+        //    alert("Data name already taken, choose another name");
+        //    return;
+        //}
 
         //obtain contract address from storehash.js
         const ethAddress= await datasetdatabase.options.address;
