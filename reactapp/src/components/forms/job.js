@@ -48,7 +48,6 @@ export class JobForm extends React.Component {
             no:false,
             registrationPeriod: '',
             bounty: '',
-            holdingFee: '',
             transactionHash: '',
             minClients: '',
             strategyHash: null,
@@ -212,7 +211,8 @@ export class JobForm extends React.Component {
             return;
         }
         // Minimum payment amount
-        const amountToPay = parseInt(this.state.bounty) + 1000000
+        const jobFee = await jobsdatabase.methods.jobCreationFee().call()
+        const amountToPay = parseInt(this.state.bounty) + parseInt(jobFee)
         console.log(amountToPay)
         // Create strategy metadata
         const allowedKeys = [
@@ -261,9 +261,9 @@ export class JobForm extends React.Component {
             // how to retrieve the strategy
             // const strategy = ipfs.files.cat(output);
             // console.log('retrieved strategy Hash', JSON.parse(strategy));
-            // create job
-            jobsdatabase.methods.createJob(this.props.model, output, parseInt(this.state.minClients),
-            parseInt(this.state.registrationPeriod), parseInt(this.state.bounty), parseInt(this.state.holdingFee)).send({from: accounts[0], value: amountToPay})
+            // create job (string _modelIpfsHash, string _strategyHash, string _testDatasetHash, uint _minClients, uint _hoursUntilStart, uint _bounty)
+            jobsdatabase.methods.createJob(this.props.model, output, "Test Dataset", parseInt(this.state.minClients),
+            parseInt(this.state.registrationPeriod), parseInt(this.state.bounty)).send({from: accounts[0], value: amountToPay})
         .on('transactionHash', (hash) =>{
             console.log('transaction hash', hash);
             this.setState({transactionHash:hash})
@@ -369,11 +369,6 @@ export class JobForm extends React.Component {
                     <label>
                     <b>Bounty (in Wei)</b>:
                     <input name="bounty" type="text" value={this.state.bounty} onChange={this.handleChange} />
-                    </label>
-
-                    <label>
-                    <b>Holding Fee (in Wei)</b>:
-                    <input name="holdingFee" type="text" value={this.state.holdingFee} onChange={this.handleChange} />
                     </label>
 
                     <label>
