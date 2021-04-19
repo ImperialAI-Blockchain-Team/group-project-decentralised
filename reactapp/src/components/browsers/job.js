@@ -37,6 +37,7 @@ export class JobBrowser extends React.Component {
         this.startJob = this.startJob.bind(this);
         this.withdrawFeeClick = this.withdrawFeeClick.bind(this);
         this.downloadModel = this.downloadModel.bind(this);
+        this.endFailedJob = this.endFailedJob.bind(this);
 
         // call smart contract to render jobs
         this.getNumberOfJobs()
@@ -83,6 +84,7 @@ export class JobBrowser extends React.Component {
 
     renderJobs = async (jobList) => {
         const { triggerText } = this.state.triggerText;
+        const holdingFee = await jobsdatabase.methods.holdingFee().call()
         const renderedJobs = await jobList.map((job, jobID) => {
 
             return (
@@ -91,6 +93,7 @@ export class JobBrowser extends React.Component {
                 <p><b>ID</b>: {jobID}</p>
                 <p><b>Model</b>: {job['modelName']}</p>
                 <p><b>Bounty</b>: {job['bounty']} wei </p>
+                <p><b>Holding Fee</b>: {holdingFee} wei </p>
                 <p><b>Creation Date</b>: {new Date(job['initTime']*1000).toUTCString()}</p>
                 <p><b>Deadline</b>: {new Date((job['initTime'])*1000+parseInt(job['hoursUntilStart'])*60*60*1000).toUTCString()}</p>
                 <p>
@@ -161,6 +164,8 @@ export class JobBrowser extends React.Component {
                     <button className="withdrawFundsButton" name={this.state.targetJobId} onClick={this.withdrawFeeClick}>Withdraw Fee</button>
                 &nbsp; &nbsp;
                     <button className="downloadModelButton" name={this.state.targetJob} onClick={this.downloadModel}>Download Model</button>
+                &nbsp; &nbsp;
+                    <button className="endFailedJobButton" name={this.state.targetJobId} onClick={this.endFailedJob}>End failed Job</button>
                 </p>
             </div>
             )
@@ -283,8 +288,8 @@ export class JobBrowser extends React.Component {
 
         // Check is user has already been registered
         let alreadyRegistered = this.state.registered.includes(accounts[0])
-        if (alreadyRegistered){
-            alert("Cannot register twice, you have already registered to this job")
+        if (!alreadyRegistered){
+            alert("Cannot withdraw fee, if you have not registered to this job")
             return;
         }
 
@@ -299,6 +304,54 @@ export class JobBrowser extends React.Component {
             }
         })
 
+    }
+
+    endFailedJob = async (event) =>{
+        const target = event.target;
+        const id = target.name;
+        console.log(id);
+
+        const accounts = await web3.eth.getAccounts();
+
+        // Check if user is job owner
+        let isJobOwner = this.state.targetJob["owner"] == accounts[0]
+        if (!isJobOwner){
+            alert("Not job owner, only job owner can end failed job")
+            return;
+        }
+
+        let isGraceOver = (Date.now()/1000) > this.state.targetJobGrace;
+        if(!isGraceOver){
+            alert("Job cannot be endded yet")
+            return;
+        }
+
+        let hasTrained = this.state.targetJob["trainingStarted"];
+        if(hasTrained){
+            alert("Cannot withdraw funds for this job")
+            return;
+        }
+
+        // if minimum clients available job has not failed
+        let minClients = this.state.targetJob["minClients"]
+        let isMinClients = this.state.targetAllowed.length >= minClients
+        if (isMinClients){
+            alert("Enough clients to start job")
+            return;
+        }
+        
+        // withdraw holding fees to registered clients
+        await jobsdatabase.methods.endFailedJob(id).send({from: accounts[0]})
+        .on('transactionHash', (hash) =>{
+            console.log(hash);
+        })
+        .on('error', async (error, receipt) => {
+            console.log(error);
+            if (receipt) {
+               console.log(receipt);
+            }
+        })
+        
     }
 
     downloadModel = async () => {

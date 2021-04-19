@@ -177,6 +177,10 @@ contract Jobs {
         return (jobs[_id].initTime, jobs[_id].hoursUntilStart, jobs[_id].trainingStarted, jobs[_id].trainingEnded);
     }
 
+    function getMinClients(uint _id) public view returns(uint) {
+        return jobs[_id].minClients;
+    }
+
     function startJob(uint _id) public{
         // Can only be started by owner of job
         if (jobs[_id].owner != msg.sender){
@@ -237,6 +241,34 @@ contract Jobs {
 
         // remove Client from datasetOwners list to prevent withdrawing fee again
         delete(jobs[_id].datasetOwners[msg.sender]);
+    }
+
+    function endFailedJob(uint _id) public {
+        // Only the owner of the job can end it
+        require(jobs[_id].owner == msg.sender, "Only job owner can end job");
+
+        // Check grace period over
+        uint jobStartTime = getJobStartTime(_id);
+        uint deadline = jobStartTime + gracePeriod;
+        if (block.timestamp < deadline){
+            revert("Job can only end without training after the training start deadline");
+        }
+        
+        // To end job, training should not have started
+        require(!jobs[_id].trainingStarted, "Can only withdraw funds if training never started");
+        
+        // To end job, length of the allow list must be smaller than minClients
+        require(getNumAllow(_id) < getMinClients(_id), "Sufficient number of clients on allow list to start training") ;
+        
+        // withdraw holding fee to every registered data owner
+        address payable[] memory registeredDatasetOwners = jobs[_id].arrDatasetOwners;
+        for (uint i=0; i<registeredDatasetOwners.length; i++) {
+            address payable payee = registeredDatasetOwners[i];
+            payee.transfer(holdingFee);
+        }
+
+        // withdraw bounty to data scientist
+        msg.sender.transfer(jobs[_id].bounty);
     }
 
     function isRegistered(uint _id) public view returns(bool){
