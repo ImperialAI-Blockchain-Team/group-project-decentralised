@@ -3,14 +3,17 @@ pragma solidity >=0.5.16;
 contract Registry {
 
   struct Registration {
-        string user_name;
-        bool data_scientist;
+        string userName;
+        bool dataScientist;
         bool hospital;
         bool registered;
   }
 
   mapping(address => Registration) public registrations;
   address[] public userHash;
+
+  mapping (string => bool) public names;
+  string [] public arrNames;
 
 
 // Checks if it is a User
@@ -25,7 +28,7 @@ contract Registry {
 
   // Check if user is a data scientist
   function isDataScientist(address userAddress) public view returns(bool isIndeed) {
-      if(registrations[userAddress].data_scientist == true){
+      if(registrations[userAddress].dataScientist == true){
           isIndeed = true;
       } else {
           isIndeed = false;
@@ -44,27 +47,46 @@ contract Registry {
     }
 
 // Inserts a User if he hasnt been registered
-  function insertUser(string memory user_name, bool data_scientist, bool hospital) public returns(uint index) {
-      if(isUser(msg.sender)) revert("You have already registered");
+  function insertUser(string memory _userName, bool _dataScientist, bool _hospital) public {
+      // Check if user already registered
+      if(isUser(msg.sender)){
+          revert("You have already registered");
+      }
+
+      // Check if userName is unique
+      if (names[_userName] == true){
+          revert("User name not unique");
+      }
+
       registrations[msg.sender].registered = true;
-      registrations[msg.sender].user_name = user_name;
-      registrations[msg.sender].data_scientist = data_scientist;
-      registrations[msg.sender].hospital = hospital;
+      registrations[msg.sender].userName = _userName;
+      registrations[msg.sender].dataScientist = _dataScientist;
+      registrations[msg.sender].hospital = _hospital;
       userHash.push(msg.sender);
-      return userHash.length-1;
+      names[_userName] = true;
+      arrNames.push(_userName);
   }
 // Retrieves the User
-  function getUser(address  userAddress) public view returns(string memory user_name, bool data_scientist, bool hospital){
-    if(!isUser(userAddress)) revert("This account is not registered");
-    return(registrations[userAddress].user_name, registrations[userAddress].data_scientist,registrations[userAddress].hospital);
+  function getUser(address _userAddress) public view returns(string memory userName, bool dataScientist, bool hospital){
+
+    if(!isUser(_userAddress)){
+        revert("This account is not registered");
+    }
+
+    return(registrations[_userAddress].userName, registrations[_userAddress].dataScientist, registrations[_userAddress].hospital);
   }
 // Allows to change UserType
-  function updateUserType(address userAddress, bool data_scientist, bool hospital) public returns(bool success) {
-    if(!isUser(userAddress)) revert("This account is not registered");
-    require(userAddress == msg.sender);
-    registrations[userAddress].data_scientist = data_scientist;
-    registrations[userAddress].hospital = hospital;
-    return true;
+  function updateUserType(address _userAddress, bool _dataScientist, bool _hospital) public {
+
+    if(!isUser(_userAddress)) {
+        revert("This account is not registered");
+    }
+
+    require(_userAddress == msg.sender,"Only user can update their account");
+
+    registrations[_userAddress].dataScientist = _dataScientist;
+    registrations[_userAddress].hospital = _hospital;
+
   }
 // Returns count of Registered Users
   function getUserCount() public view returns(uint count) {
@@ -81,7 +103,7 @@ contract Registry {
   }
 
    function getUsername(address userAddress) public view returns(string memory){
-     return registrations[userAddress].user_name;
+     return registrations[userAddress].userName;
   }
 
 }

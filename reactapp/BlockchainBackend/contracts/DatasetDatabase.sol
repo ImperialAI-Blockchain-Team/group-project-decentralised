@@ -12,6 +12,7 @@ contract DatasetDatabase {
 
     struct Dataset {
         address owner;
+        string name;
         string description;
         string objective;
         uint time;
@@ -19,15 +20,18 @@ contract DatasetDatabase {
     }
 
     mapping(string => Dataset) public datasets;
+
     string[] public hashes;
 
+    mapping (string => bool) public names;
+    string [] arrNames;
 
     constructor(address _contractAddressRegistry) public {
         registry = Registry(_contractAddressRegistry);
     }
 
     // function to register a Dataset
-    function registerDataset(string memory _ipfsHash, string memory _description, string memory _objective) public {
+    function registerDataset(string memory _ipfsHash, string memory _name, string memory _description, string memory _objective) public {
         // Check is user is a registered data owner
         if (!registry.isDataOwner(msg.sender)){
             revert("Must be registered as a data owner");
@@ -37,8 +41,23 @@ contract DatasetDatabase {
             revert("This Dataset is already registered");
         }
 
-        datasets[_ipfsHash] = Dataset({owner: msg.sender, description: _description, objective: _objective, time: block.timestamp, registered: true});
+        // If name was used before, revert
+        if (names[_name] == true){
+            revert("Dataset name not unique");
+        }
+
+        datasets[_ipfsHash] = Dataset({owner: msg.sender,
+                                       name: _name,
+                                       description: _description,
+                                       objective: _objective,
+                                       time: block.timestamp,
+                                       registered: true});
+
         hashes.push(_ipfsHash);
+
+        // Mapping to ensure model name uniqueness
+        names[_name] = true;
+        arrNames.push(_name);
     }
 
     function getNumberOfs() public view returns(uint) {
@@ -61,6 +80,11 @@ contract DatasetDatabase {
     // Get owner of particular dataset
     function getDatasetOwner(string memory _ipfsHash) public view returns(address) {
         return datasets[_ipfsHash].owner;
+    }
+
+    // Get name of dataset
+    function getDatasetName(string memory _ipfsHash) public view returns(string memory) {
+        return datasets[_ipfsHash].name;
     }
 
 }

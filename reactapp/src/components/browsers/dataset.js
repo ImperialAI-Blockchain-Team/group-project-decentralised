@@ -83,7 +83,8 @@ export class DatasetBrowser extends React.Component {
             return (
                 <div className="datasetContainer">
                     <p><b>Owner</b>: {dataset['owner']}</p>
-                    <p><b>Name</b>: {dataset['ipfsHash']}</p>
+                    <p><b>Name</b>: {dataset['name']}</p>
+                    <p><b>IPFS hash</b>: {dataset['ipfsHash']}</p>
                     <p><b>Description</b>: {dataset['description']}</p>
                     <p><b>Creation Date</b>: {new Date(dataset['time']*1000).toLocaleDateString()}</p>
                     <p><button className="moreInfoButton" name={dataset['ipfsHash']} onClick={this.handleClick}>More Information</button></p>

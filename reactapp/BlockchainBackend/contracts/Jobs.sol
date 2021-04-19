@@ -15,11 +15,11 @@ contract Jobs {
     DatasetDatabase datasetDatabase;
     ModelDatabase modelDatabase;
 
-    uint gracePeriod = 1 days;
+    uint public gracePeriod = 1 days;
 
-    uint jobCreationFee = 1e6 wei;
+    uint public jobCreationFee = 1e6 wei;
 
-    uint holdingFee = 1e6 wei;
+    uint public holdingFee = 1e6 wei;
 
     struct Job {
         address payable owner;

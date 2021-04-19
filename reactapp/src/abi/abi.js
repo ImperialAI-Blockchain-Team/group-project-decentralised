@@ -89,6 +89,27 @@ export const modelDatabase = [
       "type": "function"
     },
     {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "name": "names",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "constant": false,
       "inputs": [
         {
@@ -289,6 +310,11 @@ export const datasetDatabase =  [
         },
         {
           "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
           "name": "description",
           "type": "string"
         },
@@ -334,11 +360,37 @@ export const datasetDatabase =  [
       "type": "function"
     },
     {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "name": "names",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "constant": false,
       "inputs": [
         {
           "internalType": "string",
           "name": "_ipfsHash",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_name",
           "type": "string"
         },
         {
@@ -433,11 +485,74 @@ export const datasetDatabase =  [
       "payable": false,
       "stateMutability": "view",
       "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_ipfsHash",
+          "type": "string"
+        }
+      ],
+      "name": "getDatasetName",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     }
 ]
 
 
 export const registry = [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "arrNames",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "name": "names",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
     {
       "constant": true,
       "inputs": [
@@ -451,12 +566,12 @@ export const registry = [
       "outputs": [
         {
           "internalType": "string",
-          "name": "user_name",
+          "name": "userName",
           "type": "string"
         },
         {
           "internalType": "bool",
-          "name": "data_scientist",
+          "name": "dataScientist",
           "type": "bool"
         },
         {
@@ -563,28 +678,22 @@ export const registry = [
       "inputs": [
         {
           "internalType": "string",
-          "name": "user_name",
+          "name": "_userName",
           "type": "string"
         },
         {
           "internalType": "bool",
-          "name": "data_scientist",
+          "name": "_dataScientist",
           "type": "bool"
         },
         {
           "internalType": "bool",
-          "name": "hospital",
+          "name": "_hospital",
           "type": "bool"
         }
       ],
       "name": "insertUser",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "index",
-          "type": "uint256"
-        }
-      ],
+      "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
       "type": "function"
@@ -594,7 +703,7 @@ export const registry = [
       "inputs": [
         {
           "internalType": "address",
-          "name": "userAddress",
+          "name": "_userAddress",
           "type": "address"
         }
       ],
@@ -602,12 +711,12 @@ export const registry = [
       "outputs": [
         {
           "internalType": "string",
-          "name": "user_name",
+          "name": "userName",
           "type": "string"
         },
         {
           "internalType": "bool",
-          "name": "data_scientist",
+          "name": "dataScientist",
           "type": "bool"
         },
         {
@@ -625,28 +734,22 @@ export const registry = [
       "inputs": [
         {
           "internalType": "address",
-          "name": "userAddress",
+          "name": "_userAddress",
           "type": "address"
         },
         {
           "internalType": "bool",
-          "name": "data_scientist",
+          "name": "_dataScientist",
           "type": "bool"
         },
         {
           "internalType": "bool",
-          "name": "hospital",
+          "name": "_hospital",
           "type": "bool"
         }
       ],
       "name": "updateUserType",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "success",
-          "type": "bool"
-        }
-      ],
+      "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
       "type": "function"
@@ -745,6 +848,51 @@ export const jobs = [
     },
     {
       "constant": true,
+      "inputs": [],
+      "name": "gracePeriod",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "holdingFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "jobCreationFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
       "inputs": [
         {
           "internalType": "uint256",
@@ -770,6 +918,16 @@ export const jobs = [
           "type": "string"
         },
         {
+          "internalType": "string",
+          "name": "testDatasetHash",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "resultsHash",
+          "type": "string"
+        },
+        {
           "internalType": "uint256",
           "name": "minClients",
           "type": "uint256"
@@ -786,32 +944,17 @@ export const jobs = [
         },
         {
           "internalType": "bool",
-          "name": "active",
-          "type": "bool"
-        },
-        {
-          "internalType": "bool",
-          "name": "registered",
-          "type": "bool"
-        },
-        {
-          "internalType": "bool",
           "name": "trainingStarted",
           "type": "bool"
         },
         {
-          "internalType": "uint256",
-          "name": "holdingFee",
-          "type": "uint256"
+          "internalType": "bool",
+          "name": "trainingEnded",
+          "type": "bool"
         },
         {
           "internalType": "uint256",
           "name": "bounty",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "feeSum",
           "type": "uint256"
         }
       ],
@@ -932,6 +1075,11 @@ export const jobs = [
           "type": "string"
         },
         {
+          "internalType": "string",
+          "name": "_testDatasetHash",
+          "type": "string"
+        },
+        {
           "internalType": "uint256",
           "name": "_minClients",
           "type": "uint256"
@@ -944,11 +1092,6 @@ export const jobs = [
         {
           "internalType": "uint256",
           "name": "_bounty",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_holdingFee",
           "type": "uint256"
         }
       ],
@@ -1205,11 +1348,26 @@ export const jobs = [
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "jobId",
+          "name": "_id",
           "type": "uint256"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "_compensation",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "address payable[]",
+          "name": "_clients",
+          "type": "address[]"
+        },
+        {
+          "internalType": "string",
+          "name": "_resultsHash",
+          "type": "string"
         }
       ],
-      "name": "deactivateJob",
+      "name": "compensate",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",

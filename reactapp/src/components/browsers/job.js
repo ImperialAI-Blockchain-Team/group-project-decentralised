@@ -91,7 +91,6 @@ export class JobBrowser extends React.Component {
                 <p><b>ID</b>: {jobID}</p>
                 <p><b>Model</b>: {job['modelName']}</p>
                 <p><b>Bounty</b>: {job['bounty']} wei </p>
-                <p><b>Holding Fee</b>: {job['holdingFee']} wei </p>
                 <p><b>Creation Date</b>: {new Date(job['initTime']*1000).toUTCString()}</p>
                 <p><b>Deadline</b>: {new Date((job['initTime'])*1000+parseInt(job['hoursUntilStart'])*60*60*1000).toUTCString()}</p>
                 <p>

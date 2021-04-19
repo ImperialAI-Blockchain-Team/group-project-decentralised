@@ -5,6 +5,7 @@ import modelDatabase from "../../contractInterfaces/modeldatabase";
 import registrydatabase from "../../contractInterfaces/registrydatabase";
 import web3 from "../../contractInterfaces/web3";
 import {Link} from 'react-router-dom';
+import datasetdatabase from "../../contractInterfaces/datasetdatabase";
 
 const getRevertReason = require('eth-revert-reason')
 
@@ -70,6 +71,14 @@ export class UploadModelForm extends React.Component {
         console.log(isScientist)
         if (!isScientist){
             alert("Not registered as data scientist need to register as data scientist first")
+            return;
+        }
+
+        const names = await modelDatabase.methods.arrNames().call()
+
+        let nameExists = names.includes(this.state.name);
+        if (nameExists){
+            alert("Data name already taken, choose another name");
             return;
         }
 
