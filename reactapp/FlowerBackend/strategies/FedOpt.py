@@ -16,7 +16,12 @@ from flwr.common import (
 from flwr.server.strategy.aggregate import aggregate, weighted_loss_avg
 from flwr.server.client_proxy import ClientProxy
 
+import torch
 from .FedStrategy import FedStrategy
+import numpy as np
+DEFAULT_SERVER_ADDRESS = "[::]:8080"
+DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+DATA_ROOT = "data/patient.csv"
 
 
 class FedOpt(FedStrategy):
@@ -38,6 +43,7 @@ class FedOpt(FedStrategy):
         eta: float = 1e-1,
         eta_l: float = 1e-1,
         tau: float = 1e-9,
+        model=None,
     ) -> None:
         super().__init__(
             fraction_fit=fraction_fit,
@@ -50,6 +56,7 @@ class FedOpt(FedStrategy):
             on_evaluate_config_fn=on_evaluate_config_fn,
             accept_failures=accept_failures,
             initial_parameters=initial_parameters,
+            model=model
         )
         self.mode = mode
         self.current_weights = initial_parameters
@@ -73,6 +80,17 @@ class FedOpt(FedStrategy):
             return None
         if not self.accept_failures and failures:
             return None
+        contrib = {}
+        net = self.model.Loader(DATA_ROOT).load_model()
+        testset, _ = self.model.Loader(DATA_ROOT).load_data()
+        testloader = torch.utils.data.DataLoader(testset, batch_size=32, shuffle=False)
+        for client, fit_res in results:
+            net.set_weights(parameters_to_weights(fit_res.parameters))
+            net.to(DEVICE)
+            loss, acc = self.model.test(net, testloader, device=DEVICE)
+            contrib[fit_res.metrics['cid']] = acc
+        print(contrib)
+
         weights_results = [
             (parameters_to_weights(fit_res.parameters), fit_res.num_examples)
             for client, fit_res in results

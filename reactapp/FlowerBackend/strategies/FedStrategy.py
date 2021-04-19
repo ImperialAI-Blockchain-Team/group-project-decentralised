@@ -34,6 +34,7 @@ class FedStrategy(fl.server.strategy.Strategy):
         on_evaluate_config_fn = None,
         accept_failures = True,
         initial_parameters=None,
+        model = None
     ) -> None:
         super().__init__()
         self.min_fit_clients = min_fit_clients
@@ -46,6 +47,7 @@ class FedStrategy(fl.server.strategy.Strategy):
         self.on_evaluate_config_fn = on_evaluate_config_fn
         self.accept_failures = accept_failures
         self.initial_parameters = initial_parameters
+        self.model = model
 
     def __repr__(self) -> str:
         rep = f"FedAvg(accept_failures={self.accept_failures})"
@@ -136,3 +138,9 @@ class FedStrategy(fl.server.strategy.Strategy):
                 for _, evaluate_res in results
             ]
         )
+
+    def initialize_parameters(self, client_manager: ClientManager) -> Optional[Weights]:
+        """Initialize global model parameters."""
+        initial_parameters = self.initial_parameters
+        self.initial_parameters = None  # Don't keep initial parameters in memory
+        return initial_parameters

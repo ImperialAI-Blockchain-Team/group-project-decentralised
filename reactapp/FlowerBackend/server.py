@@ -55,6 +55,7 @@ def configure_flower_server():
             on_evaluate_config_fn=None,
             accept_failures=data["failure"],
             mode=strategy_type,
+            model=ICU
             # eval_fn=get_eval_fn(testloader)
             # Minimum number of clients that need to be connected to the server before a training round can start
         )
@@ -93,6 +94,7 @@ def configure_flower_server():
             eta_l=data["clr"],
             tau=data["da"],
             mode=strategy_type,
+            model=ICU
         )
 
     return strategy

@@ -36,7 +36,9 @@ class FedAvg(FedStrategy):
         on_evaluate_config_fn = None,
         accept_failures = True,
         initial_parameters = None,
+        model = None,
         mode = 'datasize',
+
     ) -> None:
         super().__init__(
             fraction_fit=fraction_fit,
@@ -49,6 +51,7 @@ class FedAvg(FedStrategy):
             on_evaluate_config_fn=on_evaluate_config_fn,
             accept_failures=accept_failures,
             initial_parameters=initial_parameters,
+            model=model
             )
         self.mode = mode
 
@@ -64,8 +67,17 @@ class FedAvg(FedStrategy):
 
         if not self.accept_failures and failures:
             return None
+        contrib = {}
+        net = self.model.Loader(DATA_ROOT).load_model()
+        testset, _ = self.model.Loader(DATA_ROOT).load_data()
+        testloader = torch.utils.data.DataLoader(testset, batch_size=32, shuffle=False)
+        for client, fit_res in results:
+            net.set_weights(parameters_to_weights(fit_res.parameters))
+            net.to(DEVICE)
+            loss, acc = self.model.test(net, testloader, device=DEVICE)
+            contrib[fit_res.metrics['cid']] = acc
+        print(contrib)
         if self.mode == 'datasize':
-
             weights_results = [
                 (parameters_to_weights(fit_res.parameters), fit_res.num_examples)
                 for client, fit_res in results

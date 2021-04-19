@@ -12,32 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
+"""Flower client example using PyTorch for CIFAR-10 image classification."""
 
-#################################################
-#################################################
-##  DRAG YOUR DATASET INSIDE THE PACKAGE AND   ##
-##  INPUT ITS PATH IN THE VARIABLE BELLOW      ##
-#################################################
-#################################################
-
-DATA_ROOT = "data/patient.csv"
-
-#################################################
-#################################################
-##    DO NOT MODIFY CODE OUTSIDE THIS BOX      ##
-#################################################
-#################################################
 
 import argparse
 import timeit
+
 import torch
 import torchvision
+
 import flwr as fl
 from flwr.common import EvaluateIns, EvaluateRes, FitIns, FitRes, ParametersRes, Weights
-import model as ICU
+
+import retrieved_models.model as ICU
 
 DEFAULT_SERVER_ADDRESS = "[::]:8080"
+DATA_ROOT = "data/patient.csv"
+# pylint: disable=no-member
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+# pylint: enable=no-member
 
 
 class CifarClient(fl.client.Client):
@@ -96,6 +89,7 @@ class CifarClient(fl.client.Client):
             num_examples=num_examples_train,
             num_examples_ceil=num_examples_train,
             fit_duration=acc,
+            metrics={'cid': self.cid}
         )
 
     def evaluate(self, ins: EvaluateIns) -> EvaluateRes:
@@ -113,7 +107,8 @@ class CifarClient(fl.client.Client):
         loss, accuracy = ICU.test(self.model, testloader, device=DEVICE)
         # Return the number of evaluation examples and the evaluation result (loss)
         return EvaluateRes(
-            num_examples=len(self.testset), loss=float(loss), accuracy=float(accuracy)
+            num_examples=len(self.testset), loss=float(loss), accuracy=float(accuracy),
+            metrics={'cid': self.cid}
         )
 
 
@@ -142,7 +137,7 @@ def main() -> None:
     # Load model and data
     model = ICU.Loader( DATA_ROOT).load_model()
     model.to(DEVICE)
-    trainset, testset = ICU.Loader( DATA_ROOT).load_data()
+    trainset, testset = ICU.Loader(DATA_ROOT).load_data()
 
     # Start client
     client = CifarClient(args.cid, model, trainset, testset)
