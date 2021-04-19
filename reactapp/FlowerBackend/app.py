@@ -7,32 +7,43 @@ from flask_cors import CORS, cross_origin
 from subprocess import call
 import re, ast, json
 
-########################################################################################################
-
+app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+app.config['TESTING'] = True
 
 web3 = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/ec89decf66584cd984e5f89b6467f34f'))
 job_contract_address = '0x65a6DCe3ce74b409Adb1B31CC53Cd6c141A8c681'
 contract = web3.eth.contract(address=job_contract_address, abi=abi.job_abi)
 
-# Tests
-# print('Test:')
-# job = contract.functions.jobs(0).call()
-# strategy_hash = job[2]
-# is_training_allowed = job[8]
-# params = (('arg', strategy_hash),)
-# response = requests.post('https://ipfs.infura.io:5001/api/v0/get', params=params)
-# strategy = response.text
-# strategy = re.search('{(.*)}', strategy).group(1)
-# strategy = json.loads('{'+strategy+'}')
-# strategy['minClients'] = int(strategy['minClients'])
+def retrieve_strategy(strategy_hash):
+    params = (('arg', strategy_hash),)
+    response = requests.post('https://ipfs.infura.io:5001/api/v0/get', params=params)
+    strategy = response.text
+    strategy = re.search('{(.*)}', strategy).group(1)
+    strategy = json.loads('{'+strategy+'}')
+    strategy['minClients'] = int(strategy['minClients'])
+    with open('uploads/strategy.json', 'w') as outfile:
+        json.dump(strategy, outfile)
 
+def retrieve_model(model_hash):
+    params = (('arg', model_hash),)
+    response = requests.post('https://ipfs.infura.io:5001/api/v0/get', params=params)
+    content = response.text
+    content = content.split('\n')
+    content = '\n'.join(content[1:-1])
+    with open('uploads/model.py', 'w') as f:
+        f.write(content)
 
-########################################################################################################
-
-app = Flask(__name__)
-cors = CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
-app.config['TESTING'] = True
+def retrieve_testset(testset_hash):
+    print('Test:')
+    params = (('arg', testset_hash),)
+    response = requests.post('https://ipfs.infura.io:5001/api/v0/get', params=params)
+    content = response.text
+    content = content.split('\n')
+    content = '\n'.join(content[1:-1])
+    with open('uploads/testset.csv', 'w') as f:
+        f.write(content)
 
 @cross_origin()
 @app.route('/start_server', methods=['GET', 'POST'])
@@ -50,25 +61,22 @@ def start_server():
     if not job[8]:
         return {'error': 'job cannot be started'}, 500
 
-    # retrieve strategy from ipfs
+    # retrieve strategy, model and testset from ipfs and save them locally
+    model_hash = job[1]
     strategy_hash = job[2]
-    params = (('arg', strategy_hash),)
-    response = requests.post('https://ipfs.infura.io:5001/api/v0/get', params=params)
-    strategy = response.text
-    strategy = re.search('{(.*)}', strategy).group(1)
-    strategy = json.loads('{'+strategy+'}')
-    strategy['minClients'] = int(strategy['minClients'])
+    testset_hash = None
+    retrieve_model(model_hash)
+    retrieve_strategy(strategy_hash)
+    retrieve_testset(testset_hash)
 
-    # save strategy
-    with open('data.json', 'w') as outfile:
-        json.dump(strategy, outfile)
 
     # Start flower server
     call(["python", "server.py"])
 
     return {'server address': '[::]:8080'}, 200
 
-
 if __name__ == "__main__":
     # app.run(debug=True)
-    pass
+    job = contract.functions.jobs(0).call()
+    hash = job[2]
+    retrieve_strategy(hash)

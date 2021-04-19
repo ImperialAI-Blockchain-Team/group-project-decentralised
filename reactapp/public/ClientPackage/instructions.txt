@@ -1,5 +1,7 @@
 Instructions:
 
+(Please include an empty line at the beggining and at the end of your csv file)
+
 I
 
 II
