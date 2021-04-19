@@ -82,7 +82,7 @@ export class JobBrowser extends React.Component {
     renderJobs = async (jobList) => {
         const { triggerText } = this.state.triggerText;
         const renderedJobs = await jobList.map((job, jobID) => {
-            //console.log(parseInt(job['daysUntilStart'])*24*60*60)
+
             return (
             <div className="jobContainer">
                 <p><b>Owner</b>: {job['owner']}</p>
@@ -90,7 +90,7 @@ export class JobBrowser extends React.Component {
                 <p><b>Bounty</b>: {job['bounty']} wei </p>
                 <p><b>Holding Fee</b>: {job['holdingFee']} wei </p>
                 <p><b>Creation Date</b>: {new Date(job['initTime']*1000).toUTCString()}</p>
-                <p><b>Deadline</b>: {new Date((job['initTime'])*1000+parseInt(job['daysUntilStart'])*24*60*60*1000).toUTCString()}</p>
+                <p><b>Deadline</b>: {new Date((job['initTime'])*1000+parseInt(job['hoursUntilStart'])*60*60*1000).toUTCString()}</p>
                 <p>
                     <button className="moreInfoButton" name={jobID} onClick={this.handleClick}>Job Details</button>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
@@ -106,7 +106,7 @@ export class JobBrowser extends React.Component {
         const target = event.target;
         const id = target.name;
         const targetJob = await jobsdatabase.methods.jobs(id).call();
-        const targetJobDeadline = targetJob['initTime'] + targetJob['daysUntilStart']*24*60*60
+        const targetJobDeadline = targetJob['initTime'] + targetJob['hoursUntilStart']*60*60
         const targetJobGrace = targetJobDeadline + 1*24*60*60
         const targetTrainingStarted = targetJob['trainingStarted']
 

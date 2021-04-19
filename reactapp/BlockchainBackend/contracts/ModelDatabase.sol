@@ -2,6 +2,7 @@ pragma solidity >=0.5.16;
 
 contract Registry {
   function isDataScientist(address userAddress) public view returns(bool isIndeed) {}
+  function isDataOwner(address userAddress) public view returns(bool isIndeed) {}
 }
 
 contract ModelDatabase {
@@ -14,6 +15,9 @@ contract ModelDatabase {
         string objective;
         string description;
         string dataRequirements;
+        uint interest;
+        mapping(address => bool) datasetOwnersInterest;
+        address [] arrDatasetOwnersInterest;
         uint time;
         bool registered;
     }
@@ -40,11 +44,16 @@ contract ModelDatabase {
         if (models[_ipfsHash].registered) {
             revert("This Model is already registered");
         }
+
+        address [] memory init;
+
         models[_ipfsHash] = Model({owner: msg.sender,
                                 name: _name,
                                 description: _description,
                                 objective: _objective,
                                 dataRequirements: _dataRequirements,
+                                interest: 0,
+                                arrDatasetOwnersInterest: init,
                                 time: block.timestamp,
                                 registered: true});
         hashes.push(_ipfsHash);
@@ -70,6 +79,31 @@ contract ModelDatabase {
 
     function getModelOwner(string memory _ipfsHash) public view returns(address) {
         return models[_ipfsHash].owner;
+    }
+
+    function getModelName(string memory _ipfsHash) public view returns(string memory){
+        return models[_ipfsHash].name;
+    }
+
+    // Allow Data owners to register interest in a model
+    function registerInterest(string memory _ipfsHash) public {
+        // Ensure only data owners can register interest
+        if (!registry.isDataOwner(msg.sender)){
+            revert("Only data owners can register interest");
+        }
+        // Ensures data-owners can register interest in model only once
+        if (models[_ipfsHash].datasetOwnersInterest[msg.sender] == true){
+            revert("User already registered interest");
+        }
+
+        models[_ipfsHash].interest = models[_ipfsHash].interest + 1;
+        models[_ipfsHash].datasetOwnersInterest[msg.sender] = true;
+        models[_ipfsHash].arrDatasetOwnersInterest.push(msg.sender);
+    }
+
+    // Get array of interested users
+    function getModelInterested(string memory _ipfsHash) public view returns(address [] memory){
+      return models[_ipfsHash].arrDatasetOwnersInterest;
     }
 
 }

@@ -14,7 +14,6 @@ contract Jobs {
 
     DatasetDatabase datasetDatabase;
     ModelDatabase modelDatabase;
-    Registry registry;
 
     uint gracePeriod = 1 days;
 
@@ -26,12 +25,11 @@ contract Jobs {
         string strategyHash;
         uint minClients;
         uint initTime;
-        uint daysUntilStart;
+        uint hoursUntilStart;
         bool active;
         bool registered;
         bool trainingStarted;
         uint holdingFee;
-        uint numAllow;
         uint bounty;
         uint feeSum;
         mapping(address => bool) datasetOwners;
@@ -59,14 +57,14 @@ contract Jobs {
     }
 
     function getJobStartTime(uint _id) public view returns(uint) {
-        return jobs[_id].initTime + jobs[_id].daysUntilStart * 1 days;
+        return jobs[_id].initTime + jobs[_id].hoursUntilStart * 1 hours;
     }
 
     function registrationPeriodOver(uint _id) public view returns(bool) {
         return (block.timestamp >= getJobStartTime(_id));
     }
 
-    function createJob(string memory _modelIpfsHash, string memory _strategyHash, uint _minClients, uint _daysUntilStart,
+    function createJob(string memory _modelIpfsHash, string memory _strategyHash, uint _minClients, uint _hoursUntilStart,
         uint _bounty, uint _holdingFee) public payable {
 
         // Check the Job creator is model owner
@@ -82,11 +80,10 @@ contract Jobs {
                                 strategyHash: _strategyHash,
                                 minClients: _minClients,
                                 initTime: block.timestamp,
-                                daysUntilStart: _daysUntilStart,
+                                hoursUntilStart: _hoursUntilStart,
                                 bounty: _bounty,
                                 holdingFee: _holdingFee,
                                 feeSum: 0,
-                                numAllow: 0,
                                 active: true,
                                 registered: true,
                                 trainingStarted: false,
@@ -174,15 +171,15 @@ contract Jobs {
       return jobs[_id].arrAllowList;
     }
 
-    function getJobDetails(uint _id) public view returns(address, uint, uint, uint){
-        return (jobs[_id].owner, jobs[_id].minClients, jobs[_id].numAllow, jobs[_id].bounty);
+    function getJobDetails(uint _id) public view returns(address, uint, uint){
+        return (jobs[_id].owner, jobs[_id].minClients, jobs[_id].bounty);
     }
 
     function getJobStatus(uint _id) public view returns(uint, uint, bool, bool){
-        return (jobs[_id].initTime, jobs[_id].daysUntilStart, jobs[_id].active, jobs[_id].trainingStarted);
+        return (jobs[_id].initTime, jobs[_id].hoursUntilStart, jobs[_id].active, jobs[_id].trainingStarted);
     }
 
-    function start_job(uint _id) public{
+    function startJob(uint _id) public{
         // Can only be started by owner of job
         if (jobs[_id].owner != msg.sender){
             revert("Job can only be started by owner");
@@ -244,7 +241,7 @@ contract Jobs {
         delete(jobs[_id].datasetOwners[msg.sender]);
     }
 
-    function isRegistered(uint _id) public returns(bool){
+    function isRegistered(uint _id) public view returns(bool){
         return jobs[_id].datasetOwners[msg.sender];
     }
 
