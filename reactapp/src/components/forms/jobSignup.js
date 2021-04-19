@@ -71,10 +71,10 @@ export class JobSignup extends React.Component {
         }
 
         // Minimum payment amount
-        const amountToPay = targetJob["holdingFee"]
+        const amountToPay = await jobsdatabase.methods.holdingFee().call()
         // register dataset to job
         //arg: _jobID, _datasetHash
-        await jobsdatabase.methods.registerDatasetOwner(this.props.job, this.state.ipfsHash).send({from: accounts[0], value: amountToPay})
+        await jobsdatabase.methods.registerDatasetOwner(this.props.job, this.state.ipfsHash).send({from: accounts[0], value: parseInt(amountToPay)})
         .on('transactionHash', (hash) =>{
             console.log(hash);
             this.setState({transactionHash:hash})
