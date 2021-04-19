@@ -71,7 +71,7 @@ export class RegisterUserForm extends React.Component {
     handleSubmit = async (event) => {
         event.preventDefault();
 
-        const errors = validate(this.state.name, this.state.email, this.state.address, this.state.type)
+        const errors = validate(this.state.name, this.state.email, this.state.type)
         if (errors.length > 0){
             alert(JSON.stringify(errors));
             return;
