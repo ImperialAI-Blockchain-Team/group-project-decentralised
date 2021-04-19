@@ -19,24 +19,27 @@ contract Jobs {
 
     uint jobCreationFee = 1e6 wei;
 
+    uint holdingFee = 1e6 wei;
+
     struct Job {
         address payable owner;
         string modelIpfsHash;
         string strategyHash;
+        string testDatasetHash;
+        string resultsHash;
         uint minClients;
         uint initTime;
         uint hoursUntilStart;
-        bool active;
-        bool registered;
         bool trainingStarted;
-        uint holdingFee;
+        bool trainingEnded;
+        //uint holdingFee;
         uint bounty;
-        uint feeSum;
         mapping(address => bool) datasetOwners;
         mapping(address => bool)  allowList;
         mapping(address => string) datasetHash;
         address payable[] arrDatasetOwners;
         address payable[] arrAllowList;
+        uint [] compensation;
     }
 
     mapping(uint => Job) public jobs;
@@ -64,8 +67,8 @@ contract Jobs {
         return (block.timestamp >= getJobStartTime(_id));
     }
 
-    function createJob(string memory _modelIpfsHash, string memory _strategyHash, uint _minClients, uint _hoursUntilStart,
-        uint _bounty, uint _holdingFee) public payable {
+    function createJob(string memory _modelIpfsHash, string memory _strategyHash, string memory _testDatasetHash, uint _minClients, uint _hoursUntilStart,
+        uint _bounty) public payable {
 
         // Check the Job creator is model owner
         require(isSenderModelOwner(_modelIpfsHash),"Only model owner can create a job for this model");
@@ -74,21 +77,23 @@ contract Jobs {
         require(msg.value == jobCreationFee + _bounty,"Need to send the correct job creation fee and bounty");
 
         address payable[] memory init;
+        uint [] memory init2;
 
         jobs[jobsCreated] = Job({owner: msg.sender,
                                 modelIpfsHash: _modelIpfsHash,
                                 strategyHash: _strategyHash,
+                                resultsHash: " ",
+                                testDatasetHash: _testDatasetHash,
                                 minClients: _minClients,
                                 initTime: block.timestamp,
                                 hoursUntilStart: _hoursUntilStart,
                                 bounty: _bounty,
-                                holdingFee: _holdingFee,
-                                feeSum: 0,
-                                active: true,
-                                registered: true,
+                                //holdingFee: _holdingFee,
                                 trainingStarted: false,
+                                trainingEnded: false,
                                 arrDatasetOwners: init,
-                                arrAllowList: init}
+                                arrAllowList: init,
+                                compensation: init2}
                                 );
 
         jobsCreated = jobsCreated + 1;
@@ -111,12 +116,8 @@ contract Jobs {
         }
 
         // Check user has paid the correct holding fee
-        require(msg.value == jobs[_id].holdingFee,"Need to send the correct holding fee");
+        require(msg.value == holdingFee,"Need to send the correct holding fee");
 
-        // Check job is active
-        if (!jobs[_id].active){
-            revert("This job is not currently active");
-        }
 
         // Check if already registered
         if(jobs[_id].datasetOwners[msg.sender] == true){
@@ -127,9 +128,6 @@ contract Jobs {
         jobs[_id].datasetOwners[msg.sender] = true;
         jobs[_id].datasetHash[msg.sender] = _datasetIpfsHash;
         jobs[_id].arrDatasetOwners.push(msg.sender);
-
-        // Sum up amount paid by committed dataowners
-        jobs[_id].feeSum = jobs[_id].feeSum + msg.value;
 
     }
 
@@ -176,7 +174,7 @@ contract Jobs {
     }
 
     function getJobStatus(uint _id) public view returns(uint, uint, bool, bool){
-        return (jobs[_id].initTime, jobs[_id].hoursUntilStart, jobs[_id].active, jobs[_id].trainingStarted);
+        return (jobs[_id].initTime, jobs[_id].hoursUntilStart, jobs[_id].trainingStarted, jobs[_id].trainingEnded);
     }
 
     function startJob(uint _id) public{
@@ -211,7 +209,7 @@ contract Jobs {
         for (uint i=0; i<registeredDatasetOwners.length; i++) {
             if (jobs[_id].allowList[registeredDatasetOwners[i]] != true) {
                 address payable payee = registeredDatasetOwners[i];
-                payee.transfer(jobs[_id].holdingFee);
+                payee.transfer(holdingFee);
             }
         }
 
@@ -235,7 +233,7 @@ contract Jobs {
         require(jobs[_id].datasetOwners[msg.sender] == true, "Only an already registered data owner can withdraw fee");
 
         // Send holding fee to job registered user
-        msg.sender.transfer(jobs[_id].holdingFee);
+        msg.sender.transfer(holdingFee);
 
         // remove Client from datasetOwners list to prevent withdrawing fee again
         delete(jobs[_id].datasetOwners[msg.sender]);
@@ -245,14 +243,29 @@ contract Jobs {
         return jobs[_id].datasetOwners[msg.sender];
     }
 
-    function deactivateJob(uint jobId) public {
-        require(jobs[jobId].owner == msg.sender);
-        if (jobs[jobId].registered) {
-            jobs[jobId].active = false;
-        }
-        else {
-            revert("This job is not registered.");
-        }
-    }
+    function compensate(uint _id, uint [] memory _compensation, address payable [] memory _clients, string memory _resultsHash) public{
+        require(_compensation.length == _clients.length,"Number of clients must match compensation amounts");
 
+        require(_clients.length == jobs[_id].arrAllowList.length, "Number of clients must match number of allowed users");
+
+        if(jobs[_id].trainingEnded == true){
+            revert("Training has ended and compensation has already been spent out to participants");
+        }
+
+        uint compensationSum = 0;
+        for (uint j=0; j<_compensation.length; j++) {
+            compensationSum = compensationSum + _compensation[j];
+        }
+
+        // Check sum of compensation array is less than job bounty
+        require(compensationSum <= jobs[_id].bounty, "Can't pay out more than bounty amount");
+
+        for (uint i=0; i<_clients.length; i++) {
+            address payable payee = _clients[i];
+            payee.transfer(_compensation[i]);
+        }
+
+        jobs[_id].trainingEnded = true;
+        jobs[_id].resultsHash = _resultsHash;
+    }
 }
