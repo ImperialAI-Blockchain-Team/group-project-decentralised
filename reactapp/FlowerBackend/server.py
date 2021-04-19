@@ -1,7 +1,6 @@
 import flwr as fl
 from strategies.FedAvg import FedAvg
 from strategies.FedOpt import FedOpt
-import flwr as fl
 from typing import Callable, Dict, List, Optional, Tuple
 import uploads.model as ICU
 import json

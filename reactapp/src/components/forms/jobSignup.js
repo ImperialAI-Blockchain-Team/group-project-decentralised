@@ -43,18 +43,35 @@ export class JobSignup extends React.Component {
         //bring in user's metamask account address
         const accounts = await web3.eth.getAccounts();
 
+        // Get Job data
+        const targetJob = await jobsdatabase.methods.jobs(this.props.job).call()
+        const registered = await jobsdatabase.methods.getJobRegistered(this.props.job).call()
+
         // First check if user is registered
         let isDataOwner = await jobsdatabase.methods.isSenderDatasetOwner(this.state.ipfsHash).call({from : accounts[0]});
         console.log(isDataOwner )
         if (!isDataOwner ){
-            alert("Not dataset owner, only dataset owner can register for this job")
+            alert("Not valid dataset or not dataset owner, only dataset owner can register for this job")
             return;
         }
-        // Minimum payment amount
-        const jobMeta = await jobsdatabase.methods.jobs(this.props.job).call()
-        const amountToPay = jobMeta["holdingFee"]
-        console.log(amountToPay)
 
+        // Check if registration period is not over
+        const registrationDeadline = targetJob['initTime'] + targetJob['daysUntilStart']*24*60*60
+        let isRegistrationOver =  registrationDeadline > (Date.now()/1000)
+        if (isRegistrationOver){
+            alert("Registration period over, can't add more clients.")
+            return;
+        }
+
+        // Check is user has already been registered
+        let alreadyRegistered = registered.includes(accounts[0])
+        if (alreadyRegistered){
+            alert("Cannot register twice, you have already registered to this job")
+            return;
+        }
+
+        // Minimum payment amount
+        const amountToPay = targetJob["holdingFee"]
         // register dataset to job
         //arg: _jobID, _datasetHash
         await jobsdatabase.methods.registerDatasetOwner(this.props.job, this.state.ipfsHash).send({from: accounts[0], value: amountToPay})
@@ -80,7 +97,7 @@ export class JobSignup extends React.Component {
         <form onSubmit={this.handleSubmit}>
             <div className="container">
                 <div className='subContainer'>
-                    <h2>Create a job to train your model!</h2>
+                    <h2>Register dataset to job</h2>
                     <hr />
                     <label>
                     <b>Dataset IPFS hash</b>:

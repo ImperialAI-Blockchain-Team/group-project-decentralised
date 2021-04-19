@@ -12,7 +12,7 @@ contract("ModelDatabase", accounts => {
         ModelDatabase.deployed()
         .then(contractInstance => {
             instance = contractInstance;
-            contractInstance.register_model('model hash', 'model description', 'model objective',
+            contractInstance.register_model('model hash', '', '', 'model description', 'model objective',
             {from: mainAccount})
         })
         .then(() => {
@@ -39,7 +39,7 @@ contract("ModelDatabase", accounts => {
     })
 
     it('testing model registration error handling', () => {
-        instance.register_model('model hash', 'model description', 'model objective',
+        instance.register_model('model hash',  '', '', 'model description', 'model objective',
                                 {from: mainAccount})
         .then(() => {
             truffleAssert.reverts(instance.register_model('model hash', 'model description', 'model objective',
@@ -48,7 +48,7 @@ contract("ModelDatabase", accounts => {
     })
 
     it('testing model modification functionality', () => {
-        instance.register_model('model hash prime', 'model description', 'model objective',
+        instance.register_model('model hash prime', '', '', 'model description', 'model objective',
                                 {from: mainAccount})
         .then(() => {
             instance.modify_model('model hash prime', 'new description', 'new objective',
@@ -66,7 +66,7 @@ contract("ModelDatabase", accounts => {
     })
 
     it('testing model modification security handling', () => {
-        instance.register_model('model hash prime', 'model description', 'model objective',
+        instance.register_model('model hash prime', '', '', 'model description', 'model objective',
                                 {from: mainAccount})
         .then(() => {
             truffleAssert.reverts(instance.modify_model('model hash prime', 'new description', 'new objective',

@@ -362,17 +362,17 @@ export class JobForm extends React.Component {
                     </label>
 
                     <label>
-                    <b>Registration Period (in days)</b>:
+                    <b>Registration Period (in hours)</b>:
                     <input name="registrationPeriod" type="text" value={this.state.registrationPeriod} onChange={this.handleChange} />
                     </label>
 
                     <label>
-                    <b>Bounty</b>:
+                    <b>Bounty (in Wei)</b>:
                     <input name="bounty" type="text" value={this.state.bounty} onChange={this.handleChange} />
                     </label>
 
                     <label>
-                    <b>Holding Fee</b>:
+                    <b>Holding Fee (in Wei)</b>:
                     <input name="holdingFee" type="text" value={this.state.holdingFee} onChange={this.handleChange} />
                     </label>
 

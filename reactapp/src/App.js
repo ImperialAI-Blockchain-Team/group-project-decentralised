@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch, Redirect } from 'react-router-dom';
 import "./App.css";
-import {MenuBar} from "./components/menuBar/MenuBar.js";
+import {MenuBar} from "./components/MenuBar/MenuBar.js";
 import {RegisterDatasetPage} from "./components/pages/RegisterAsset/dataset.js";
 import {RegisterModelPage} from "./components/pages/RegisterAsset/model.js";
 import {RegisterUserPage} from "./components/pages/SignUp/main.js";
@@ -9,7 +9,6 @@ import {BrowseDatasetsPage} from "./components/pages/Explore/dataset.js";
 import {BrowseModelsPage} from "./components/pages/Explore/model.js";
 import {BrowseJobsPage} from "./components/pages/Explore/job";
 import {JobForm} from "./components/forms/job.js";
-import {ClientPackage} from "./components/package.js"
 
 function App() {
 
@@ -35,7 +34,7 @@ function App() {
           <Route path='/browse_models' component={BrowseModelsPage}/>
           <Route path='/browse_datasets' component={BrowseDatasetsPage}/>
           <Route path='/browse_jobs' component={BrowseJobsPage}/>
-          <Route path='/test_components' component={ClientPackage}/>
+          {/* <Route path='/test_components' component={ClientPackage}/> */}
           {/* <Route path='/create_job' component={JobForm}/> */}
           {/* <Route path='/browse_jobs' component={JobPage}/> */}
         </Switch>

@@ -3,10 +3,9 @@ import "./job.css"
 import {Link} from 'react-router-dom';
 import jobsdatabase from "../../contractInterfaces/jobsdatabase";
 import modeldatabase from "../../contractInterfaces/modeldatabase";
-import FormDialog from "../forms/jobSignup"
 import { Container2 } from "../helpers/Container2";
-import {Container} from "../helpers/Container";
 import web3 from "../../contractInterfaces/web3";
+import ipfs from '../../ipfs'
 
 export class JobBrowser extends React.Component {
 
@@ -30,12 +29,14 @@ export class JobBrowser extends React.Component {
             targetJobDeadline: -1,
             targetJobGrace: -1,
             targetRegistered: [],
-            targetAllowed: []
+            targetAllowed: [],
+            targetTrainingStarted: false
 
             }
         this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
         this.startJob = this.startJob.bind(this);
         this.withdrawFeeClick = this.withdrawFeeClick.bind(this);
+        this.downloadModel = this.downloadModel.bind(this);
 
         // call smart contract to render jobs
         this.getNumberOfJobs()
@@ -81,7 +82,7 @@ export class JobBrowser extends React.Component {
     renderJobs = async (jobList) => {
         const { triggerText } = this.state.triggerText;
         const renderedJobs = await jobList.map((job, jobID) => {
-            console.log(parseInt(job['daysUntilStart'])*24*60*60)
+
             return (
             <div className="jobContainer">
                 <p><b>Owner</b>: {job['owner']}</p>
@@ -89,11 +90,11 @@ export class JobBrowser extends React.Component {
                 <p><b>Bounty</b>: {job['bounty']} wei </p>
                 <p><b>Holding Fee</b>: {job['holdingFee']} wei </p>
                 <p><b>Creation Date</b>: {new Date(job['initTime']*1000).toUTCString()}</p>
-                <p><b>Deadline</b>: {new Date((job['initTime'])*1000+parseInt(job['daysUntilStart'])*24*60*60*1000).toUTCString()}</p>
+                <p><b>Deadline</b>: {new Date((job['initTime'])*1000+parseInt(job['hoursUntilStart'])*60*60*1000).toUTCString()}</p>
                 <p>
                     <button className="moreInfoButton" name={jobID} onClick={this.handleClick}>Job Details</button>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                <Container2 triggerText={triggerText} job={jobID} />
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    <b>Register Dataset -></b> <Container2 triggerText={triggerText} job={jobID} />
                 </p>
             </div>
             )
@@ -105,8 +106,9 @@ export class JobBrowser extends React.Component {
         const target = event.target;
         const id = target.name;
         const targetJob = await jobsdatabase.methods.jobs(id).call();
-        const targetJobDeadline = targetJob['initTime'] + targetJob['daysUntilStart']*24*60*60
+        const targetJobDeadline = targetJob['initTime'] + targetJob['hoursUntilStart']*60*60
         const targetJobGrace = targetJobDeadline + 1*24*60*60
+        const targetTrainingStarted = targetJob['trainingStarted']
 
 
         const numAllowed = await jobsdatabase.methods.getNumAllow(id).call();
@@ -114,12 +116,14 @@ export class JobBrowser extends React.Component {
         const allowed = await jobsdatabase.methods.getJobAllowed(id).call();
 
         // Set target job info
+        console.log(targetJob)
         this.setState({targetJob: targetJob})
         this.setState({targetJobId: id})
         this.setState({targetJobDeadline: targetJobDeadline})
         this.setState({targetJobGrace:targetJobGrace})
         this.setState({targetRegistered:registered})
         this.setState({targetAllowed:allowed})
+        this.setState({targetTrainingStarted:targetTrainingStarted})
 
         // Get user to registered (committed) to job
         const registeredUsers = await registered.map((dataOwner, dataOwnerID) => {
@@ -151,8 +155,10 @@ export class JobBrowser extends React.Component {
 
                 <p>
                     <button className="startJobButton" name={this.state.targetJobId} onClick={this.startJob}>Start Training</button>
-                &nbsp; &nbsp; &nbsp;
+                &nbsp; &nbsp;
                     <button className="withdrawFundsButton" name={this.state.targetJobId} onClick={this.withdrawFeeClick}>Withdraw Fee</button>
+                &nbsp; &nbsp;
+                    <button className="downloadModelButton" name={this.state.targetJob} onClick={this.downloadModel}>Download Model</button>
                 </p>
             </div>
             )
@@ -273,6 +279,13 @@ export class JobBrowser extends React.Component {
             return;
         }
 
+        // Check is user has already been registered
+        let alreadyRegistered = this.state.registered.includes(accounts[0])
+        if (alreadyRegistered){
+            alert("Cannot register twice, you have already registered to this job")
+            return;
+        }
+
         await jobsdatabase.methods.withdrawFee(id).send({from: accounts[0]})
         .on('transactionHash', (hash) =>{
             console.log(hash);
@@ -286,6 +299,37 @@ export class JobBrowser extends React.Component {
 
     }
 
+    downloadModel = async () => {
+        const accounts = await web3.eth.getAccounts();
+
+        // Check is user has already been added to allow list
+        let isAllowed = this.state.targetAllowed.includes(accounts[0])
+        if (!isAllowed){
+            alert("Only data owners on the job's allow list can download the model")
+            return;
+        }
+
+        // Check if training period
+        let isTrainingStarted = this.state.targetTrainingStarted
+        if (!isTrainingStarted){
+            alert("Can only download model during training period")
+            return
+        }
+
+        const cid = this.state.targetJob["modelIpfsHash"]
+        console.log(cid)
+        const chunks = await ipfs.cat(cid)
+
+        console.log(chunks.toString())
+
+        const element = document.createElement("a");
+        const file = new Blob([chunks], {type: 'uint8'});
+        element.href = URL.createObjectURL(file);
+        element.download = "model.py";
+        element.click();
+
+    }
+
     render() {
 
         return (
@@ -296,6 +340,7 @@ export class JobBrowser extends React.Component {
                         <input type="text" id="myInput" onKeyUp={this.handleOnKeyUp} placeholder="Search model (by description)" />
                     </div>
                     <p id="numberOfJobs">{this.state.numberOfJobs} jobs already uploaded to the system</p>
+                    <Link to="/clientPackage.zip" target="_blank" download>Client Package</Link>
                     <hr />
                 </div>
                 <div className="resultContainer">

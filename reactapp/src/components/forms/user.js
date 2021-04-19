@@ -5,7 +5,7 @@ import web3 from "../../contractInterfaces/web3";
 import registrydatabase from "../../contractInterfaces/registrydatabase"
 
 
-function validate(username, email, address, type){
+function validate(username, email, type){
 
     const errors = [];
 
@@ -15,31 +15,17 @@ function validate(username, email, address, type){
     if (email.length === 0) {
         errors.push("Email can't be empty");
     }
-    if (address.length === 0){
-        errors.push("Address can't be empty")
-    }
     if (type.length === 0){
         errors.push("Please choose a type")
     }
-
 
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if ( re.test(email) ) {
         // this is a valid email address
-
     }
     else {
         errors.push("Enter a valid email")
-    }
-
-    let re2 = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-
-    if (re2.test(address)){
-
-    }
-    else{
-        errors.push("Enter a valid IP address")
     }
 
     return errors
@@ -52,10 +38,8 @@ export class RegisterUserForm extends React.Component {
         this.state = {
             name: '',
             email: '',
-            address: '',
             type: [],
             data_scientist: false,
-            aggregator : false,
             data_owner:false,
             account : '',
             ethAddress:'',
@@ -84,13 +68,10 @@ export class RegisterUserForm extends React.Component {
     }
 
 
-
-
-
     handleSubmit = async (event) => {
         event.preventDefault();
 
-        const errors = validate(this.state.name, this.state.email, this.state.address, this.state.type)
+        const errors = validate(this.state.name, this.state.email, this.state.type)
         if (errors.length > 0){
             alert(JSON.stringify(errors));
             return;
@@ -110,7 +91,7 @@ export class RegisterUserForm extends React.Component {
         this.setState({ethAddress});
         console.log(accounts)
         // return the transaction hash from the ethereum contract
-        await registrydatabase.methods.insertUser(this.state.name, this.state.data_scientist,this.state.aggregator,this.state.data_owner).send({from: accounts[0]})
+        await registrydatabase.methods.insertUser(this.state.name, this.state.data_scientist,this.state.data_owner).send({from: accounts[0]})
         .on('transactionHash', (hash) =>{
             console.log(hash);
             this.setState({transactionHash:hash})
@@ -126,54 +107,35 @@ export class RegisterUserForm extends React.Component {
             }
         })
 
-        //registering user
-        //{from : accounts[0]}
-        //const index =  await registrydatabase.methods.insertUser(this.state.name, this.state.data_scientist,this.state.aggregator,this.state.data_owner).call({from : accounts[0]})
-        //const index = await registrydatabase.methods.insertUser(this.state.name, this.state.data_scientist,this.state.aggregator,this.state.data_owner).call()
-        //const userCount = registrydatabase.methods.userCount()
-        //alert(JSON.stringify(userCount))
-        //alert(JSON.stringify(index))
-
-        
-
         //this.setState({index})
         console.log(JSON.stringify(this.state))
 
-        //console.log(index)
-        //console.log(userCount)
-
-
-
-
-
-
     }
-
-    handleSubmit2(event) {
-
-
-    }
-
 
 
     handleCheckChange = (event) => {
         // to find out if it's checked or not; returns true or false
         const checked = event.target.checked;
 
+
         // to get the checked value
         const checkedValue = event.target.value;
 
         if (checkedValue == "Data Scientist") {
-            this.state.data_scientist = true;
-          }
-
-        if (checkedValue == "Aggregator") {
-            this.state.aggregator = true;
-          }
+            if (checked) {
+                this.state.data_scientist = true;
+            }else{
+                this.state.data_scientist = false;
+            }
+        }
 
         if (checkedValue == "Data Owner") {
-            this.state.data_owner = true;
-          }
+            if (checked) {
+                this.state.data_owner = true;
+            }else{
+                this.state.data_owner = false;
+            }
+        }
 
         this.state.type.push(JSON.stringify(checkedValue));
 
@@ -197,21 +159,17 @@ export class RegisterUserForm extends React.Component {
                     <input name="email" id ="email-input" type="text" value={this.state.email} onChange={this.handleChange} />
                     </label>
                     <label>
-                    <b>IP Address</b>:
-                    <input name="address" id ="address-input"type="text" value={this.state.address} onChange={this.handleChange} />
-                    </label>
-                    <label>
                     <b> User Type</b>:
                     </label>
                     <br></br>
                     <br></br>
-                    <input type="checkbox" id="checkbox" data-testid="check1"value = "Data Scientist" onChange={this.handleCheckChange.bind(this)}/><span>Data Scientist</span>
-                    <input type="checkbox" id="checkbox" data-testid="check2"value = "Aggregator" onChange={this.handleCheckChange.bind(this)}/><span>Aggregator</span>
-                    <input type="checkbox" id="checkbox" data-testid="check3"value = "Data Owner" onChange={this.handleCheckChange.bind(this)}/><span>Data Owner</span>
+                    <input type="checkbox" id="checkbox1" data-testid="check1"value = "Data Scientist" onChange={this.handleCheckChange}/><span>Data Scientist</span>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    <input type="checkbox" id="checkbox2" data-testid="check2"value = "Data Owner" onChange={this.handleCheckChange}/><span>Data Owner</span>
 
                     <br></br>
                     <br></br>
-                    <button type = "button" onClick={this.handleSubmit.bind(this)}>Register</button>
+                    <button type = "button" onClick={this.handleSubmit}>Register</button>
                 </div>
             </div>
 

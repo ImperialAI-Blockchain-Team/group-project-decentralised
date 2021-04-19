@@ -50,13 +50,28 @@ export const modelDatabase = [
         },
         {
           "internalType": "string",
-          "name": "description",
+          "name": "name",
           "type": "string"
         },
         {
           "internalType": "string",
           "name": "objective",
           "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "dataRequirements",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "interest",
+          "type": "uint256"
         },
         {
           "internalType": "uint256",
@@ -83,12 +98,22 @@ export const modelDatabase = [
         },
         {
           "internalType": "string",
-          "name": "_description",
+          "name": "_name",
           "type": "string"
         },
         {
           "internalType": "string",
           "name": "_objective",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_description",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_dataRequirements",
           "type": "string"
         }
       ],
@@ -168,6 +193,63 @@ export const modelDatabase = [
           "internalType": "address",
           "name": "",
           "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_ipfsHash",
+          "type": "string"
+        }
+      ],
+      "name": "getModelName",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_ipfsHash",
+          "type": "string"
+        }
+      ],
+      "name": "registerInterest",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_ipfsHash",
+          "type": "string"
+        }
+      ],
+      "name": "getModelInterested",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "",
+          "type": "address[]"
         }
       ],
       "payable": false,
@@ -357,80 +439,6 @@ export const datasetDatabase =  [
 
 export const registry = [
     {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "userAddress",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "user_name",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "bool",
-          "name": "data_scientist",
-          "type": "bool"
-        },
-        {
-          "indexed": false,
-          "internalType": "bool",
-          "name": "aggregator",
-          "type": "bool"
-        },
-        {
-          "indexed": false,
-          "internalType": "bool",
-          "name": "hospital",
-          "type": "bool"
-        }
-      ],
-      "name": "LogNewUser",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "userAddress",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "user_name",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "bool",
-          "name": "data_scientist",
-          "type": "bool"
-        },
-        {
-          "indexed": false,
-          "internalType": "bool",
-          "name": "aggregator",
-          "type": "bool"
-        },
-        {
-          "indexed": false,
-          "internalType": "bool",
-          "name": "hospital",
-          "type": "bool"
-        }
-      ],
-      "name": "LogUpdateUser",
-      "type": "event"
-    },
-    {
       "constant": true,
       "inputs": [
         {
@@ -449,11 +457,6 @@ export const registry = [
         {
           "internalType": "bool",
           "name": "data_scientist",
-          "type": "bool"
-        },
-        {
-          "internalType": "bool",
-          "name": "aggregator",
           "type": "bool"
         },
         {
@@ -570,11 +573,6 @@ export const registry = [
         },
         {
           "internalType": "bool",
-          "name": "aggregator",
-          "type": "bool"
-        },
-        {
-          "internalType": "bool",
           "name": "hospital",
           "type": "bool"
         }
@@ -614,11 +612,6 @@ export const registry = [
         },
         {
           "internalType": "bool",
-          "name": "aggregator",
-          "type": "bool"
-        },
-        {
-          "internalType": "bool",
           "name": "hospital",
           "type": "bool"
         }
@@ -638,11 +631,6 @@ export const registry = [
         {
           "internalType": "bool",
           "name": "data_scientist",
-          "type": "bool"
-        },
-        {
-          "internalType": "bool",
-          "name": "aggregator",
           "type": "bool"
         },
         {
@@ -713,6 +701,27 @@ export const registry = [
       "payable": false,
       "stateMutability": "nonpayable",
       "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "userAddress",
+          "type": "address"
+        }
+      ],
+      "name": "getUsername",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     }
 ];
 
@@ -772,7 +781,7 @@ export const jobs = [
         },
         {
           "internalType": "uint256",
-          "name": "daysUntilStart",
+          "name": "hoursUntilStart",
           "type": "uint256"
         },
         {
@@ -793,11 +802,6 @@ export const jobs = [
         {
           "internalType": "uint256",
           "name": "holdingFee",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "numAllow",
           "type": "uint256"
         },
         {
@@ -934,7 +938,7 @@ export const jobs = [
         },
         {
           "internalType": "uint256",
-          "name": "_daysUntilStart",
+          "name": "_hoursUntilStart",
           "type": "uint256"
         },
         {
@@ -1103,11 +1107,6 @@ export const jobs = [
           "internalType": "uint256",
           "name": "",
           "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
         }
       ],
       "payable": false,
@@ -1159,7 +1158,7 @@ export const jobs = [
           "type": "uint256"
         }
       ],
-      "name": "start_job",
+      "name": "startJob",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
@@ -1178,6 +1177,27 @@ export const jobs = [
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_id",
+          "type": "uint256"
+        }
+      ],
+      "name": "isRegistered",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
       "type": "function"
     },
     {
