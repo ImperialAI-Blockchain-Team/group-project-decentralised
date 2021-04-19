@@ -1,6 +1,7 @@
 import React from "react";
 import "./model.css"
 import modeldatabase from "../../contractInterfaces/modeldatabase";
+import registrydatabase from "../../contractInterfaces/registrydatabase"
 import {Link} from 'react-router-dom';
 import { Container } from "../helpers/Container";
 import web3 from "../../contractInterfaces/web3";
@@ -24,6 +25,7 @@ export class ModelBrowser extends React.Component {
             triggerText: "Create Job"
             }
         this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
+        this.registerInterestClick = this.registerInterestClick.bind(this);
 
         // call smart contract to render models
         this.getNumberOfModels()
@@ -88,8 +90,10 @@ export class ModelBrowser extends React.Component {
                 <p><b>Objective</b>: {model['objective']}</p>
                 <p><b>Creation Date</b>: {new Date(model['time']*1000).toLocaleDateString()}</p>
                 <p><button className="moreInfoButton" name={model['index']} onClick={this.handleClick}>More Information</button>
-                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                <b>Start Job -> </b><Container triggerText={triggerText} model={model['ipfsHash']} />
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    <button className="registerInterestButton" name={model['ipfsHash']} onClick={this.registerInterestClick}>Register Interest</button>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                <b>Start Job > </b><Container triggerText={triggerText} model={model['ipfsHash']} />
                 </p>
 
 
@@ -110,6 +114,7 @@ export class ModelBrowser extends React.Component {
                 <p><b>Objective</b>:<br/> {this.state.modelList[model_index]['objective']}</p>
                 <p><b>Description</b>:<br/> {this.state.modelList[model_index]['description']}</p>
                 <p><b>Data Requirements</b>:<br/> {this.state.modelList[model_index]['dataRequirements']}</p>
+                <p><b>Interest</b>:<br/> {this.state.modelList[model_index]['interest']}</p>
             </div>
             )
         this.setState({modelInfo: modelInfo})
@@ -120,6 +125,27 @@ export class ModelBrowser extends React.Component {
         const name = target.name;
         await this.setState({searchValue: event.target.value});
         this.renderModels(this.state.modelList);
+    }
+
+    registerInterestClick = async (event) => {
+        let modelHash = event.target.name;
+        const accounts = await web3.eth.getAccounts()
+
+        let isUserDataOwner = await registrydatabase.methods.isDataOwner(accounts[0]).call();
+        if(!isUserDataOwner){
+            alert("Only registered data owners can register interest in a Model");
+            return;
+        }
+
+        const interestedUsers = await modeldatabase.methods.getModelInterested(modelHash).call();
+        let alreadyRegistered = interestedUsers.includes(accounts[0]);
+        if (alreadyRegistered){
+            alert("Already registered interest in model, cannot register interest twice");
+            return;
+        }
+
+        await modeldatabase.methods.registerInterest(modelHash).send({from : accounts[0]});
+
     }
 
     render() {

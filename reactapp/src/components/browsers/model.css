@@ -69,6 +69,14 @@
   border-radius: 5px;
 }
 
+.registerInterestButton {
+  cursor:pointer;
+  background-color: lawngreen;
+  padding: 1px;
+  position: relative;
+  border-radius: 5px;
+}
+
 #jobButton {
   cursor:pointer;
   float: right;
