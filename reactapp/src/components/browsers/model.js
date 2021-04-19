@@ -99,7 +99,7 @@ export class ModelBrowser extends React.Component {
                 </p>
                 <hr/>
                 <p>
-                <b>Start Job > </b><Container triggerText={triggerText} model={model['ipfsHash']} />
+                <b>Create Job > </b><Container triggerText={triggerText} model={model['ipfsHash']} />
                 </p>
 
 

@@ -5,9 +5,7 @@ import modelDatabase from "../../contractInterfaces/modeldatabase";
 import registrydatabase from "../../contractInterfaces/registrydatabase";
 import web3 from "../../contractInterfaces/web3";
 import {Link} from 'react-router-dom';
-import datasetdatabase from "../../contractInterfaces/datasetdatabase";
 
-const getRevertReason = require('eth-revert-reason')
 
 function validate(modelName, description, buffer){
     // Validate inputs, can add more detailed errors afterwards
@@ -40,7 +38,6 @@ export class UploadModelForm extends React.Component {
             txReceipt: '',
             displayTable: false,
             formErrors: [],
-            contractError: '',
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -102,13 +99,8 @@ export class UploadModelForm extends React.Component {
                     this.setState({transactionHash:hash})
                 })
                 .on('error', async (error, receipt) => {
-                    console.log(error);
-                    this.setState({contractError: 'Contract Error: Model already registered'})
                     if (receipt) {
                         console.log(receipt["transactionHash"])
-                        //let txHash = receipt["transactionHash"]
-                        //let blockNum = receipt["blockNumber"]
-                        //console.log(await getRevertReason(txHash,'ropsten'))
                     }
                 })
         })
@@ -206,7 +198,6 @@ export class UploadModelForm extends React.Component {
                 {formErrors.map(error => (
                     <p key={error}>Error: {error}</p>
                 ))}
-                <p> {contractError} </p>
 
             </div>
 

@@ -95,7 +95,9 @@ export class JobBrowser extends React.Component {
                 <p><b>Deadline</b>: {new Date((job['initTime'])*1000+parseInt(job['hoursUntilStart'])*60*60*1000).toUTCString()}</p>
                 <p>
                     <button className="moreInfoButton" name={jobID} onClick={this.handleClick}>Job Details</button>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                </p>
+                <hr/>
+                <p>
                     <b>Register Dataset -></b> <Container2 triggerText={triggerText} job={jobID} />
                 </p>
             </div>
