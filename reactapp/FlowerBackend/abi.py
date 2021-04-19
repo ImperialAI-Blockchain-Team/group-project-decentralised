@@ -54,7 +54,7 @@ job_abi = [
         },
         {
           "internalType": "uint256",
-          "name": "daysUntilStart",
+          "name": "hoursUntilStart",
           "type": "uint256"
         },
         {
@@ -79,17 +79,27 @@ job_abi = [
         },
         {
           "internalType": "uint256",
-          "name": "numAllow",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
           "name": "bounty",
           "type": "uint256"
         },
         {
           "internalType": "uint256",
           "name": "feeSum",
+          "type": "uint256"
+        }
+      ],
+      "payable": False,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": True,
+      "inputs": [],
+      "name": "jobsCreated",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
           "type": "uint256"
         }
       ],
@@ -123,7 +133,7 @@ job_abi = [
       "inputs": [
         {
           "internalType": "string",
-          "name": "_modelIpfsHash",
+          "name": "_datasetIpfsHash",
           "type": "string"
         }
       ],
@@ -201,7 +211,7 @@ job_abi = [
         },
         {
           "internalType": "uint256",
-          "name": "_daysUntilStart",
+          "name": "_hoursUntilStart",
           "type": "uint256"
         },
         {
@@ -312,17 +322,54 @@ job_abi = [
           "type": "uint256"
         }
       ],
+      "name": "getJobRegistered",
+      "outputs": [
+        {
+          "internalType": "address payable[]",
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "payable": False,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": True,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_id",
+          "type": "uint256"
+        }
+      ],
+      "name": "getJobAllowed",
+      "outputs": [
+        {
+          "internalType": "address payable[]",
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "payable": False,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": True,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_id",
+          "type": "uint256"
+        }
+      ],
       "name": "getJobDetails",
       "outputs": [
         {
           "internalType": "address",
           "name": "",
           "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
         },
         {
           "internalType": "uint256",
@@ -384,7 +431,7 @@ job_abi = [
           "type": "uint256"
         }
       ],
-      "name": "start_job",
+      "name": "startJob",
       "outputs": [],
       "payable": False,
       "stateMutability": "nonpayable",
@@ -403,6 +450,27 @@ job_abi = [
       "outputs": [],
       "payable": False,
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": True,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_id",
+          "type": "uint256"
+        }
+      ],
+      "name": "isRegistered",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": False,
+      "stateMutability": "view",
       "type": "function"
     },
     {
