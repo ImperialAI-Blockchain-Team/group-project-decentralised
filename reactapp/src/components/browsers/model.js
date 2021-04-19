@@ -105,11 +105,11 @@ export class ModelBrowser extends React.Component {
         let model_index = Number(event.target.name);
         let modelInfo = (
             <div className="modelInfo">
-                <p><b>Owner</b>:<br/> {this.statemodelList[model_index]['owner']}</p>
-                <p><b>Name</b>:<br/> {this.statemodelList[model_index]['name']}</p>
-                <p><b>Objective</b>:<br/> {this.statemodelList[model_index]['objective']}</p>
-                <p><b>Description</b>:<br/> {this.statemodelList[model_index]['description']}</p>
-                <p><b>Data Requirements</b>:<br/> {this.statemodelList[model_index]['dataRequirements']}</p>
+                <p><b>Owner</b>:<br/> {this.state.modelList[model_index]['owner']}</p>
+                <p><b>Name</b>:<br/> {this.state.modelList[model_index]['name']}</p>
+                <p><b>Objective</b>:<br/> {this.state.modelList[model_index]['objective']}</p>
+                <p><b>Description</b>:<br/> {this.state.modelList[model_index]['description']}</p>
+                <p><b>Data Requirements</b>:<br/> {this.state.modelList[model_index]['dataRequirements']}</p>
             </div>
             )
         this.setState({modelInfo: modelInfo})
