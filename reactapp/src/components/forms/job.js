@@ -387,11 +387,6 @@ export class JobForm extends React.Component {
                     <hr />
 
                     <label>
-                    <b>Name</b>:
-                    <input name="name" type="text" value={this.state.name} onChange={this.handleChange} />
-                    </label>
-
-                    <label>
                     <b>Registration Period (in hours)</b>:
                     <input name="registrationPeriod" type="text" value={this.state.registrationPeriod} onChange={this.handleChange} />
                     </label>
