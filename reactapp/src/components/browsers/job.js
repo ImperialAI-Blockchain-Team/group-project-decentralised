@@ -69,6 +69,8 @@ export class JobBrowser extends React.Component {
         let newJobList = [];
         for (let i=0; i<numberOfJobs; i++) {
             const job = await jobsdatabase.methods.jobs(i).call();
+            const modelName = await modeldatabase.methods.getModelName(job['modelIpfsHash']).call();
+            job['modelName'] = modelName
             newJobList.push(job);
         }
         this.setState({jobList: newJobList})
@@ -87,6 +89,7 @@ export class JobBrowser extends React.Component {
             <div className="jobContainer">
                 <p><b>Owner</b>: {job['owner']}</p>
                 <p><b>ID</b>: {jobID}</p>
+                <p><b>Model</b>: {job['modelName']}</p>
                 <p><b>Bounty</b>: {job['bounty']} wei </p>
                 <p><b>Holding Fee</b>: {job['holdingFee']} wei </p>
                 <p><b>Creation Date</b>: {new Date(job['initTime']*1000).toUTCString()}</p>

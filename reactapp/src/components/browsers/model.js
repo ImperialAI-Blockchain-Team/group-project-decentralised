@@ -59,8 +59,10 @@ export class ModelBrowser extends React.Component {
         for (var i=0; i<numberOfModels; i++) {
             const ipfsHash = await modeldatabase.methods.hashes(i).call();
             const model = await modeldatabase.methods.models(ipfsHash).call();
+            const ownerUsername = await registrydatabase.methods.getUsername(model['owner']).call()
             model['ipfsHash'] = ipfsHash;
             model['index'] = i;
+            model['ownerUsername'] = ownerUsername
             newModelList.push(model);
         }
         newModelList.reverse();
@@ -85,7 +87,7 @@ export class ModelBrowser extends React.Component {
         const renderedModels = await subModelList.map(model => {
             return (
             <div className="modelContainer">
-                <p><b>Owner</b>: {model['owner']}</p>
+                <p><b>Owner</b>: {model['ownerUsername']}</p>
                 <p><b>Name</b>: {model['name']}</p>
                 <p><b>Objective</b>: {model['objective']}</p>
                 <p><b>Creation Date</b>: {new Date(model['time']*1000).toLocaleDateString()}</p>
@@ -109,7 +111,7 @@ export class ModelBrowser extends React.Component {
         let model_index = Number(event.target.name);
         let modelInfo = (
             <div className="modelInfo">
-                <p><b>Owner</b>:<br/> {this.state.modelList[model_index]['owner']}</p>
+                <p><b>Owner</b>:<br/> {this.state.modelList[model_index]['ownerUsername']}</p>
                 <p><b>Name</b>:<br/> {this.state.modelList[model_index]['name']}</p>
                 <p><b>Objective</b>:<br/> {this.state.modelList[model_index]['objective']}</p>
                 <p><b>Description</b>:<br/> {this.state.modelList[model_index]['description']}</p>
