@@ -26,7 +26,7 @@ def get_eval_fn(
         )
         model.load_state_dict(state_dict, strict=True)
 
-    model.to(DEVICE)
+        model.to(DEVICE)
         testloader = torch.utils.data.DataLoader(testset, batch_size=32, shuffle=False)
 
         return ICU.test(model, testloader, device=DEVICE)
