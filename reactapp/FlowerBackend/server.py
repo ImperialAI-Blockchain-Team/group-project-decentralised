@@ -8,6 +8,7 @@ import torch
 import os.path
 from app import contract
 import numpy as np
+from collections import OrderedDict
 
 DEFAULT_SERVER_ADDRESS = "[::]:8080"
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -21,7 +22,10 @@ def get_eval_fn(
     def evaluate(weights: fl.common.Weights) -> Optional[Tuple[float, float]]:
         """Use the entire CIFAR-10 test set for evaluation."""
         model = ICU.Loader(DATA_ROOT).load_model()
-        model.set_weights(weights)
+        state_dict = OrderedDict(
+            {k: torch.Tensor(v) for k, v in zip(model.state_dict().keys(), weights)}
+        )
+        model.load_state_dict(state_dict, strict=True)
         model.to(DEVICE)
         testloader = torch.utils.data.DataLoader(testset, batch_size=32, shuffle=False)
 
