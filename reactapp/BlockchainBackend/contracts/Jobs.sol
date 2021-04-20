@@ -21,7 +21,7 @@ contract Jobs {
 
     uint public holdingFee = 1e6 wei;
 
-    address private serverAdrress = "0x";
+    //address private serverAdrress = "0x";
 
     struct Job {
         address payable owner;
@@ -305,5 +305,9 @@ contract Jobs {
         jobs[_id].trainingEnded = true;
         jobs[_id].resultsHash = _resultsHash;
         weightsHashes[_id] = _weightsHash;
+    }
+
+    function getWeights(uint _id) public view returns(string memory){
+        return weightsHashes[_id];
     }
 }

@@ -115,6 +115,22 @@
   border-radius: 5px;
 }
 
+.downloadWeightButton {
+  cursor:pointer;
+  background-color: forestgreen;
+  padding: 1px;
+  position: relative;
+  border-radius: 5px;
+}
+
+.downloadOutcomeButton {
+  cursor:pointer;
+  background-color: forestgreen;
+  padding: 1px;
+  position: relative;
+  border-radius: 5px;
+}
+
 
 #jobButton {
   cursor:pointer;
