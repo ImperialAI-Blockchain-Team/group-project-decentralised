@@ -25,6 +25,7 @@ import flwr as fl
 from flwr.common import EvaluateIns, EvaluateRes, FitIns, FitRes, ParametersRes, Weights
 
 import retrieved_models.model as ICU
+from collections import OrderedDict
 
 DEFAULT_SERVER_ADDRESS = "[::]:8080"
 DATA_ROOT = "data/patient.csv"
@@ -51,9 +52,20 @@ class CifarClient(fl.client.Client):
     def get_parameters(self) -> ParametersRes:
         print(f"Client {self.cid}: get_parameters")
 
-        weights: Weights = self.model.get_weights()
+        weights: Weights = self.get_weights(self.model)
         parameters = fl.common.weights_to_parameters(weights)
         return ParametersRes(parameters=parameters)
+
+    def get_weights(self, model) -> fl.common.Weights:
+        """Get model weights as a list of NumPy ndarrays."""
+        return [val.cpu().numpy() for _, val in model.state_dict().items()]
+
+    def set_weights(self, model, weights: fl.common.Weights) -> None:
+        """Set model weights from a list of NumPy ndarrays."""
+        state_dict = OrderedDict(
+            {k: torch.Tensor(v) for k, v in zip(model.state_dict().keys(), weights)}
+        )
+        model.load_state_dict(state_dict, strict=True)
 
     def fit(self, ins: FitIns) -> FitRes:
         print(f"Client {self.cid}: fit")
@@ -67,7 +79,7 @@ class CifarClient(fl.client.Client):
         batch_size = int(config["batch_size"])
 
         # Set model parameters
-        self.model.set_weights(weights)
+        self.set_weights(self.model, weights)
 
         # Train model
         trainloader = torch.utils.data.DataLoader(
@@ -80,7 +92,7 @@ class CifarClient(fl.client.Client):
         ICU.train(self.model, trainloader, epochs=epochs, device=DEVICE)
         _, acc = ICU.test(self.model, testloader, device=DEVICE)
         # Return the refined weights and the number of examples used for training
-        weights_prime: Weights = self.model.get_weights()
+        weights_prime: Weights = self.get_weights(self.model)
         params_prime = fl.common.weights_to_parameters(weights_prime)
         num_examples_train = len(self.trainset)
         fit_duration = timeit.default_timer() - fit_begin
@@ -98,7 +110,7 @@ class CifarClient(fl.client.Client):
         weights = fl.common.parameters_to_weights(ins.parameters)
 
         # Use provided weights to update the local model
-        self.model.set_weights(weights)
+        self.set_weights(self.model, weights)
 
         # Evaluate the updated model on the local dataset
         testloader = torch.utils.data.DataLoader(

@@ -25,7 +25,7 @@ https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html
 # pylint: disable=W0223
 
 
-from collections import OrderedDict
+
 from typing import Tuple
 import pandas as pd
 import numpy as np
@@ -52,17 +52,6 @@ class Net(nn.Module):
 
         # Pass the output to log Softmax function
         return F.log_softmax(x, dim=-1)
-
-    def get_weights(self) -> fl.common.Weights:
-        """Get model weights as a list of NumPy ndarrays."""
-        return [val.cpu().numpy() for _, val in self.state_dict().items()]
-
-    def set_weights(self, weights: fl.common.Weights) -> None:
-        """Set model weights from a list of NumPy ndarrays."""
-        state_dict = OrderedDict(
-            {k: torch.Tensor(v) for k, v in zip(self.state_dict().keys(), weights)}
-        )
-        self.load_state_dict(state_dict, strict=True)
 
 class MyDataset(Dataset):
 
@@ -139,7 +128,7 @@ def train(
             optimizer.step()
 
             # print statistics
-
+            #if epoch % 100 == 0:
             print('epoch - %d  train loss - %.2f' % (epoch, loss.data.item()))
 
 

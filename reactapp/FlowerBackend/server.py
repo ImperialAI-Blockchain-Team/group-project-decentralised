@@ -6,10 +6,11 @@ import uploads.model as ICU
 import json
 import torch
 import os.path
+import numpy as np
 
 DEFAULT_SERVER_ADDRESS = "[::]:8080"
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-DATA_ROOT = "data/patient.csv"
+DATA_ROOT = "uploads/testset.csv"
 
 def get_eval_fn(
     testset,
@@ -104,10 +105,30 @@ def launch_fl_server():
     strategy = configure_flower_server()
     fl.server.start_server("0.0.0.0:8080", config={"num_rounds": data["round"]}, strategy=strategy)
 
-if os.path.exists('data.json'):
-    f = open('data.json', )
+def contrib_cal(rnd):
+    if os.path.exists('contrib.json'):
+        f = open('contrib.json', )
+        data = json.load(f)
+        f.close()
+        weights = []
+        for i in range(rnd):
+            weights.append(1/(i+1))
+        m = 0
+        for k, v in data.items():
+            data[k]=np.average(v, weights=weights)
+            m += data[k]
+        for k, v in data.items():
+            data[k] = v/m
+        with open('contrib.json', 'w') as outfile:
+            json.dump(data, outfile)
+    else:
+        return 'No such a file'
+
+if os.path.exists('uploads/strategy.json'):
+    f = open('uploads/strategy.json', )
     data = json.load(f)
     f.close()
     if data['name'] != "":
         launch_fl_server()
+        contrib_cal(data["round"])
 

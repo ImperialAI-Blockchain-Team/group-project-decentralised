@@ -14,11 +14,12 @@ from flwr.server.client_manager import ClientManager
 from flwr.server.client_proxy import ClientProxy
 
 from flwr.server.strategy.aggregate import aggregate, weighted_loss_avg
-
+from collections import defaultdict
 import torch
+from collections import OrderedDict
 DEFAULT_SERVER_ADDRESS = "[::]:8080"
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-DATA_ROOT = "data/patient.csv"
+DATA_ROOT = "uploads/testset.csv"
 
 class FedStrategy(fl.server.strategy.Strategy):
 
@@ -48,6 +49,7 @@ class FedStrategy(fl.server.strategy.Strategy):
         self.accept_failures = accept_failures
         self.initial_parameters = initial_parameters
         self.model = model
+        self.contrib = defaultdict(list)
 
     def __repr__(self) -> str:
         rep = f"FedAvg(accept_failures={self.accept_failures})"
@@ -72,6 +74,16 @@ class FedStrategy(fl.server.strategy.Strategy):
             return None
         return self.eval_fn(weights)
 
+    def get_weights(self, model) -> fl.common.Weights:
+        """Get model weights as a list of NumPy ndarrays."""
+        return [val.cpu().numpy() for _, val in model.state_dict().items()]
+
+    def set_weights(self, model, weights: fl.common.Weights) -> None:
+        """Set model weights from a list of NumPy ndarrays."""
+        state_dict = OrderedDict(
+            {k: torch.Tensor(v) for k, v in zip(model.state_dict().keys(), weights)}
+        )
+        model.load_state_dict(state_dict, strict=True)
 
     def configure_fit(
         self, rnd: int, weights, client_manager

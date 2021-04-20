@@ -35,7 +35,7 @@ function App() {
           <Route path='/browse_datasets' component={BrowseDatasetsPage}/>
           <Route path='/browse_jobs' component={BrowseJobsPage}/>
           {/* <Route path='/test_components' component={ClientPackage}/> */}
-          {/* <Route path='/create_job' component={JobForm}/> */}
+          <Route path='/create_job' component={JobForm}/>
           {/* <Route path='/browse_jobs' component={JobPage}/> */}
         </Switch>
       </div>
