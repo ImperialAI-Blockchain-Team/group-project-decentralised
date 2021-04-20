@@ -1334,6 +1334,27 @@ export const jobs = [
       "type": "function"
     },
     {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_id",
+          "type": "uint256"
+        }
+      ],
+      "name": "getMinClients",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "constant": false,
       "inputs": [
         {
@@ -1358,6 +1379,21 @@ export const jobs = [
         }
       ],
       "name": "withdrawFee",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_id",
+          "type": "uint256"
+        }
+      ],
+      "name": "endFailedJob",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
@@ -1414,4 +1450,4 @@ export const jobs = [
       "stateMutability": "nonpayable",
       "type": "function"
     }
-]
+  ]
