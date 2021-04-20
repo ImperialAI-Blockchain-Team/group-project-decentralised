@@ -15,7 +15,7 @@ contract Jobs {
     DatasetDatabase datasetDatabase;
     ModelDatabase modelDatabase;
 
-    uint public gracePeriod = 0 days;
+    uint public gracePeriod = 1 days;
 
     uint public jobCreationFee = 1e6 wei;
 

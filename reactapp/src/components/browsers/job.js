@@ -113,8 +113,7 @@ export class JobBrowser extends React.Component {
         const targetJob = await jobsdatabase.methods.jobs(id).call();
         // convert string to number wiht +
         const targetJobDeadline = +targetJob['initTime'] + targetJob['hoursUntilStart']*60*60
-        // set grace period to 0 for testing purpose
-        const targetJobGrace = +targetJobDeadline //+ 1*24*60*60
+        const targetJobGrace = +targetJobDeadline + 1*24*60*60
         console.log('targetjobgrace',targetJobGrace)
         console.log('targetJobDeadline',targetJobDeadline)
         const targetTrainingStarted = targetJob['trainingStarted']
