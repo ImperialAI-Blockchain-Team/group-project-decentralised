@@ -6,6 +6,7 @@ import modeldatabase from "../../contractInterfaces/modeldatabase";
 import { Container2 } from "../helpers/Container2";
 import web3 from "../../contractInterfaces/web3";
 import ipfs from '../../ipfs'
+import registrydatabase from "../../contractInterfaces/registrydatabase";
 
 export class JobBrowser extends React.Component {
 
@@ -26,11 +27,13 @@ export class JobBrowser extends React.Component {
             triggerText: "Register",
             targetJob: {},
             targetJobId: -1,
+            targetOwner: '',
             targetJobDeadline: -1,
             targetJobGrace: -1,
             targetRegistered: [],
             targetAllowed: [],
-            targetTrainingStarted: false
+            targetTrainingStarted: false,
+            targetTrainingEnded: false,
 
             }
         this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
@@ -38,6 +41,8 @@ export class JobBrowser extends React.Component {
         this.withdrawFeeClick = this.withdrawFeeClick.bind(this);
         this.downloadModel = this.downloadModel.bind(this);
         this.endFailedJob = this.endFailedJob.bind(this);
+        this.downloadOutcome = this.downloadOutcome.bind(this);
+        this.downloadWeights = this.downloadWeights.bind(this);
 
         // call smart contract to render jobs
         this.getNumberOfJobs()
@@ -118,28 +123,38 @@ export class JobBrowser extends React.Component {
         const targetJobGrace = +targetJobDeadline + 1*60*60
         console.log('targetjobgrace',targetJobGrace)
         console.log('targetJobDeadline',targetJobDeadline)
+        const targetOwner = targetJob['owner']
         const targetTrainingStarted = targetJob['trainingStarted']
+        const targetTrainingEnded = targetJob['trainingEnded']
 
 
         const numAllowed = await jobsdatabase.methods.getNumAllow(id).call();
         const registered = await jobsdatabase.methods.getJobRegistered(id).call();
         const allowed = await jobsdatabase.methods.getJobAllowed(id).call();
 
+        let registeredNames = {}
+        for (let i=0; i < registered.length; i++){
+            let username = await registrydatabase.methods.getUsername(registered[i]).call()
+            registeredNames[registered[i]] = username
+        }
+
         // Set target job info
         console.log(targetJob)
         this.setState({targetJob: targetJob})
         this.setState({targetJobId: id})
+        this.setState({targetOwner: targetOwner})
         this.setState({targetJobDeadline: targetJobDeadline})
         this.setState({targetJobGrace:targetJobGrace})
         this.setState({targetRegistered:registered})
         this.setState({targetAllowed:allowed})
         this.setState({targetTrainingStarted:targetTrainingStarted})
+        this.setState({targetTrainingEnded:targetTrainingEnded})
 
         // Get user to registered (committed) to job
         const registeredUsers = await registered.map((dataOwner, dataOwnerID) => {
             return (
                 <p>
-                    <b>Registered User {dataOwnerID+1}:</b> {dataOwner}
+                    <b>Registered User {dataOwnerID+1}:</b> {registeredNames[dataOwner]}
                     <button className="addAllowListButton" name={dataOwner} onClick={this.addClientAllow}>Add</button>
                 </p>
             )
@@ -159,18 +174,26 @@ export class JobBrowser extends React.Component {
             <div className="jobInfo">
                 <h3> Registered Data Owners</h3>
                 {registeredUsers}
-
+                <hr/>
                 <h3> Job Owner-approved Clients</h3>
                 {allowedUsers}
 
+                <hr/>
                 <p>
                     <button className="startJobButton" name={this.state.targetJobId} onClick={this.startJob}>Start Training</button>
                 &nbsp; &nbsp;
                     <button className="withdrawFundsButton" name={this.state.targetJobId} onClick={this.withdrawFeeClick}>Withdraw Fee</button>
                 &nbsp; &nbsp;
-                    <button className="downloadModelButton" name={this.state.targetJob} onClick={this.downloadModel}>Download Model</button>
-                &nbsp; &nbsp;
                     <button className="endFailedJobButton" name={this.state.targetJobId} onClick={this.endFailedJob}>End failed Job</button>
+                </p>
+                <p>
+
+                    <button className="downloadModelButton" name={this.state.targetJob} onClick={this.downloadModel}>Download Model</button>
+                </p>
+                <p>
+                    <button className="downloadWeightButton" name={this.state.targetJobId} onClick={this.downloadWeights}>Download Weights</button>
+                &nbsp; &nbsp;
+                    <button className="downloadOutcomeButton" name={this.state.targetJobId} onClick={this.downloadOutcome}>Download Job Outcome</button>
                 </p>
             </div>
             )
@@ -255,11 +278,9 @@ export class JobBrowser extends React.Component {
             return;
         }
 
-        // TODO
-        // Change to camelCase
         // start training for job
         //arg: _jobID, _datasetOwner
-        await jobsdatabase.methods.start_job(this.state.targetJobId).send({from: accounts[0]})
+        await jobsdatabase.methods.startJob(this.state.targetJobId).send({from: accounts[0]})
         .on('transactionHash', (hash) =>{
             console.log(hash);
         })
@@ -391,6 +412,72 @@ export class JobBrowser extends React.Component {
         element.click();
 
     }
+
+    downloadOutcome = async () => {
+        const accounts = await web3.eth.getAccounts();
+
+        // Check if training ended
+        let isTrainingEnded = this.state.targetTrainingEnded
+        if (!isTrainingEnded){
+            alert("Can only download job outcome after training ends")
+            return
+        }
+
+        // Check if user is either job owner or training participant
+        let isAllowed = this.state.targetAllowed.includes(accounts[0])
+        let isOwner = this.state.targetOwner == accounts[0]
+        let isStakeholder = isAllowed || isOwner
+        if (!isStakeholder){
+            alert("Only data owners on the job's allow list or job owner can download the job outcome")
+            return;
+        }
+
+        //const cid = this.state.targetJob["resultsHash"]
+        //console.log(cid)
+        //const chunks = await ipfs.cat(cid)
+
+        //console.log(chunks.toString())
+
+        //const element = document.createElement("a");
+        //const file = new Blob([chunks], {type: 'uint8'});
+        //element.href = URL.createObjectURL(file);
+        //element.download = "model.py";
+        //element.click();
+
+    }
+
+    downloadWeights = async () => {
+        const accounts = await web3.eth.getAccounts();
+
+        // Check if training ended
+        let isTrainingEnded = this.state.targetTrainingEnded
+        if (!isTrainingEnded){
+            alert("Can only download weights after training ends")
+            return
+        }
+
+        // Check if user is either job owner or training participant
+        let isOwner = this.state.targetOwner == accounts[0]
+        if (!isOwner){
+            alert("Only job owner can download the weights.")
+            return;
+        }
+
+        //const cid = await jobsdatabase.methods.getWeights(this.state.targetJobId).call()
+        //console.log(cid)
+        //const chunks = await ipfs.cat(cid)
+
+        //console.log(chunks.toString())
+
+        //const element = document.createElement("a");
+        //const file = new Blob([chunks], {type: 'uint8'});
+        //element.href = URL.createObjectURL(file);
+        //element.download = "model.py";
+        //element.click();
+
+    }
+
+
 
     render() {
 
