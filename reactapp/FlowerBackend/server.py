@@ -5,13 +5,20 @@ from typing import Callable, Dict, List, Optional, Tuple
 import uploads.model as ICU
 import json
 import torch
-import os.path
-from app import contract
+import os.path, requests
+from app import contract, job_contract_address
 import numpy as np
+from web3 import Web3
 
 DEFAULT_SERVER_ADDRESS = "[::]:8080"
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 DATA_ROOT = "uploads/testset.csv"
+
+# Sign in to Ethereum Account
+web3 = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/ec89decf66584cd984e5f89b6467f34f'))
+account = web3.eth.accounts.privateKeyToAccount('0x6b162e9dbfa762373e98b3944279f67b8fac61dc85f255da0108ebdc408af182')
+web3.eth.accounts.wallet.add(account)
+web3.eth.defaultAccount = account
 
 def get_eval_fn(
     testset,
@@ -91,7 +98,7 @@ def configure_flower_server():
             on_evaluate_config_fn=None,
             accept_failures=data["failure"],
             beta=data["beta"],
-            initial_parameters=model.get_weights(),
+            initial_parameters=ICU.get_weights(),
             eta=data["slr"],
             eta_l=data["clr"],
             tau=data["da"],
@@ -123,23 +130,33 @@ def contrib_cal(rnd):
 
     return 'No such file'
 
-def calculate_compensations(compensation_weights):
+def calculate_compensations(job_id, compensation_weights):
     # Retrieve Job's bounty
-    with open('uploads/job_id.txt', 'r') as f:
-        job_id = int(f.readline())
     job = contract.functions.jobs(job_id).call()
     bounty = job[10]
 
-    # Calculate compensations
     compensations = {address: int(weight*bounty) for address, weight in compensation_weights.items()}
 
-    # Save compensations in the log
+    # Save compensations in the log?
 
     return compensations
 
-def send_compensations(compensations):
-    pass
+def save_weights_and_training_log():
+    # params = (('path', './model_weights.pt'),)
+    # model_weights_hash = requests.post('https://ipfs.infura.io:5001/api/v0/add', params=params)
+    # params = (('path', './log.json'),)
+    # log_hash = requests.post('https://ipfs.infura.io:5001/api/v0/add', params=params)
+    # return model_weights_hash, log_hash
+    return None, None
 
+def send_compensations(job_id, compensations, model_weights_hash, log_hash):
+    addresses = []
+    compensation_values = []
+    for address, value in compensations.items():
+        addresses.append(address)
+        compensation_values.append(value)
+    receipt = contract.functions.compensate(job_id, compensation_values, addresses, model_weights_hash, log_hash).transact()
+    return receipt
 
 
 if os.path.exists('uploads/strategy.json'):
@@ -148,7 +165,10 @@ if os.path.exists('uploads/strategy.json'):
     f.close()
     if data['name'] != "":
         launch_fl_server()
+        with open('uploads/job_id.txt', 'r') as f:
+            job_id = int(f.readline())
         compensation_weights = contrib_cal(data["round"])
-        compensations = calculate_compensations(compensation_weights)
-        send_compensations(compensations)
+        compensations = calculate_compensations(job_id, compensation_weights)
+        model_weights_hash, log_hash = save_weights_and_training_log()
+        send_compensations(job_id, compensations, model_weights_hash, log_hash)
 
