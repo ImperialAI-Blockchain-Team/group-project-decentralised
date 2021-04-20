@@ -370,7 +370,7 @@ export class JobForm extends React.Component {
     renderConfirmButton = () => {
         if (this.state.yes) {
         return (
-            <form action="http://localhost:5000/flower" method="post"><button type="submit" className="button2">Confirm</button></form>
+            <form action="http://localhost:5000/start_server" method="post"><button type="submit" className="button2">Confirm</button></form>
         )
         }
     }

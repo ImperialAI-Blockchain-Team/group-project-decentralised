@@ -3,7 +3,7 @@ import abi
 import requests
 from flask import Flask, request, abort, Response, json, send_from_directory, jsonify
 from flask_cors import CORS, cross_origin
-from subprocess import call
+import subprocess
 import re, json
 
 app = Flask(__name__)
@@ -12,7 +12,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['TESTING'] = True
 
 web3 = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/ec89decf66584cd984e5f89b6467f34f'))
-job_contract_address = '0x65a6DCe3ce74b409Adb1B31CC53Cd6c141A8c681'
+job_contract_address = '0x839135A064717f9c430ebb9f0382F8305c317DDF'
 contract = web3.eth.contract(address=job_contract_address, abi=abi.job_abi)
 
 def retrieve_strategy(strategy_hash):
@@ -67,9 +67,11 @@ def start_server():
     retrieve_model(model_hash)
     retrieve_strategy(strategy_hash)
     retrieve_testset(testset_hash)
+    with open('uploads/job_id.txt', 'w') as f:
+        f.write(job_id)
 
     # Start flower server
-    call(["python", "server.py"])
+    subprocess.Popen(["python3", "server.py"])
 
     return {'server address': '[::]:8080'}, 200
 

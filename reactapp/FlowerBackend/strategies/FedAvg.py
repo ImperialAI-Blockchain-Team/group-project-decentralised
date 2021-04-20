@@ -17,10 +17,11 @@ from flwr.server.strategy.aggregate import aggregate, weighted_loss_avg
 
 import torch
 from .FedStrategy import FedStrategy
-import numpy as np
+
+import json
 DEFAULT_SERVER_ADDRESS = "[::]:8080"
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-DATA_ROOT = "data/patient.csv"
+DATA_ROOT = "uploads/testset.csv"
 
 class FedAvg(FedStrategy):
 
@@ -55,6 +56,7 @@ class FedAvg(FedStrategy):
             )
         self.mode = mode
 
+
     def aggregate_fit(
         self,
         rnd: int,
@@ -67,16 +69,15 @@ class FedAvg(FedStrategy):
 
         if not self.accept_failures and failures:
             return None
-        contrib = {}
         net = self.model.Loader(DATA_ROOT).load_model()
         testset, _ = self.model.Loader(DATA_ROOT).load_data()
         testloader = torch.utils.data.DataLoader(testset, batch_size=32, shuffle=False)
         for client, fit_res in results:
-            net.set_weights(parameters_to_weights(fit_res.parameters))
+            self.set_weights(net, parameters_to_weights(fit_res.parameters))
             net.to(DEVICE)
             loss, acc = self.model.test(net, testloader, device=DEVICE)
-            contrib[fit_res.metrics['cid']] = acc
-        print(contrib)
+            self.contrib[fit_res.metrics['cid']].append(acc)
+
         if self.mode == 'datasize':
             weights_results = [
                 (parameters_to_weights(fit_res.parameters), fit_res.num_examples)
@@ -90,7 +91,10 @@ class FedAvg(FedStrategy):
             ]
 
         weights = aggregate(weights_results)
+        self.set_weights(net, weights)
         if weights is not None:
-            print(f"Saving round {rnd} weights...")
-            np.savez(f"round-{rnd}-weights.npz", *weights)
+            print(f"Saving round {rnd} model...")
+            torch.save(net, f"round-{rnd}-model.pt")
+            with open('contrib.json', 'w') as outfile:
+                json.dump(self.contrib, outfile)
         return weights

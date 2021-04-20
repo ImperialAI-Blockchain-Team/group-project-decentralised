@@ -6,10 +6,12 @@ import uploads.model as ICU
 import json
 import torch
 import os.path
+from app import contract
+import numpy as np
 
 DEFAULT_SERVER_ADDRESS = "[::]:8080"
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-DATA_ROOT = "data/patient.csv"
+DATA_ROOT = "uploads/testset.csv"
 
 def get_eval_fn(
     testset,
@@ -99,15 +101,54 @@ def configure_flower_server():
 
     return strategy
 
-
 def launch_fl_server():
     strategy = configure_flower_server()
     fl.server.start_server("0.0.0.0:8080", config={"num_rounds": data["round"]}, strategy=strategy)
 
-if os.path.exists('data.json'):
-    f = open('data.json', )
+def contrib_cal(rnd):
+    if os.path.exists('contrib.json'):
+        f = open('contrib.json', )
+        data = json.load(f)
+        f.close()
+        weights = []
+        for i in range(rnd):
+            weights.append(1/(i+1))
+        m = 0
+        for k, v in data.items():
+            data[k]=np.average(v, weights=weights)
+            m += data[k]
+        for k, v in data.items():
+            data[k] = v/m
+        return data
+
+    return 'No such file'
+
+def calculate_compensations(compensation_weights):
+    # Retrieve Job's bounty
+    with open('uploads/job_id.txt', 'r') as f:
+        job_id = int(f.readline())
+    job = contract.functions.jobs(job_id).call()
+    bounty = job[10]
+
+    # Calculate compensations
+    compensations = {address: int(weight*bounty) for address, weight in compensation_weights.items()}
+
+    # Save compensations in the log
+
+    return compensations
+
+def send_compensations(compensations):
+    pass
+
+
+
+if os.path.exists('uploads/strategy.json'):
+    f = open('uploads/strategy.json', )
     data = json.load(f)
     f.close()
     if data['name'] != "":
         launch_fl_server()
+        compensation_weights = contrib_cal(data["round"])
+        compensations = calculate_compensations(compensation_weights)
+        send_compensations(compensations)
 
