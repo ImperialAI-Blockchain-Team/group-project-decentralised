@@ -111,8 +111,11 @@ export class JobBrowser extends React.Component {
         const target = event.target;
         const id = target.name;
         const targetJob = await jobsdatabase.methods.jobs(id).call();
-        const targetJobDeadline = targetJob['initTime'] + targetJob['hoursUntilStart']*60*60
-        const targetJobGrace = targetJobDeadline + 1*24*60*60
+        // convert string to number wiht +
+        const targetJobDeadline = +targetJob['initTime'] + targetJob['hoursUntilStart']*60*60
+        const targetJobGrace = +targetJobDeadline + 1*24*60*60
+        console.log('targetjobgrace',targetJobGrace)
+        console.log('targetJobDeadline',targetJobDeadline)
         const targetTrainingStarted = targetJob['trainingStarted']
 
 
@@ -321,8 +324,10 @@ export class JobBrowser extends React.Component {
         }
 
         let isGraceOver = (Date.now()/1000) > this.state.targetJobGrace;
+        console.log('time now', Date.now()/1000);
+        console.log('job grace time', this.state.targetJobGrace);
         if(!isGraceOver){
-            alert("Job cannot be endded yet")
+            alert("Job cannot be ended yet")
             return;
         }
 
