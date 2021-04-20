@@ -1,6 +1,5 @@
 # Please Include an empty line at the start and at the end of your file
 
-import flwr as fl
 import torch
 import torch.nn as nn
 import pandas as pd
@@ -12,14 +11,8 @@ class Net(nn.Module):
         super(Net, self).__init__()
         pass
 
-    def get_weights(self) -> fl.common.Weights:
-        """Get model weights as a list of NumPy ndarrays."""
+    def forward(self, x):
         pass
-
-    def set_weights(self, weights: fl.common.Weights) -> None:
-        """Set model weights from a list of NumPy ndarrays."""
-        pass
-
 
 class Loader():
     def __init__(self, path):
