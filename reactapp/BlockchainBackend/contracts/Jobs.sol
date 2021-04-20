@@ -15,11 +15,13 @@ contract Jobs {
     DatasetDatabase datasetDatabase;
     ModelDatabase modelDatabase;
 
-    uint public gracePeriod = 1 days;
+    uint public gracePeriod = 1 hours;
 
     uint public jobCreationFee = 1e6 wei;
 
     uint public holdingFee = 1e6 wei;
+
+    address private serverAdrress = "0x";
 
     struct Job {
         address payable owner;
@@ -32,7 +34,6 @@ contract Jobs {
         uint hoursUntilStart;
         bool trainingStarted;
         bool trainingEnded;
-        //uint holdingFee;
         uint bounty;
         mapping(address => bool) datasetOwners;
         mapping(address => bool)  allowList;
@@ -43,6 +44,8 @@ contract Jobs {
     }
 
     mapping(uint => Job) public jobs;
+
+    mapping(uint => string) public weightsHashes;
 
     constructor(address _contractAddressDatasets, address _contractAddressModels) public {
         datasetDatabase = DatasetDatabase(_contractAddressDatasets);
@@ -88,7 +91,6 @@ contract Jobs {
                                 initTime: block.timestamp,
                                 hoursUntilStart: _hoursUntilStart,
                                 bounty: _bounty,
-                                //holdingFee: _holdingFee,
                                 trainingStarted: false,
                                 trainingEnded: false,
                                 arrDatasetOwners: init,
@@ -249,8 +251,7 @@ contract Jobs {
 
         // Check grace period over
         uint jobStartTime = getJobStartTime(_id);
-        uint deadline = jobStartTime + gracePeriod;
-        if (block.timestamp < deadline){
+        if (block.timestamp < jobStartTime){
             revert("Job can only end without training after the training start deadline");
         }
         
@@ -264,7 +265,10 @@ contract Jobs {
         address payable[] memory registeredDatasetOwners = jobs[_id].arrDatasetOwners;
         for (uint i=0; i<registeredDatasetOwners.length; i++) {
             address payable payee = registeredDatasetOwners[i];
-            payee.transfer(holdingFee);
+            if (jobs[_id].datasetOwners[payee] == true){
+                payee.transfer(holdingFee);
+                delete(jobs[_id].datasetOwners[payee]);
+            }
         }
 
         // withdraw bounty to data scientist
@@ -275,7 +279,8 @@ contract Jobs {
         return jobs[_id].datasetOwners[msg.sender];
     }
 
-    function compensate(uint _id, uint [] memory _compensation, address payable [] memory _clients, string memory _resultsHash) public{
+    function compensate(uint _id, uint [] memory _compensation, address payable [] memory _clients,
+                        string memory _resultsHash, string memory _weightsHash) public{
         require(_compensation.length == _clients.length,"Number of clients must match compensation amounts");
 
         require(_clients.length == jobs[_id].arrAllowList.length, "Number of clients must match number of allowed users");
@@ -299,5 +304,6 @@ contract Jobs {
 
         jobs[_id].trainingEnded = true;
         jobs[_id].resultsHash = _resultsHash;
+        weightsHashes[_id] = _weightsHash;
     }
 }
