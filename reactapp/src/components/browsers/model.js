@@ -88,14 +88,18 @@ export class ModelBrowser extends React.Component {
             return (
             <div className="modelContainer">
                 <p><b>Owner</b>: {model['ownerUsername']}</p>
+                <p><b>Owner Address</b>: {model['owner']}</p>
                 <p><b>Name</b>: {model['name']}</p>
                 <p><b>Objective</b>: {model['objective']}</p>
                 <p><b>Creation Date</b>: {new Date(model['time']*1000).toLocaleDateString()}</p>
                 <p><button className="moreInfoButton" name={model['index']} onClick={this.handleClick}>More Information</button>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp; &nbsp; &nbsp;
                     <button className="registerInterestButton" name={model['ipfsHash']} onClick={this.registerInterestClick}>Register Interest</button>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                <b>Start Job > </b><Container triggerText={triggerText} model={model['ipfsHash']} />
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+                </p>
+                <hr/>
+                <p>
+                <b>Create Job > </b><Container triggerText={triggerText} model={model['ipfsHash']} />
                 </p>
 
 

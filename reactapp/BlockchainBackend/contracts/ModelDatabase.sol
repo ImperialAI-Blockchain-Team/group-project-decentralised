@@ -24,6 +24,8 @@ contract ModelDatabase {
 
     mapping(string => Model) public models;
     string[] public hashes;
+    mapping (string => bool) public names;
+    string [] public arrNames;
 
     Registry registry;
 
@@ -45,6 +47,11 @@ contract ModelDatabase {
             revert("This Model is already registered");
         }
 
+        // If name was used before, revert
+        if (names[_name] == true){
+            revert("Model name not unique");
+        }
+
         address [] memory init;
 
         models[_ipfsHash] = Model({owner: msg.sender,
@@ -57,6 +64,10 @@ contract ModelDatabase {
                                 time: block.timestamp,
                                 registered: true});
         hashes.push(_ipfsHash);
+
+        // Mapping to ensure model name uniqueness
+        names[_name] = true;
+        arrNames.push(_name);
     }
 
     function getNumberOfModels() public view returns(uint) {

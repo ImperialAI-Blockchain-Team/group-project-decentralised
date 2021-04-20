@@ -107,6 +107,14 @@
   border-radius: 5px;
 }
 
+.endFailedJobButton {
+  cursor:pointer;
+  background-color: firebrick;
+  padding: 1px;
+  position: relative;
+  border-radius: 5px;
+}
+
 
 #jobButton {
   cursor:pointer;

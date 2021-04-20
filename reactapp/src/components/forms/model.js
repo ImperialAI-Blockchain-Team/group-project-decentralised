@@ -6,7 +6,6 @@ import registrydatabase from "../../contractInterfaces/registrydatabase";
 import web3 from "../../contractInterfaces/web3";
 import {Link} from 'react-router-dom';
 
-const getRevertReason = require('eth-revert-reason')
 
 function validate(modelName, description, buffer){
     // Validate inputs, can add more detailed errors afterwards
@@ -39,7 +38,6 @@ export class UploadModelForm extends React.Component {
             txReceipt: '',
             displayTable: false,
             formErrors: [],
-            contractError: '',
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -59,7 +57,7 @@ export class UploadModelForm extends React.Component {
         const formErrors = validate(this.state.name, this.state.description, this.state.buffer)
         // If there is return and display errors
         if (formErrors.length > 0){
-            this.setState({ formErrors });
+            alert(JSON.stringify(formErrors));
             return;
         }
         //bring in user's metamask account address
@@ -72,6 +70,13 @@ export class UploadModelForm extends React.Component {
             alert("Not registered as data scientist need to register as data scientist first")
             return;
         }
+
+        //const names = await modelDatabase.methods.arrNames(0).call()
+        //let nameExists = names.includes(this.state.name);
+        //if (nameExists){
+        //    alert("Data name already taken, choose another name");
+        //    return;
+        //}
 
         //obtain contract address from modelDatabase.js
         const ethAddress = await modelDatabase.options.address;
@@ -94,13 +99,8 @@ export class UploadModelForm extends React.Component {
                     this.setState({transactionHash:hash})
                 })
                 .on('error', async (error, receipt) => {
-                    console.log(error);
-                    this.setState({contractError: 'Contract Error: Model already registered'})
                     if (receipt) {
                         console.log(receipt["transactionHash"])
-                        //let txHash = receipt["transactionHash"]
-                        //let blockNum = receipt["blockNumber"]
-                        //console.log(await getRevertReason(txHash,'ropsten'))
                     }
                 })
         })
@@ -195,10 +195,6 @@ export class UploadModelForm extends React.Component {
                     <input type="submit" value="Register" className="register"/>
 
                 </div>
-                {formErrors.map(error => (
-                    <p key={error}>Error: {error}</p>
-                ))}
-                <p> {contractError} </p>
 
             </div>
 

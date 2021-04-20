@@ -13,7 +13,8 @@ export class UploadDatasetForm extends React.Component {
         super(props);
         this.state = {
             name: '',
-            address: '',
+            description: '',
+            dataType: '',
             ipfsHash: null,
             buffer: '',
             ethAddress: '',
@@ -44,6 +45,14 @@ export class UploadDatasetForm extends React.Component {
             return;
         }
 
+        //const names = await datasetdatabase.methods.arrNames().call()
+
+        //let nameExists = names.includes(this.state.name);
+        //if (nameExists){
+        //    alert("Data name already taken, choose another name");
+        //    return;
+        //}
+
         //obtain contract address from storehash.js
         const ethAddress= await datasetdatabase.options.address;
         this.setState({ethAddress});
@@ -54,8 +63,8 @@ export class UploadDatasetForm extends React.Component {
             this.setState({ ipfsHash:ipfsHash[0].hash });
             // call Ethereum contract method "sendHash" and .send IPFS hash to etheruem contract
             // return the transaction hash from the ethereum contract
-            datasetdatabase.methods.registerDataset(this.state.ipfsHash, this.state.name, 'Objective').send({
-                from: accounts[0]},
+            datasetdatabase.methods.registerDataset(this.state.ipfsHash, this.state.name,
+                                                this.state.description, this.state.dataType).send({from: accounts[0]},
                 (error, transactionHash) => {
                 console.log(transactionHash);
                 this.setState({transactionHash});
@@ -95,8 +104,13 @@ export class UploadDatasetForm extends React.Component {
                     </label>
                     <label>
                     <b>Description</b>:
-                    <input name="address" type="text" value={this.state.address} onChange={this.handleChange} />
+                    <input name="description" type="text" value={this.state.description} onChange={this.handleChange} />
                     </label>
+                    <label>
+                    <b>Data Type</b>:
+                    <input name="dataType" type="text" value={this.state.dataType} onChange={this.handleChange} />
+                    </label>
+
 
                     <label>
                     <b>Dataset</b>:

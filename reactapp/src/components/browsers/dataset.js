@@ -3,6 +3,8 @@ import "./dataset.css";
 import DownloadLink from "react-download-link";
 import ipfs from '../../ipfs';
 import datasetdatabase from "../../contractInterfaces/datasetdatabase";
+import registrydatabase from "../../contractInterfaces/registrydatabase";
+import jobsdatabase from "../../contractInterfaces/jobsdatabase";
 
 export class DatasetBrowser extends React.Component {
 
@@ -63,7 +65,11 @@ export class DatasetBrowser extends React.Component {
         for (var i=0; i<numberOfDatasets; i++) {
             const ipfsHash = await datasetdatabase.methods.hashes(i).call();
             const dataset = await datasetdatabase.methods.datasets(ipfsHash).call();
+            const datasetName = await datasetdatabase.methods.getDatasetName(ipfsHash).call();
+            const ownerName = await registrydatabase.methods.getUsername(dataset['owner']).call();
             dataset['ipfsHash'] = ipfsHash;
+            dataset['name'] = datasetName;
+            dataset['ownerUsername'] = ownerName
             newDatasetList.push(dataset);
         }
         newDatasetList.reverse();
@@ -82,9 +88,9 @@ export class DatasetBrowser extends React.Component {
         const renderedDatasets = await subDatasetList.map(dataset => {
             return (
                 <div className="datasetContainer">
-                    <p><b>Owner</b>: {dataset['owner']}</p>
-                    <p><b>Name</b>: {dataset['ipfsHash']}</p>
-                    <p><b>Description</b>: {dataset['description']}</p>
+                    <p><b>Owner</b>: {dataset['ownerUsername']}</p>
+                    <p><b>Owner Address</b>: {dataset['owner']}</p>
+                    <p><b>Name</b>: {dataset['name']}</p>
                     <p><b>Creation Date</b>: {new Date(dataset['time']*1000).toLocaleDateString()}</p>
                     <p><button className="moreInfoButton" name={dataset['ipfsHash']} onClick={this.handleClick}>More Information</button></p>
             </div>
@@ -96,15 +102,16 @@ export class DatasetBrowser extends React.Component {
 
     handleClick = async (event) => {
         const fileHash = event.target.name;
+        const targetDataset = await datasetdatabase.methods.datasets(fileHash).call();
         await ipfs.files.get(fileHash, (err, files) => this.setState({'content': files[0]['content']}))
 
         let datasetInfo = (
             <div className="datasetInfo">
-                <p><b>Info1</b>: something</p>
-                <p><b>Info2</b>: something</p>
-                <p><b>Info3</b>: something</p>
-                <p><b>Info3</b>: something</p>
-                <DownloadLink label="Download synthetic samples" filename="synthetic_samples"
+                <p><b>Description</b>: {targetDataset['description']}</p>
+                <p><b>Data Type</b>: {targetDataset['objective']}</p>
+                <p><b>IPFS hash</b>: {fileHash}</p>
+                <hr/>
+                <DownloadLink label="Download Synthetic Samples" filename="synthetic_samples"
                 exportFile={() => this.state['content']}/>
             </div>
             )

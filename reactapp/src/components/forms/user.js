@@ -3,6 +3,7 @@ import "./user.css";
 
 import web3 from "../../contractInterfaces/web3";
 import registrydatabase from "../../contractInterfaces/registrydatabase"
+import modelDatabase from "../../abi/abi";
 
 
 function validate(username, email, type){
@@ -76,7 +77,7 @@ export class RegisterUserForm extends React.Component {
             alert(JSON.stringify(errors));
             return;
         }
-        alert("Your details have been submitted")
+        //alert("Your details have been submitted")
 
         localStorage.setItem(JSON.stringify(this.state.name),JSON.stringify(this.state.address))
 
@@ -85,13 +86,27 @@ export class RegisterUserForm extends React.Component {
         const accounts = await web3.eth.getAccounts();
         this.setState({account: accounts[0]})
 
+        // First check if user already registered
+        let isUser = await registrydatabase.methods.isUser(accounts[0]).call();
+        if (isUser){
+            alert("Already registered, cannot register again")
+            return;
+        }
+
+        //const userNames = await registrydatabase.methods.arrNames().call()
+        //let nameExists = userNames.includes(this.state.name);
+        //if (nameExists){
+        //    alert("Data name already taken, choose another name");
+        //    return;
+        //}
+
         //obtain contract address from registrydatabase.js
         const ethAddress = await registrydatabase.options.address;
 
         this.setState({ethAddress});
         console.log(accounts)
         // return the transaction hash from the ethereum contract
-        await registrydatabase.methods.insertUser(this.state.name, this.state.data_scientist,this.state.data_owner).send({from: accounts[0]})
+        await registrydatabase.methods.insertUser(this.state.name, this.state.data_scientist, this.state.data_owner).send({from: accounts[0]})
         .on('transactionHash', (hash) =>{
             console.log(hash);
             this.setState({transactionHash:hash})

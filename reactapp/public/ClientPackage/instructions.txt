@@ -1,10 +1,36 @@
-Instructions:
+INSTRUCTIONS:
 
-(Please include an empty line at the beggining and at the end of your csv file)
+Step 1:
+    Drag your dataset inside the package and rename it "trainset.csv".
 
-I
+Step 2:
+    Download the data scientist's model from the job's contract and drag it inside the package. Rename it to "model.py".
 
-II
+Step 3:
+    You will now install all the dependencies required to connect to our servers and start contributing to the model.
+    Make sure you have the latest python version available on your computer.
+        - If you do not have python, you can download it at https://www.python.org/downloads/.
+        - To check which python version you have, open a terminal and type "python3 --version". Make sure your version
+          is at least 3.6.0.
+    Install poetry:
+        - Open a terminal and type "curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python"
+    You are now ready to start the Federated Learning!
 
-III
+Step 4:
+    Make sure you have a good internet connection.
+    Open a terminal and navigate to the client package folder (eg: type "cd Desktop/ClientPackage").
+    Type the command "poetry install".
+    Type the command "poetry shell".
+    Type the command "python3 client.py --cid [Your Ethereum Public Address]"  Make sure that the address you use is the one
+    you signed up to the job with. You might not get compensated if the address is different!
+
+
+Your client.py is running!
+Don't close the terminal until the proccess has finished, otherwise you will lose connection to our servers.
+Once the model has been trained, you can claim your compensations by simply clicking "Collect Compensations" inside the job contract.
+To get more details about how we calculate your contribution, check our "About" page!
+You can also download the training log at the job contract page.
+
+
+
 

@@ -48,11 +48,11 @@ export class JobForm extends React.Component {
             no:false,
             registrationPeriod: '',
             bounty: '',
-            holdingFee: '',
             transactionHash: '',
             minClients: '',
+            testDatasetHash: '',
             strategyHash: null,
-
+            buffer: ''
         };
         this.open1 = this.open1.bind(this);
         this.open2 = this.open2.bind(this);
@@ -65,6 +65,8 @@ export class JobForm extends React.Component {
         this.handleDefault1 = this.handleDefault1.bind(this);
         this.handleDefault2 = this.handleDefault2.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.captureFile = this.captureFile.bind(this);
+        this.convertToBuffer = this.convertToBuffer.bind(this);
     }
 
     handleChange(event) {
@@ -194,6 +196,26 @@ export class JobForm extends React.Component {
     //     .then(res => {
     //       console.log(data);
     //     }).catch(err => console.log("Error ", err));
+
+
+    //Take file input from user
+    captureFile = (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        const file = event.target.files[0];
+        let reader = new window.FileReader();
+        reader.readAsArrayBuffer(file);
+        reader.onloadend = () => this.convertToBuffer(reader);
+    };
+
+    //Convert the file to buffer to store on IPFS
+    convertToBuffer = async (reader) => {
+        //file is converted to a buffer for upload to IPFS
+        const buffer = await Buffer.from(reader.result);
+        //set this buffer-using es6 syntax
+        this.setState({buffer});
+    };
+
     handleSubmit = async (event) => {
         event.preventDefault()
         this.setState({
@@ -212,8 +234,16 @@ export class JobForm extends React.Component {
             return;
         }
         // Minimum payment amount
-        const amountToPay = parseInt(this.state.bounty) + 1000000
-        console.log(amountToPay)
+        const jobFee = await jobsdatabase.methods.jobCreationFee().call()
+        const amountToPay = parseInt(this.state.bounty) + parseInt(jobFee)
+
+        await ipfs.add(this.state.buffer)
+            .then(res => {
+            const hash = res[0].hash
+            this.setState({testDatasetHash:hash});
+            console.log('test dataset hash', this.state.testDatasetHash);
+        })
+
         // Create strategy metadata
         const allowedKeys = [
                             "address",
@@ -261,9 +291,9 @@ export class JobForm extends React.Component {
             // how to retrieve the strategy
             // const strategy = ipfs.files.cat(output);
             // console.log('retrieved strategy Hash', JSON.parse(strategy));
-            // create job
-            jobsdatabase.methods.createJob(this.props.model, output, parseInt(this.state.minClients),
-            parseInt(this.state.registrationPeriod), parseInt(this.state.bounty), parseInt(this.state.holdingFee)).send({from: accounts[0], value: amountToPay})
+            // create job (string _modelIpfsHash, string _strategyHash, string _testDatasetHash, uint _minClients, uint _hoursUntilStart, uint _bounty)
+            jobsdatabase.methods.createJob(this.props.model, output, this.state.testDatasetHash, parseInt(this.state.minClients),
+            parseInt(this.state.registrationPeriod), parseInt(this.state.bounty)).send({from: accounts[0], value: amountToPay})
         .on('transactionHash', (hash) =>{
             console.log('transaction hash', hash);
             this.setState({transactionHash:hash})
@@ -357,11 +387,6 @@ export class JobForm extends React.Component {
                     <hr />
 
                     <label>
-                    <b>Name</b>:
-                    <input name="name" type="text" value={this.state.name} onChange={this.handleChange} />
-                    </label>
-
-                    <label>
                     <b>Registration Period (in hours)</b>:
                     <input name="registrationPeriod" type="text" value={this.state.registrationPeriod} onChange={this.handleChange} />
                     </label>
@@ -372,14 +397,18 @@ export class JobForm extends React.Component {
                     </label>
 
                     <label>
-                    <b>Holding Fee (in Wei)</b>:
-                    <input name="holdingFee" type="text" value={this.state.holdingFee} onChange={this.handleChange} />
+                    <b>Minimum Number of Clients</b>:
+                    <input name="minClients" type="text" value={this.state.minClients} onChange={this.handleChange} />
                     </label>
 
                     <label>
-                    <b>Minimum Number of clients</b>:
-                    <input name="minClients" type="text" value={this.state.minClients} onChange={this.handleChange} />
+                    <b>Upload Test Dataset for Evaluation</b>:
+
+                    <input name= "model" type = "file"
+                               onChange = {this.captureFile}
+                    />
                     </label>
+                     <hr/>
 
                     <label>
                     <b>Aggregate Strategy (Choose one of below)</b>:
