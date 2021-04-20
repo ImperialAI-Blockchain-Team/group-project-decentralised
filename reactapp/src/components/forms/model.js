@@ -57,7 +57,7 @@ export class UploadModelForm extends React.Component {
         const formErrors = validate(this.state.name, this.state.description, this.state.buffer)
         // If there is return and display errors
         if (formErrors.length > 0){
-            this.setState({ formErrors });
+            alert(JSON.stringify(formErrors));
             return;
         }
         //bring in user's metamask account address
@@ -195,9 +195,6 @@ export class UploadModelForm extends React.Component {
                     <input type="submit" value="Register" className="register"/>
 
                 </div>
-                {formErrors.map(error => (
-                    <p key={error}>Error: {error}</p>
-                ))}
 
             </div>
 
