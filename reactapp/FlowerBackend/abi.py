@@ -18,6 +18,51 @@ job_abi = [
     },
     {
       "constant": True,
+      "inputs": [],
+      "name": "gracePeriod",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": False,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": True,
+      "inputs": [],
+      "name": "holdingFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": False,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": True,
+      "inputs": [],
+      "name": "jobCreationFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": False,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": True,
       "inputs": [
         {
           "internalType": "uint256",
@@ -43,6 +88,16 @@ job_abi = [
           "type": "string"
         },
         {
+          "internalType": "string",
+          "name": "testDatasetHash",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "resultsHash",
+          "type": "string"
+        },
+        {
           "internalType": "uint256",
           "name": "minClients",
           "type": "uint256"
@@ -59,32 +114,17 @@ job_abi = [
         },
         {
           "internalType": "bool",
-          "name": "active",
-          "type": "bool"
-        },
-        {
-          "internalType": "bool",
-          "name": "registered",
-          "type": "bool"
-        },
-        {
-          "internalType": "bool",
           "name": "trainingStarted",
           "type": "bool"
         },
         {
-          "internalType": "uint256",
-          "name": "holdingFee",
-          "type": "uint256"
+          "internalType": "bool",
+          "name": "trainingEnded",
+          "type": "bool"
         },
         {
           "internalType": "uint256",
           "name": "bounty",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "feeSum",
           "type": "uint256"
         }
       ],
@@ -205,6 +245,11 @@ job_abi = [
           "type": "string"
         },
         {
+          "internalType": "string",
+          "name": "_testDatasetHash",
+          "type": "string"
+        },
+        {
           "internalType": "uint256",
           "name": "_minClients",
           "type": "uint256"
@@ -217,11 +262,6 @@ job_abi = [
         {
           "internalType": "uint256",
           "name": "_bounty",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_holdingFee",
           "type": "uint256"
         }
       ],
@@ -423,6 +463,27 @@ job_abi = [
       "type": "function"
     },
     {
+      "constant": True,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_id",
+          "type": "uint256"
+        }
+      ],
+      "name": "getMinClients",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": False,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "constant": False,
       "inputs": [
         {
@@ -447,6 +508,21 @@ job_abi = [
         }
       ],
       "name": "withdrawFee",
+      "outputs": [],
+      "payable": False,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": False,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_id",
+          "type": "uint256"
+        }
+      ],
+      "name": "endFailedJob",
       "outputs": [],
       "payable": False,
       "stateMutability": "nonpayable",
@@ -478,14 +554,29 @@ job_abi = [
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "jobId",
+          "name": "_id",
           "type": "uint256"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "_compensation",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "address payable[]",
+          "name": "_clients",
+          "type": "address[]"
+        },
+        {
+          "internalType": "string",
+          "name": "_resultsHash",
+          "type": "string"
         }
       ],
-      "name": "deactivateJob",
+      "name": "compensate",
       "outputs": [],
       "payable": False,
       "stateMutability": "nonpayable",
       "type": "function"
     }
-]
+  ]

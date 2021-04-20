@@ -6,6 +6,8 @@ import uploads.model as ICU
 import json
 import torch
 import os.path
+from app import contract
+
 
 DEFAULT_SERVER_ADDRESS = "[::]:8080"
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -99,10 +101,34 @@ def configure_flower_server():
 
     return strategy
 
-
 def launch_fl_server():
     strategy = configure_flower_server()
     fl.server.start_server("0.0.0.0:8080", config={"num_rounds": data["round"]}, strategy=strategy)
+
+
+def calculate_compensations() -> Dict:
+    # Retrieve Job's bounty
+    with open('uploads/job_id.txt', 'r') as f:
+        job_id = int(f.readline())
+    job = contract.functions.jobs(job_id).call()
+    bounty = job[10]
+
+    # Retrieve clients' weights
+    with open('compensation_weights.json') as f:
+        compensation_weights = json.load(f)
+
+    # Calculate compensations
+    compensations = {address: int(weight*bounty) for address, weight in compensation_weights.items()}
+
+    # Save compensations in the log
+
+    return compensations
+
+def send_compensations(compensations: Dict):
+    pass
+
+
+
 
 if os.path.exists('data.json'):
     f = open('data.json', )
