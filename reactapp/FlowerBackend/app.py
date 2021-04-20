@@ -1,11 +1,10 @@
-import multiprocessing
 from web3 import Web3
 import abi
 import requests
 from flask import Flask, request, abort, Response, json, send_from_directory, jsonify
 from flask_cors import CORS, cross_origin
 from subprocess import call
-import re, ast, json
+import re, json
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -68,7 +67,6 @@ def start_server():
     retrieve_model(model_hash)
     retrieve_strategy(strategy_hash)
     retrieve_testset(testset_hash)
-
 
     # Start flower server
     call(["python", "server.py"])
