@@ -4,7 +4,6 @@ import { Button } from 'react-bootstrap';
 import axios from 'axios';
 import jobsdatabase from "../../contractInterfaces/jobsdatabase";
 import web3 from "../../contractInterfaces/web3";
-import registrydatabase from "../../contractInterfaces/registrydatabase";
 import ipfs from '../../ipfs';
 
 export class JobForm extends React.Component {
