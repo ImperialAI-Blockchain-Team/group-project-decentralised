@@ -132,7 +132,6 @@ export class UploadDatasetForm extends React.Component {
                                onChange = {this.captureFile}
                     />
                     </label>
-
                     <input data-testid = "submit" type="submit" value="Register" className="register"/>
 
                 </div>
