@@ -91,30 +91,44 @@ export class UploadDatasetForm extends React.Component {
     };
 
     render() {
+        const { formErrors } = this.state;
+        const { contractError } = this.state;
         return (
+
         <form onSubmit={this.handleSubmit}>
             <div className="container">
                 <div className='sub-container'>
-                    <h2>Register anonymised samples of your Dataset</h2>
-                    <p>Please fill in this form to register your dataset.</p>
+                <h2>Register your Dataset</h2>
+                    <p>Please fill in this form to register your dataset. <br /> <br />
+                    After clicking <b>submit</b>, your dataset will be displayed in the <b>Explore</b> tab.
+                    You can then register interest in uploaded models and/or register for jobs with an active registration period.
+                    Thereby you can contribute to training cutting-edge machine learning models that <b>revolutionise medicine</b>!
+                    </p>
                     <hr />
                     <label>
                     <b>Dataset Name</b>:
-                    <input name="name" id="name-input" type="text" value={this.state.name} onChange={this.handleChange} />
+                    <input name="name" id="name-input" type="text" value={this.state.name} onChange={this.handleChange}
+                    placeholder="Give your dataset a name."
+                    />
                     </label>
                     <label>
                     <b>Description</b>:
-                    <input name="description" id ="description-input" type="text" value={this.state.description} onChange={this.handleChange} />
+                    <textArea name="description" id ="description-input" type="text" value={this.state.description} onChange={this.handleChange}
+                    placeholder="Please describe the data you own, how and when it was collected and the approximate dataset size."
+                    />
                     </label>
                     <label>
                     <b>Data Type</b>:
-                    <input name="dataType" id = "dataType-input" type="text" value={this.state.dataType} onChange={this.handleChange} />
+                    <textArea input name="dataType" id = "dataType-input" type="text" value={this.state.dataType} onChange={this.handleChange}
+                    placeholder="Please describe each attribute of your dataset precisely (data type, ranges, missing values etc.)."
+                    />
                     </label>
-
-
                     <label>
-                    <b>Dataset</b>:
-                    <input name= "dataset" type = "file" id = "fileUpload" data-testid = "file"
+                    <b>Synthetic Samples: </b><br/>
+                    <p> Please upload a few samples of a synthetic dataset that resembles your local dataset.
+                        The data should have the same format as your local dataset.
+                    </p>
+                    <input name= "dataset"  id = "fileUpload" data-testid = "file" type = "file"
                                onChange = {this.captureFile}
                     />
                     </label>
@@ -122,16 +136,25 @@ export class UploadDatasetForm extends React.Component {
                     <input data-testid = "submit" type="submit" value="Register" className="register"/>
 
                 </div>
+
             </div>
-            <table bordered responsive>
-            <thead>
-            <tr>
+
+            {!this.state.displayTable && <div className="center">
+                <button onClick={this.onClick}>
+                    {'Get Receipt'}
+                </button>
+            </div>}
+
+            {this.state.displayTable && <div className="center">
+                <table bordered responsive>
+                    <thead>
+                        <tr>
                             <th>Tx Receipt Category</th>
                             <th> </th>
                             <th>Values</th>
                         </tr>
-                        </thead>
-                        <tbody>
+                    </thead>
+                    <tbody>
                         <tr>
                             <td>IPFS Hash stored on Ethereum</td>
                             <td> : </td>
@@ -141,15 +164,16 @@ export class UploadDatasetForm extends React.Component {
                             <td>Ethereum Contract Address</td>
                             <td> : </td>
                             <td>{this.state.ethAddress}</td>
-                        </tr>                  <tr>
+                        </tr>
+                        <tr>
                             <td>Tx # </td>
                             <td> : </td>
                             <td>{this.state.transactionHash}</td>
                         </tr>
-                        </tbody>
-                    </table>
+                    </tbody>
+                </table>
+            </div>}
         </form>
-
         )
     }
 }
