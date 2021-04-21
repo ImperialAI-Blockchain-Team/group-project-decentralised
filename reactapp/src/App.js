@@ -9,6 +9,7 @@ import {BrowseDatasetsPage} from "./components/pages/Explore/dataset.js";
 import {BrowseModelsPage} from "./components/pages/Explore/model.js";
 import {BrowseJobsPage} from "./components/pages/Explore/job";
 import {JobForm} from "./components/forms/job.js";
+import {Main} from "./components/pages/About Us/About.js";
 
 function App() {
 
@@ -25,9 +26,10 @@ function App() {
       <div className="page-container">
         <Switch>
           <Route exact path='/'>
-            <Redirect to="/about" />
+            <Redirect to="/about"/>
           </Route>
           {/* <Route path='/about' component={}/> */}
+          <Route path='/about' component={Main}/>
           <Route path='/sign_up' component={RegisterUserPage}/>
           <Route path='/register_model' component={RegisterModelPage}/>
           <Route path='/register_dataset' component={RegisterDatasetPage}/>
