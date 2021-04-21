@@ -21,7 +21,7 @@ contract Jobs {
 
     uint public holdingFee = 1e6 wei;
 
-    //address private serverAdrress = "0x";
+    address payable private serverAddress = 0x12F0F455D3e769b247518747dd731E9c61366E97;
 
     struct Job {
         address payable owner;
@@ -220,7 +220,8 @@ contract Jobs {
         }
 
         // return job fee to client
-        msg.sender.transfer(jobCreationFee);
+        //msg.sender.transfer(jobCreationFee);
+        serverAddress.transfer(jobCreationFee);
 
     }
 
@@ -273,6 +274,7 @@ contract Jobs {
 
         // withdraw bounty to data scientist
         msg.sender.transfer(jobs[_id].bounty);
+        msg.sender.transfer(jobCreationFee);
     }
 
     function isRegistered(uint _id) public view returns(bool){
@@ -281,6 +283,9 @@ contract Jobs {
 
     function compensate(uint _id, uint [] memory _compensation, address payable [] memory _clients,
                         string memory _resultsHash, string memory _weightsHash) public{
+
+        require(msg.sender == serverAddress,"Only server can end training and initiate compensation");
+
         require(_compensation.length == _clients.length,"Number of clients must match compensation amounts");
 
         require(_clients.length == jobs[_id].arrAllowList.length, "Number of clients must match number of allowed users");
