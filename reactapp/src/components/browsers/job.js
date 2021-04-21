@@ -78,9 +78,34 @@ export class JobBrowser extends React.Component {
             const job = await jobsdatabase.methods.jobs(i).call();
             const modelName = await modeldatabase.methods.getModelName(job['modelIpfsHash']).call();
             const ownerName = await registrydatabase.methods.getUsername(job['owner']).call();
+            const numAllow = await jobsdatabase.methods.getNumAllow(i).call();
             job['modelName'] = modelName;
             job['ownerName'] = ownerName;
+            job['numAllow'] = numAllow
+
+            // Getting Job Status
+            const jobDeadline = +job['initTime'] + job['hoursUntilStart']*60*60
+            const jobGrace = +jobDeadline + 1*60*60
+
+            let jobStatus = ''
+            if ((Date.now()/1000) < jobDeadline){
+                jobStatus = "Registration Phase"
+            }else if((Date.now()/1000) > jobDeadline && numAllow < job['minClients']){
+                jobStatus = "Job Failed (Insufficient Clients)"
+            }else if((Date.now()/1000) > jobDeadline && numAllow >= job['minClients']
+                && (Date.now()/1000) < jobGrace && !job['trainingStarted']){
+                jobStatus = "Awaiting Training to Start"
+            }else if(job['trainingStarted'] && !job['trainingEnded']){
+                jobStatus = "Training in Progress"
+            }else if(job['trainingEnded']){
+                jobStatus = "Trained Ended"
+            }else{
+                jobStatus = "Status Unknown"
+            }
+
+            job['jobStatus'] = jobStatus;
             newJobList.push(job);
+
         }
         this.setState({jobList: newJobList})
 
@@ -97,16 +122,18 @@ export class JobBrowser extends React.Component {
 
             return (
             <div className="jobContainer">
+                <p><b>ID</b>: {jobID}</p>
                 <p><b>Owner</b>: {job['ownerName']}</p>
                 <p><b>Owner Address</b>: {job['owner']}</p>
-                <p><b>ID</b>: {jobID}</p>
                 <p><b>Model</b>: {job['modelName']}</p>
                 <p><b>Bounty</b>: {job['bounty']} wei </p>
-                <p><b>Holding Fee</b>: {holdingFee} wei </p>
                 <p><b>Creation Date</b>: {new Date(job['initTime']*1000).toUTCString()}</p>
                 <p><b>Deadline</b>: {new Date((job['initTime'])*1000+parseInt(job['hoursUntilStart'])*60*60*1000).toUTCString()}</p>
+                <p><b>Status</b>: {job['jobStatus']} </p>
+                <p><b>Registration Status</b>: </p>
+                <p>{job['numAllow']} out of {job['minClients']} Job Owner-approved Clients Registered.</p>
                 <p>
-                    <button className="moreInfoButton" name={jobID} onClick={this.handleClick}>Job Details</button>
+                    <button className="moreInfoButton" name={jobID} onClick={this.handleClick}>Job Interaction</button>
                 </p>
                 <hr/>
                 <p>
@@ -459,17 +486,17 @@ export class JobBrowser extends React.Component {
             return;
         }
 
-        //const cid = this.state.targetJob["resultsHash"]
-        //console.log(cid)
-        //const chunks = await ipfs.cat(cid)
+        const cid = this.state.targetJob["resultsHash"]
+        console.log(cid)
+        const chunks = await ipfs.cat(cid)
 
-        //console.log(chunks.toString())
+        console.log(chunks.toString())
 
-        //const element = document.createElement("a");
-        //const file = new Blob([chunks], {type: 'uint8'});
-        //element.href = URL.createObjectURL(file);
-        //element.download = "model.py";
-        //element.click();
+        const element = document.createElement("a");
+        const file = new Blob([chunks], {type: 'uint8'});
+        element.href = URL.createObjectURL(file);
+        element.download = "model.py";
+        element.click();
 
     }
 
@@ -490,17 +517,17 @@ export class JobBrowser extends React.Component {
             return;
         }
 
-        //const cid = await jobsdatabase.methods.getWeights(this.state.targetJobId).call()
-        //console.log(cid)
-        //const chunks = await ipfs.cat(cid)
+        const cid = await jobsdatabase.methods.getWeights(this.state.targetJobId).call()
+        console.log(cid)
+        const chunks = await ipfs.cat(cid)
 
-        //console.log(chunks.toString())
+        console.log(chunks.toString())
 
-        //const element = document.createElement("a");
-        //const file = new Blob([chunks], {type: 'uint8'});
-        //element.href = URL.createObjectURL(file);
-        //element.download = "model.py";
-        //element.click();
+        const element = document.createElement("a");
+        const file = new Blob([chunks], {type: 'uint8'});
+        element.href = URL.createObjectURL(file);
+        element.download = "model.py";
+        element.click();
 
     }
 
