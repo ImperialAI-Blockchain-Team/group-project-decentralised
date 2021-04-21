@@ -72,7 +72,7 @@ export class DatasetBrowser extends React.Component {
             dataset['ownerUsername'] = ownerName
             newDatasetList.push(dataset);
         }
-        newDatasetList.reverse();
+        //newDatasetList.reverse();
         this.setState({datasetList: newDatasetList})
 
         return new Promise((resolve, reject) => {

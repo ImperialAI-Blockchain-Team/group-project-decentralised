@@ -28,7 +28,6 @@ contract Jobs {
         string modelIpfsHash;
         string strategyHash;
         string testDatasetHash;
-        string resultsHash;
         uint minClients;
         uint initTime;
         uint hoursUntilStart;
@@ -40,12 +39,17 @@ contract Jobs {
         mapping(address => string) datasetHash;
         address payable[] arrDatasetOwners;
         address payable[] arrAllowList;
-        uint [] compensation;
+    }
+
+    struct JobResults {
+        string resultsHash;
+        string weightsHash;
+        mapping(address => uint) compensation;
+        mapping(address => bool) isCompensated;
     }
 
     mapping(uint => Job) public jobs;
-
-    mapping(uint => string) public weightsHashes;
+    mapping(uint => JobResults) public jobResults;
 
     constructor(address _contractAddressDatasets, address _contractAddressModels) public {
         datasetDatabase = DatasetDatabase(_contractAddressDatasets);
@@ -80,12 +84,10 @@ contract Jobs {
         require(msg.value == jobCreationFee + _bounty,"Need to send the correct job creation fee and bounty");
 
         address payable[] memory init;
-        uint [] memory init2;
 
         jobs[jobsCreated] = Job({owner: msg.sender,
                                 modelIpfsHash: _modelIpfsHash,
                                 strategyHash: _strategyHash,
-                                resultsHash: " ",
                                 testDatasetHash: _testDatasetHash,
                                 minClients: _minClients,
                                 initTime: block.timestamp,
@@ -94,8 +96,7 @@ contract Jobs {
                                 trainingStarted: false,
                                 trainingEnded: false,
                                 arrDatasetOwners: init,
-                                arrAllowList: init,
-                                compensation: init2}
+                                arrAllowList: init}
                                 );
 
         jobsCreated = jobsCreated + 1;
@@ -302,17 +303,51 @@ contract Jobs {
         // Check sum of compensation array is less than job bounty
         require(compensationSum <= jobs[_id].bounty, "Can't pay out more than bounty amount");
 
+        // Assign compensation amount to each client
         for (uint i=0; i<_clients.length; i++) {
             address payable payee = _clients[i];
-            payee.transfer(_compensation[i]);
+            jobResults[_id].compensation[payee] = _compensation[i];
         }
 
+        // Set status of job as ended
         jobs[_id].trainingEnded = true;
-        jobs[_id].resultsHash = _resultsHash;
-        weightsHashes[_id] = _weightsHash;
+        // Log results of job
+        jobResults[_id].resultsHash = _resultsHash;
+        jobResults[_id].weightsHash = _weightsHash;
+    }
+
+    function getCompensation(uint _id) public{
+
+        // Check if training for this job has successfully ended
+        require(jobs[_id].trainingEnded == true, "Can't receive compensation until successful training");
+
+        // Check if user was on the Allow list of the job
+        require(jobs[_id].allowList[msg.sender] == true, "Can't receive compensation if not a job participant");
+
+        // Ensure user is not compensated twice, can only receive compensation for job if not compensated before
+        if (jobResults[_id].isCompensated[msg.sender] == true){
+            revert("Already received compensation for this job");
+        }
+
+        // Transfer to user their compensation amount
+        msg.sender.transfer(jobResults[_id].compensation[msg.sender]);
+
+        // Log that user has been compensated
+        jobResults[_id].isCompensated[msg.sender] = true;
     }
 
     function getWeights(uint _id) public view returns(string memory){
-        return weightsHashes[_id];
+        // Check user is job owner
+        require(msg.sender == jobs[_id].owner,"Only owner can access weights");
+
+        return(jobResults[_id].weightsHash);
     }
+
+    function getCompensationResults(uint _id) public view returns(string memory){
+        // Check user is a job participant
+        require((msg.sender == jobs[_id].owner) || (jobs[_id].allowList[msg.sender] == true) ,"Only a job participant can access results");
+
+        return(jobResults[_id].resultsHash);
+    }
+
 }

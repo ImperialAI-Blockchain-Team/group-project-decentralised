@@ -941,6 +941,32 @@ export const jobs = [
           "type": "uint256"
         }
       ],
+      "name": "jobResults",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "resultsHash",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "weightsHash",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "name": "jobs",
       "outputs": [
         {
@@ -961,11 +987,6 @@ export const jobs = [
         {
           "internalType": "string",
           "name": "testDatasetHash",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "resultsHash",
           "type": "string"
         },
         {
@@ -1012,27 +1033,6 @@ export const jobs = [
           "internalType": "uint256",
           "name": "",
           "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "weightsHashes",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
         }
       ],
       "payable": false,
@@ -1477,6 +1477,21 @@ export const jobs = [
       "type": "function"
     },
     {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_id",
+          "type": "uint256"
+        }
+      ],
+      "name": "getCompensation",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "constant": true,
       "inputs": [
         {
@@ -1496,5 +1511,26 @@ export const jobs = [
       "payable": false,
       "stateMutability": "view",
       "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_id",
+          "type": "uint256"
+        }
+      ],
+      "name": "getCompensationResults",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     }
-];
+  ];

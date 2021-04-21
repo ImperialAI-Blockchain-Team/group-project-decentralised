@@ -65,7 +65,7 @@ export class ModelBrowser extends React.Component {
             model['ownerUsername'] = ownerUsername
             newModelList.push(model);
         }
-        newModelList.reverse();
+        //newModelList.reverse();
         this.setState({modelList: newModelList})
 
         return new Promise((resolve, reject) => {

@@ -35,7 +35,6 @@ export class JobBrowser extends React.Component {
             targetAllowed: [],
             targetTrainingStarted: false,
             targetTrainingEnded: false,
-
             }
         this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
         this.startJob = this.startJob.bind(this);
@@ -184,19 +183,32 @@ export class JobBrowser extends React.Component {
         // Get user to registered (committed) to job
         const registeredUsers = await registered.map((dataOwner, dataOwnerID) => {
             return (
-                <p>
-                    <b>Registered User {dataOwnerID+1}:</b> {registeredNames[dataOwner]}
+                <pre>
+                    <b>Registered User {dataOwnerID+1}:</b>
+
+                    {registeredNames[dataOwner]} {"\n"}
+
+                    <b>Address</b>: {"\n"}
+
+                    {dataOwner} {"\n"}
+
                     <button className="addAllowListButton" name={dataOwner} onClick={this.addClientAllow}>Add</button>
-                </p>
+                </pre>
             )
         })
 
         // Get allowed users i.e. registered data owners added to allow list by data-scientist
         const allowedUsers = await allowed.map((allowedUser, allowedUserID) => {
             return (
-                <p>
-                    <b>Allowed User {allowedUserID+1}:</b> {allowedUser}
-                </p>
+                <pre>
+                    <b>Allowed User {allowedUserID+1}:</b>
+
+                    {registeredNames[allowedUser]} {"\n"}
+
+                    <b>Address</b>: {"\n"}
+
+                    {allowedUser}
+                </pre>
             )
         })
 
@@ -486,11 +498,11 @@ export class JobBrowser extends React.Component {
             return;
         }
 
-        const cid = this.state.targetJob["resultsHash"]
-        console.log(cid)
-        const chunks = await ipfs.cat(cid)
+        const cid = await jobsdatabase.methods.getCompensationResults(this.state.targetJobId).call({from: accounts[0]});
+        console.log(cid);
+        const chunks = await ipfs.cat(cid);
 
-        console.log(chunks.toString())
+        console.log(chunks.toString());
 
         const element = document.createElement("a");
         const file = new Blob([chunks], {type: 'uint8'});
@@ -517,11 +529,11 @@ export class JobBrowser extends React.Component {
             return;
         }
 
-        const cid = await jobsdatabase.methods.getWeights(this.state.targetJobId).call()
-        console.log(cid)
-        const chunks = await ipfs.cat(cid)
+        const cid = await jobsdatabase.methods.getWeights(this.state.targetJobId).call({from: accounts[0]});
+        console.log(cid);
+        const chunks = await ipfs.cat(cid);
 
-        console.log(chunks.toString())
+        console.log(chunks.toString());
 
         const element = document.createElement("a");
         const file = new Blob([chunks], {type: 'uint8'});

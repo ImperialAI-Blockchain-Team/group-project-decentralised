@@ -12,7 +12,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['TESTING'] = True
 
 web3 = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/ec89decf66584cd984e5f89b6467f34f'))
-job_contract_address = '0xd903587aDBe002d5853E306EeF2b2105154eDd2e'
+job_contract_address = '0xE84d2ebCFD02686066D9671f034ca93953099057'
 contract = web3.eth.contract(address=job_contract_address, abi=abi.job_abi)
 
 def retrieve_strategy(strategy_hash):
@@ -63,7 +63,7 @@ def start_server():
     # retrieve strategy, model and testset from ipfs and save them locally
     model_hash = job[1]
     strategy_hash = job[2]
-    testset_hash = None
+    testset_hash = job[3]
     retrieve_model(model_hash)
     retrieve_strategy(strategy_hash)
     retrieve_testset(testset_hash)
