@@ -331,11 +331,18 @@ export class JobBrowser extends React.Component {
         }
 
         // Check is user has already been registered
-        let alreadyRegistered = this.state.registered.includes(accounts[0])
-        if (!alreadyRegistered){
+        if (typeof this.state.registered == 'undefined') {
             alert("Cannot withdraw fee, if you have not registered to this job")
             return;
         }
+        else {
+            let alreadyRegistered = this.state.registered.includes(accounts[0])
+            if (!alreadyRegistered){
+                alert("Cannot withdraw fee, if you have not registered to this job")
+                return;
+            }
+        }
+        
 
         await jobsdatabase.methods.withdrawFee(id).send({from: accounts[0]})
         .on('transactionHash', (hash) =>{
@@ -380,10 +387,12 @@ export class JobBrowser extends React.Component {
 
         // if minimum clients available job has not failed
         let minClients = this.state.targetJob["minClients"]
-        let isMinClients = this.state.targetAllowed.length >= minClients
-        if (isMinClients){
-            alert("Enough clients to start job")
-            return;
+        if (typeof this.state.targetAllowed !== 'undefined') {
+            let isMinClients = this.state.targetAllowed.length >= minClients
+            if (isMinClients){
+                alert("Enough clients to start job")
+                return;
+            }
         }
         
         // withdraw holding fees to registered clients

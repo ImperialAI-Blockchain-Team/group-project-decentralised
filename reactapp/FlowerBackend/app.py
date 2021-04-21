@@ -12,7 +12,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['TESTING'] = True
 
 web3 = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/ec89decf66584cd984e5f89b6467f34f'))
-job_contract_address = '0x839135A064717f9c430ebb9f0382F8305c317DDF'
+job_contract_address = '0x12F0F455D3e769b247518747dd731E9c61366E97'
 contract = web3.eth.contract(address=job_contract_address, abi=abi.job_abi)
 
 def retrieve_strategy(strategy_hash):
