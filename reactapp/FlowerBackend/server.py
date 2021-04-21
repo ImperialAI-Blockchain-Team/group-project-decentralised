@@ -138,8 +138,6 @@ def contrib_cal(rnd):
 
 def calculate_compensations(job_id, compensation_weights):
     # Retrieve Job's bounty
-    with open('uploads/job_id.txt', 'r') as f:
-        job_id = int(f.readline())
     job = contract.functions.jobs(job_id).call()
     bounty = job[10]
 
