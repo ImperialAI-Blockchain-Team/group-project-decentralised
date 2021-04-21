@@ -122,7 +122,7 @@ export class JobBrowser extends React.Component {
         const target = event.target;
         const id = target.name;
         const targetJob = await jobsdatabase.methods.jobs(id).call();
-        // convert string to number wiht +
+        // convert string to number with +
         const targetJobDeadline = +targetJob['initTime'] + targetJob['hoursUntilStart']*60*60
         const targetJobGrace = +targetJobDeadline + 1*60*60
         console.log('targetjobgrace',targetJobGrace)
@@ -225,7 +225,10 @@ export class JobBrowser extends React.Component {
         }
 
         // Check is registration period is over
-        let isRegistrationOver = this.state.targetJobDeadline > (Date.now()/1000)
+        let isRegistrationOver = this.state.targetJobDeadline < (Date.now()/1000)
+        console.log('targetjobgrace',this.state.targetJobGrace)
+        console.log('targetJobDeadline',this.state.targetJobDeadline)
+        console.log('time now',(Date.now()/1000))
         if (isRegistrationOver){
             alert("Registration period over, can't add more clients.")
             return;
@@ -268,7 +271,7 @@ export class JobBrowser extends React.Component {
         }
 
         // Check registration period is over
-        let isRegistrationOver = this.state.targetJobDeadline > (Date.now()/1000)
+        let isRegistrationOver = this.state.targetJobDeadline < (Date.now()/1000)
         if (!isRegistrationOver){
             alert("Registration Period not over, can only start period after registration deadline")
             return;

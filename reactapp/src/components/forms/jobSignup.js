@@ -56,8 +56,10 @@ export class JobSignup extends React.Component {
         }
 
         // Check if registration period is not over
-        const registrationDeadline = targetJob['initTime'] + targetJob['daysUntilStart']*24*60*60
+        const registrationDeadline = +targetJob['initTime'] + targetJob['hoursUntilStart']*60*60
         let isRegistrationOver =  registrationDeadline > (Date.now()/1000)
+        console.log('time now', (Date.now()/1000))
+        console.log('registration deadline', registrationDeadline)
         if (isRegistrationOver){
             alert("Registration period over, can't add more clients.")
             return;

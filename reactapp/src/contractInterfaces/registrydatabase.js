@@ -1,6 +1,6 @@
 import web3 from './web3';
 import {registry} from "../abi/abi";
 
-const address = '0x55c866373ff96F386899c6da4729632e7D4c45f8';
+const address = '0x9f7738115E97e1C564cecBC1d40176C35b94D0Cf';
 
 export default new web3.eth.Contract(registry, address);
