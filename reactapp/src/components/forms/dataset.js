@@ -100,26 +100,26 @@ export class UploadDatasetForm extends React.Component {
                     <hr />
                     <label>
                     <b>Dataset Name</b>:
-                    <input name="name" type="text" value={this.state.name} onChange={this.handleChange} />
+                    <input name="name" id="name-input" type="text" value={this.state.name} onChange={this.handleChange} />
                     </label>
                     <label>
                     <b>Description</b>:
-                    <input name="description" type="text" value={this.state.description} onChange={this.handleChange} />
+                    <input name="description" id ="description-input" type="text" value={this.state.description} onChange={this.handleChange} />
                     </label>
                     <label>
                     <b>Data Type</b>:
-                    <input name="dataType" type="text" value={this.state.dataType} onChange={this.handleChange} />
+                    <input name="dataType" id = "dataType-input" type="text" value={this.state.dataType} onChange={this.handleChange} />
                     </label>
 
 
                     <label>
                     <b>Dataset</b>:
-                    <input name= "dataset" type = "file"
+                    <input name= "dataset" type = "file" id = "fileUpload" data-testid = "file"
                                onChange = {this.captureFile}
                     />
                     </label>
 
-                    <input type="submit" value="Register" className="register"/>
+                    <input data-testid = "submit" type="submit" value="Register" className="register"/>
 
                 </div>
             </div>

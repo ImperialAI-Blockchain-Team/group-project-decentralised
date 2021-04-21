@@ -138,17 +138,17 @@ export class RegisterUserForm extends React.Component {
 
         if (checkedValue == "Data Scientist") {
             if (checked) {
-                this.state.data_scientist = true;
+                this.setState({data_scientist:true});
             }else{
-                this.state.data_scientist = false;
+                this.setState({data_scientist:false});
             }
         }
 
         if (checkedValue == "Data Owner") {
             if (checked) {
-                this.state.data_owner = true;
+                this.setState({data_owner:true});
             }else{
-                this.state.data_owner = false;
+                this.setState({data_owner:false});
             }
         }
 
