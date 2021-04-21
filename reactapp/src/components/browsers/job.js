@@ -7,6 +7,7 @@ import { Container2 } from "../helpers/Container2";
 import web3 from "../../contractInterfaces/web3";
 import ipfs from '../../ipfs'
 import registrydatabase from "../../contractInterfaces/registrydatabase";
+import axios from "axios";
 
 export class JobBrowser extends React.Component {
 
@@ -76,7 +77,9 @@ export class JobBrowser extends React.Component {
         for (let i=0; i<numberOfJobs; i++) {
             const job = await jobsdatabase.methods.jobs(i).call();
             const modelName = await modeldatabase.methods.getModelName(job['modelIpfsHash']).call();
-            job['modelName'] = modelName
+            const ownerName = await registrydatabase.methods.getUsername(job['owner']).call();
+            job['modelName'] = modelName;
+            job['ownerName'] = ownerName;
             newJobList.push(job);
         }
         this.setState({jobList: newJobList})
@@ -94,7 +97,8 @@ export class JobBrowser extends React.Component {
 
             return (
             <div className="jobContainer">
-                <p><b>Owner</b>: {job['owner']}</p>
+                <p><b>Owner</b>: {job['ownerName']}</p>
+                <p><b>Owner Address</b>: {job['owner']}</p>
                 <p><b>ID</b>: {jobID}</p>
                 <p><b>Model</b>: {job['modelName']}</p>
                 <p><b>Bounty</b>: {job['bounty']} wei </p>
@@ -289,7 +293,18 @@ export class JobBrowser extends React.Component {
             if (receipt) {
                console.log(receipt);
             }
+            return;
         })
+
+        // Call Flask backend
+        axios.post("http://localhost:5000/start_server",{id:this.state.targetJobId})
+            .then(response => {
+                console.log(response)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
 
     }
 
