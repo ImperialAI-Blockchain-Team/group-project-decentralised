@@ -547,8 +547,6 @@ export class JobForm extends React.Component {
                             <div className={this.state.linear}>slope:<input name="slope" type="number" value={this.state.slope} onChange={this.handleChange} /><br /></div>
                         </div>}
                     </div> }
-                    <div>{this.renderConfirmButton()}</div>
-                    <div>{this.renderResetButton()}</div>
                     <input type="submit" value="Register" className="register"/>
                 </div>
             </div>
