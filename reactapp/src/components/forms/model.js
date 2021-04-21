@@ -4,7 +4,7 @@ import ipfs from '../../ipfs'
 import modelDatabase from "../../contractInterfaces/modeldatabase";
 import registrydatabase from "../../contractInterfaces/registrydatabase";
 import web3 from "../../contractInterfaces/web3";
-import {Link} from 'react-router-dom';
+import {Link, BrowserRouter} from 'react-router-dom';
 
 
 function validate(modelName, description, buffer){
@@ -155,25 +155,25 @@ export class UploadModelForm extends React.Component {
                     <hr />
                     <label>
                     <b>Model Name</b>:
-                    <input name="name" type="text" value={this.state.name} onChange={this.handleChange}
+                    <input name="name" id="name-input" type="text" value={this.state.name} onChange={this.handleChange}
                     placeholder="Give your model a name."
                     />
                     </label>
                     <label>
                     <b>Objective</b>:
-                    <input name="objective" type="text" value={this.state.objective} onChange={this.handleChange}
+                    <input name="objective" id="objective-input" type="text" value={this.state.objective} onChange={this.handleChange}
                     placeholder="Describe in a few words the overall aim of your model."
                     />
                     </label>
                     <label>
                     <b>Description</b>:
-                    <textArea name="description" type="text" onChange={this.handleChange}
+                    <textArea name="description" id="description-input" type="text" value={this.state.description} onChange={this.handleChange}
                     placeholder="What do you want to achieve with your model? How much data would you need to fully train it?"
                     />
                     </label>
                     <label>
                     <b>Data Requirements</b>:
-                    <textArea name="dataRequirements" type="text" onChange={this.handleChange}
+                    <textArea name="dataRequirements" id="req-input" type="text" value={this.state.dataRequirements} onChange={this.handleChange}
                     placeholder="In what format does your model require the data to be in?
                     Please describe each attribute (data type, are missing values acceptable etc.) and the potential preprocessing required."
                     />
@@ -184,15 +184,17 @@ export class UploadModelForm extends React.Component {
                     Additional classes relative to dataloading, training and testing must also be implemented. <br />
                     Please see the template for the full details.
                     </p>
+                    <BrowserRouter>
                     <Link to="/model.py" target="_blank" download>
                         <p>download template</p>
                     </Link>
-                    <input name= "model" type = "file" accept=".py"
+                    </BrowserRouter>
+                    <input name= "model"  id = "fileUpload" data-testid = "file" type = "file" accept=".py"
                                onChange = {this.captureFile}
                     />
                     </label>
 
-                    <input type="submit" value="Register" className="register"/>
+                    <input data-testid = "submit" type="submit" value="Register" className="register"/>
 
                 </div>
 
