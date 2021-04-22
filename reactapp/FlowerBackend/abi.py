@@ -1,4 +1,4 @@
-job_abi = [
+abi = '''[
     {
       "inputs": [
         {
@@ -683,4 +683,4 @@ job_abi = [
       "stateMutability": "view",
       "type": "function"
     }
-  ]
+  ]'''

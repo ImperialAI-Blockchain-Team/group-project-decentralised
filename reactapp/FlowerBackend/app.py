@@ -1,19 +1,21 @@
 from web3 import Web3
-import abi
 import requests
+from abi import abi
 from flask import Flask, request, abort, Response, json, send_from_directory, jsonify
 from flask_cors import CORS, cross_origin
 import subprocess
 import re, json
+import json
 
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['TESTING'] = True
+abi = json.loads(abi)
 
 web3 = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/ec89decf66584cd984e5f89b6467f34f'))
 job_contract_address = '0x1784f9C5b53888F07cFAeFEd8DD0C4ED4F2E60FF'
-contract = web3.eth.contract(address=job_contract_address, abi=abi.job_abi)
+contract = web3.eth.contract(address=job_contract_address, abi=abi)
 
 def retrieve_strategy(strategy_hash):
     params = (('arg', strategy_hash),)
@@ -77,6 +79,7 @@ def start_server():
 
 if __name__ == "__main__":
     # app.run(debug=True)
+    start_server()
     job = contract.functions.jobs(0).call()
     hash = job[2]
     retrieve_strategy(hash)
