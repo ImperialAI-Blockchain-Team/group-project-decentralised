@@ -95,7 +95,7 @@ export class JobBrowser extends React.Component {
             }else if((Date.now()/1000) > jobDeadline && numAllow >= job['minClients']
                 && (Date.now()/1000) < jobGrace && !job['trainingStarted']) {
                 jobStatus = "Awaiting Training to Start"
-            }else if((Date.now()/1000) < jobGrace && !job['trainingStarted'] && numAllow >= job['minClients']){
+            }else if((Date.now()/1000) > jobGrace && !job['trainingStarted'] && numAllow >= job['minClients']){
                 jobStatus = "Job Failed (Job Owner did not start job)"
             }else if(job['trainingStarted'] && !job['trainingEnded']){
                 jobStatus = "Training in Progress"
@@ -327,6 +327,13 @@ export class JobBrowser extends React.Component {
         let isMinClients = this.state.targetAllowed.length >= minClients
         if (!isMinClients){
             alert("Not enough clients to start job")
+            return;
+        }
+
+        // Check if grace period not over
+        let isGraceOver = this.state.targetJobGrace < (Date.now()/1000);
+        if(isGraceOver){
+            alert("Too late to start job")
             return;
         }
 
