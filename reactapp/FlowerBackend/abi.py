@@ -12,12 +12,12 @@ abi = '''[
           "type": "address"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "nonpayable",
       "type": "constructor"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [],
       "name": "gracePeriod",
       "outputs": [
@@ -27,12 +27,12 @@ abi = '''[
           "type": "uint256"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [],
       "name": "holdingFee",
       "outputs": [
@@ -42,12 +42,12 @@ abi = '''[
           "type": "uint256"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [],
       "name": "jobCreationFee",
       "outputs": [
@@ -57,12 +57,12 @@ abi = '''[
           "type": "uint256"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [
         {
           "internalType": "uint256",
@@ -83,12 +83,12 @@ abi = '''[
           "type": "string"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [
         {
           "internalType": "uint256",
@@ -135,6 +135,11 @@ abi = '''[
         },
         {
           "internalType": "bool",
+          "name": "active",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
           "name": "trainingStarted",
           "type": "bool"
         },
@@ -149,12 +154,12 @@ abi = '''[
           "type": "uint256"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [],
       "name": "jobsCreated",
       "outputs": [
@@ -164,12 +169,12 @@ abi = '''[
           "type": "uint256"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [
         {
           "internalType": "string",
@@ -185,12 +190,12 @@ abi = '''[
           "type": "bool"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [
         {
           "internalType": "string",
@@ -206,12 +211,12 @@ abi = '''[
           "type": "bool"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [
         {
           "internalType": "uint256",
@@ -227,12 +232,33 @@ abi = '''[
           "type": "uint256"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_id",
+          "type": "uint256"
+        }
+      ],
+      "name": "getGraceDeadline",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": False,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": True,
       "inputs": [
         {
           "internalType": "uint256",
@@ -248,12 +274,12 @@ abi = '''[
           "type": "bool"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": false,
+      "constant": False,
       "inputs": [
         {
           "internalType": "string",
@@ -288,12 +314,12 @@ abi = '''[
       ],
       "name": "createJob",
       "outputs": [],
-      "payable": true,
+      "payable": True,
       "stateMutability": "payable",
       "type": "function"
     },
     {
-      "constant": false,
+      "constant": False,
       "inputs": [
         {
           "internalType": "uint256",
@@ -308,12 +334,12 @@ abi = '''[
       ],
       "name": "registerDatasetOwner",
       "outputs": [],
-      "payable": true,
+      "payable": True,
       "stateMutability": "payable",
       "type": "function"
     },
     {
-      "constant": false,
+      "constant": False,
       "inputs": [
         {
           "internalType": "uint256",
@@ -328,12 +354,12 @@ abi = '''[
       ],
       "name": "addToAllowList",
       "outputs": [],
-      "payable": false,
+      "payable": False,
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [
         {
           "internalType": "uint256",
@@ -349,12 +375,12 @@ abi = '''[
           "type": "uint256"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [
         {
           "internalType": "uint256",
@@ -370,12 +396,12 @@ abi = '''[
           "type": "uint256"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [
         {
           "internalType": "uint256",
@@ -391,12 +417,12 @@ abi = '''[
           "type": "address[]"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [
         {
           "internalType": "uint256",
@@ -412,12 +438,12 @@ abi = '''[
           "type": "address[]"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [
         {
           "internalType": "uint256",
@@ -443,12 +469,12 @@ abi = '''[
           "type": "uint256"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [
         {
           "internalType": "uint256",
@@ -479,12 +505,12 @@ abi = '''[
           "type": "bool"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [
         {
           "internalType": "uint256",
@@ -500,12 +526,12 @@ abi = '''[
           "type": "uint256"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": false,
+      "constant": False,
       "inputs": [
         {
           "internalType": "uint256",
@@ -515,12 +541,12 @@ abi = '''[
       ],
       "name": "startJob",
       "outputs": [],
-      "payable": false,
+      "payable": False,
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "constant": false,
+      "constant": False,
       "inputs": [
         {
           "internalType": "uint256",
@@ -530,12 +556,12 @@ abi = '''[
       ],
       "name": "withdrawFee",
       "outputs": [],
-      "payable": false,
+      "payable": False,
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "constant": false,
+      "constant": False,
       "inputs": [
         {
           "internalType": "uint256",
@@ -545,12 +571,12 @@ abi = '''[
       ],
       "name": "endFailedJob",
       "outputs": [],
-      "payable": false,
+      "payable": False,
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [
         {
           "internalType": "uint256",
@@ -566,12 +592,12 @@ abi = '''[
           "type": "bool"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": false,
+      "constant": False,
       "inputs": [
         {
           "internalType": "uint256",
@@ -601,12 +627,12 @@ abi = '''[
       ],
       "name": "compensate",
       "outputs": [],
-      "payable": false,
+      "payable": False,
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "constant": false,
+      "constant": False,
       "inputs": [
         {
           "internalType": "uint256",
@@ -616,12 +642,12 @@ abi = '''[
       ],
       "name": "getCompensation",
       "outputs": [],
-      "payable": false,
+      "payable": False,
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [
         {
           "internalType": "uint256",
@@ -637,12 +663,12 @@ abi = '''[
           "type": "string"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [
         {
           "internalType": "uint256",
@@ -658,12 +684,12 @@ abi = '''[
           "type": "string"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [
         {
           "internalType": "uint256",
@@ -679,7 +705,7 @@ abi = '''[
           "type": "bool"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     }

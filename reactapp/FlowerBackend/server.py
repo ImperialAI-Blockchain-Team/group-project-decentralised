@@ -162,6 +162,8 @@ def send_compensations(job_id, compensations, model_weights_hash, log_hash):
     for address, value in compensations.items():
         addresses.append(address)
         compensation_values.append(value)
+    #  compensate(uint _id, uint [] memory _compensation, address payable [] memory _clients,
+    #                         string memory _resultsHash, string memory _weightsHash)
     receipt = contract.functions.compensate(job_id, compensation_values, addresses, model_weights_hash, log_hash).transact()
     return receipt
 

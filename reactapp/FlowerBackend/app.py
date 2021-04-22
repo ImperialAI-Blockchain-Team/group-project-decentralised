@@ -73,7 +73,7 @@ def start_server():
         f.write(job_id)
 
     # Start flower server
-    subprocess.Popen(["python3", "server.py"])
+    subprocess.open(["python3", "server.py"])
 
     return {'server address': '[::]:8080'}, 200
 
