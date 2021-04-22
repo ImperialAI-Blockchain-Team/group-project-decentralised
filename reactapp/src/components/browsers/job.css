@@ -84,7 +84,7 @@
 
 .startJobButton {
   cursor:pointer;
-  background-color: limegreen;
+  background-color: lightgreen;
   padding: 1px;
   position: relative;
   border-radius: 5px;
@@ -93,7 +93,7 @@
 
 .withdrawFundsButton {
   cursor:pointer;
-  background-color: darkorange;
+  background-color: lightsalmon;
   padding: 1px;
   position: relative;
   border-radius: 5px;
@@ -109,7 +109,7 @@
 
 .endFailedJobButton {
   cursor:pointer;
-  background-color: firebrick;
+  background-color: lightcoral;
   padding: 1px;
   position: relative;
   border-radius: 5px;
@@ -126,6 +126,14 @@
 .downloadOutcomeButton {
   cursor:pointer;
   background-color: forestgreen;
+  padding: 1px;
+  position: relative;
+  border-radius: 5px;
+}
+
+.getCompensationButton {
+  cursor:pointer;
+  background-color: lightskyblue;
   padding: 1px;
   position: relative;
   border-radius: 5px;

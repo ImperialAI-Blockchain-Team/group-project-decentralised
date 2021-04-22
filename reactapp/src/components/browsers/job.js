@@ -43,6 +43,7 @@ export class JobBrowser extends React.Component {
         this.endFailedJob = this.endFailedJob.bind(this);
         this.downloadOutcome = this.downloadOutcome.bind(this);
         this.downloadWeights = this.downloadWeights.bind(this);
+        this.getCompensationClick = this.getCompensationClick.bind(this);
 
         // call smart contract to render jobs
         this.getNumberOfJobs()
@@ -92,8 +93,10 @@ export class JobBrowser extends React.Component {
             }else if((Date.now()/1000) > jobDeadline && numAllow < job['minClients']){
                 jobStatus = "Job Failed (Insufficient Clients)"
             }else if((Date.now()/1000) > jobDeadline && numAllow >= job['minClients']
-                && (Date.now()/1000) < jobGrace && !job['trainingStarted']){
+                && (Date.now()/1000) < jobGrace && !job['trainingStarted']) {
                 jobStatus = "Awaiting Training to Start"
+            }else if((Date.now()/1000) < jobGrace && !job['trainingStarted'] && numAllow >= job['minClients']){
+                jobStatus = "Job Failed (Job Owner did not start job)"
             }else if(job['trainingStarted'] && !job['trainingEnded']){
                 jobStatus = "Training in Progress"
             }else if(job['trainingEnded']){
@@ -237,6 +240,9 @@ export class JobBrowser extends React.Component {
                     <button className="downloadWeightButton" name={this.state.targetJobId} onClick={this.downloadWeights}>Download Weights</button>
                 &nbsp; &nbsp;
                     <button className="downloadOutcomeButton" name={this.state.targetJobId} onClick={this.downloadOutcome}>Download Job Outcome</button>
+                </p>
+                <p>
+                    <button className="getCompensationButton" name={this.state.targetJobId} onClick={this.getCompensationClick}>Get Compensation</button>
                 </p>
             </div>
             )
@@ -522,7 +528,7 @@ export class JobBrowser extends React.Component {
             return
         }
 
-        // Check if user is either job owner or training participant
+        // Check if user is either job owner
         let isOwner = this.state.targetOwner == accounts[0]
         if (!isOwner){
             alert("Only job owner can download the weights.")
@@ -540,6 +546,35 @@ export class JobBrowser extends React.Component {
         element.href = URL.createObjectURL(file);
         element.download = "model.py";
         element.click();
+
+    }
+
+    getCompensationClick = async () => {
+        const accounts = await web3.eth.getAccounts();
+
+        // Check if training ended
+        let isTrainingEnded = this.state.targetTrainingEnded
+        if (!isTrainingEnded){
+            alert("Can only download job outcome after training ends")
+            return
+        }
+
+        // Check if user is training participant
+        let isAllowed = this.state.targetAllowed.includes(accounts[0])
+        if (!isAllowed){
+            alert("Only data owners on the job's allow list")
+            return;
+        }
+
+        // Check if user has already been compensated before
+        let isCompensated = await jobsdatabase.methods.isCompensated(this.state.targetJobId).call({from: accounts[0]});
+        if (isCompensated){
+            alert("User has already been compensated, can't be compensated twice")
+            return;
+        }
+
+        // Compensates user
+        await jobsdatabase.methods.getCompensation(this.state.targetJobId).send({from: accounts[0]});
 
     }
 

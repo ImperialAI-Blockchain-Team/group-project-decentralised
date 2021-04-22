@@ -350,4 +350,12 @@ contract Jobs {
         return(jobResults[_id].resultsHash);
     }
 
+    function isCompensated(uint _id) public view returns(bool){
+        // Check if user is a job participant first
+        require(jobs[_id].allowList[msg.sender]==true,"User not eligible for compensation for this job");
+
+        //Check if user has been isCompensated
+        return(jobResults[_id].isCompensated[msg.sender]);
+    }
+
 }

@@ -150,6 +150,13 @@ export class ModelBrowser extends React.Component {
             return;
         }
 
+        const modelOwner = await modeldatabase.methods.getModelOwner(modelHash).call();
+        let isModelOwner = accounts[0] == modelOwner;
+        if(isModelOwner){
+            alert("Can't register interest in own model")
+            return;
+        }
+
         await modeldatabase.methods.registerInterest(modelHash).send({from : accounts[0]});
 
     }

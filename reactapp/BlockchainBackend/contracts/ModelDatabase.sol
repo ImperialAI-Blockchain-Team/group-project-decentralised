@@ -107,6 +107,11 @@ contract ModelDatabase {
             revert("User already registered interest");
         }
 
+        // Ensure model owner does not register interest in their own model
+        if(msg.sender == models[_ipfsHash].owner){
+            revert("Can register interest in own mode");
+        }
+
         models[_ipfsHash].interest = models[_ipfsHash].interest + 1;
         models[_ipfsHash].datasetOwnersInterest[msg.sender] = true;
         models[_ipfsHash].arrDatasetOwnersInterest.push(msg.sender);
