@@ -432,8 +432,6 @@ export class JobForm extends React.Component {
                         <Button onClick={this.open2} disabled={this.state.strategy==''||this.state.strategy=='datasize'||this.state.strategy=='accuracy'}>Hyperparameter Setting</Button>
                     <br></br>
                     <br></br>
-                    User-define:
-
                     </label>
                     { this.state.showDiv1 &&
                     <div className="dev1">
