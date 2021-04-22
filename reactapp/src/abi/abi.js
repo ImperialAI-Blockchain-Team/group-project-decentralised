@@ -1006,6 +1006,11 @@ export const jobs = [
         },
         {
           "internalType": "bool",
+          "name": "active",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
           "name": "trainingStarted",
           "type": "bool"
         },
@@ -1091,6 +1096,27 @@ export const jobs = [
         }
       ],
       "name": "getJobStartTime",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_id",
+          "type": "uint256"
+        }
+      ],
+      "name": "getGraceDeadline",
       "outputs": [
         {
           "internalType": "uint256",

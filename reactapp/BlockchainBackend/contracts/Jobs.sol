@@ -31,6 +31,7 @@ contract Jobs {
         uint minClients;
         uint initTime;
         uint hoursUntilStart;
+        bool active;
         bool trainingStarted;
         bool trainingEnded;
         uint bounty;
@@ -70,6 +71,10 @@ contract Jobs {
         return jobs[_id].initTime + jobs[_id].hoursUntilStart * 1 hours;
     }
 
+    function getGraceDeadline(uint _id) public view returns(uint){
+        return getJobStartTime(_id) + gracePeriod;
+    }
+
     function registrationPeriodOver(uint _id) public view returns(bool) {
         return (block.timestamp >= getJobStartTime(_id));
     }
@@ -93,6 +98,7 @@ contract Jobs {
                                 initTime: block.timestamp,
                                 hoursUntilStart: _hoursUntilStart,
                                 bounty: _bounty,
+                                active: true,
                                 trainingStarted: false,
                                 trainingEnded: false,
                                 arrDatasetOwners: init,
@@ -196,8 +202,8 @@ contract Jobs {
         }
 
         // Check grace period not over
-        uint jobStartTime = getJobStartTime(_id);
-        uint deadline = jobStartTime + gracePeriod;
+        //uint jobStartTime = getJobStartTime(_id);
+        uint deadline = getGraceDeadline(_id);
         if (block.timestamp > deadline){
             revert("Too late to start training model");
         }
@@ -222,15 +228,21 @@ contract Jobs {
 
         // return job fee to client
         //msg.sender.transfer(jobCreationFee);
-        serverAddress.transfer(jobCreationFee);
+        //serverAddress.transfer(jobCreationFee);
 
     }
+
+
 
     function withdrawFee(uint _id) public{
         // Check grace period over
         uint jobStartTime = getJobStartTime(_id);
-        uint deadline = jobStartTime + gracePeriod;
-        if (block.timestamp < deadline){
+        uint deadline = getGraceDeadline(_id);
+        if (block.timestamp < jobStartTime ){
+            revert("Can only withdraw funds after registration period end");
+        }
+
+        if ((block.timestamp < deadline) && (jobs[_id].arrAllowList.length >= jobs[_id].minClients)){
             revert("Can only withdraw funds after training start deadline");
         }
 
@@ -254,28 +266,23 @@ contract Jobs {
         // Check grace period over
         uint jobStartTime = getJobStartTime(_id);
         if (block.timestamp < jobStartTime){
-            revert("Job can only end without training after the training start deadline");
+            revert("Job can only end without training after registration ends");
         }
         
         // To end job, training should not have started
         require(!jobs[_id].trainingStarted, "Can only withdraw funds if training never started");
         
         // To end job, length of the allow list must be smaller than minClients
-        require(getNumAllow(_id) < getMinClients(_id), "Sufficient number of clients on allow list to start training") ;
-        
-        // withdraw holding fee to every registered data owner
-        address payable[] memory registeredDatasetOwners = jobs[_id].arrDatasetOwners;
-        for (uint i=0; i<registeredDatasetOwners.length; i++) {
-            address payable payee = registeredDatasetOwners[i];
-            if (jobs[_id].datasetOwners[payee] == true){
-                payee.transfer(holdingFee);
-                delete(jobs[_id].datasetOwners[payee]);
-            }
-        }
+        require(getNumAllow(_id) < getMinClients(_id), "Sufficient number of clients on allow list to start training");
+
+        // Can only end an active job, to prevent spamming function
+        require(jobs[_id].active == true);
 
         // withdraw bounty to data scientist
         msg.sender.transfer(jobs[_id].bounty);
         msg.sender.transfer(jobCreationFee);
+
+        jobs[_id].active = false;
     }
 
     function isRegistered(uint _id) public view returns(bool){
@@ -311,6 +318,7 @@ contract Jobs {
 
         // Set status of job as ended
         jobs[_id].trainingEnded = true;
+        jobs[_id].active = false;
         // Log results of job
         jobResults[_id].resultsHash = _resultsHash;
         jobResults[_id].weightsHash = _weightsHash;
@@ -331,6 +339,7 @@ contract Jobs {
 
         // Transfer to user their compensation amount
         msg.sender.transfer(jobResults[_id].compensation[msg.sender]);
+        msg.sender.transfer(holdingFee);
 
         // Log that user has been compensated
         jobResults[_id].isCompensated[msg.sender] = true;
