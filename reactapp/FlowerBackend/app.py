@@ -51,16 +51,18 @@ def retrieve_testset(testset_hash):
 @app.route('/start_server', methods=['GET', 'POST'])
 def start_server():
     # retrieve job id
-    print()
+    print('flag1')
     if 'id' not in request.args.keys():
         return {'error': 'id required'}, 500
     job_id = request.args.get('id')
+    print('flag2')
     if not job_id.isdigit():
         return {'error': 'id must be a non negative integer'}, 500
 
     int_job_id = int(job_id)
 
     # verify job is allowed to be ran
+    print('flag3')
     job = contract.functions.jobs(int_job_id).call()
     if not job[8]:
         return {'error': 'job cannot be started'}, 500

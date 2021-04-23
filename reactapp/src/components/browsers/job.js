@@ -370,12 +370,14 @@ export class JobBrowser extends React.Component {
 
         console.log(String(this.state.targetJobId))
         // Call Flask backend
-        axios.post("http://localhost:5000/start_server",{id: String(this.state.targetJobId)})
+        axios.post("http://localhost:5000/start_server",null, {params: {'id': String(this.state.targetJobId)}})
             .then(response => {
                 console.log(response)
+                alert(response)
             })
             .catch(error => {
                 console.log(error)
+                alert(error)
             })
 
 
@@ -412,7 +414,7 @@ export class JobBrowser extends React.Component {
                 return;
             }
         }
-        
+
 
         await jobsdatabase.methods.withdrawFee(id).send({from: accounts[0]})
         .on('transactionHash', (hash) =>{
@@ -464,7 +466,7 @@ export class JobBrowser extends React.Component {
                 return;
             }
         }
-        
+
         // withdraw holding fees to registered clients
         await jobsdatabase.methods.endFailedJob(id).send({from: accounts[0]})
         .on('transactionHash', (hash) =>{
@@ -476,7 +478,7 @@ export class JobBrowser extends React.Component {
                console.log(receipt);
             }
         })
-        
+
     }
 
     downloadModel = async () => {
