@@ -250,6 +250,7 @@ export class JobForm extends React.Component {
                             "epoch",
                             "batch_size",
                             "round",
+                            "lr",
                             "fraction_eval",
                             "fraction_fit",
                             "min_fit_clients",
