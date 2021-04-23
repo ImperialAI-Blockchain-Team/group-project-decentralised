@@ -42,15 +42,15 @@ class FedAvg(FedStrategy):
 
     ) -> None:
         super().__init__(
-            fraction_fit=fraction_fit,
-            fraction_eval=fraction_eval,
-            min_fit_clients=min_fit_clients,
-            min_eval_clients=min_eval_clients,
-            min_available_clients=min_available_clients,
+            fraction_fit=float(fraction_fit),
+            fraction_eval=float(fraction_eval),
+            min_fit_clients=int(min_fit_clients),
+            min_eval_clients=int(min_eval_clients),
+            min_available_clients=int(min_available_clients),
             eval_fn=eval_fn,
             on_fit_config_fn=on_fit_config_fn,
             on_evaluate_config_fn=on_evaluate_config_fn,
-            accept_failures=accept_failures,
+            accept_failures=bool(accept_failures),
             initial_parameters=initial_parameters,
             model=model
             )

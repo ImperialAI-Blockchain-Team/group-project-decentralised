@@ -38,15 +38,15 @@ class FedStrategy(fl.server.strategy.Strategy):
         model = None
     ) -> None:
         super().__init__()
-        self.min_fit_clients = min_fit_clients
-        self.min_eval_clients = min_eval_clients
-        self.fraction_fit = fraction_fit
-        self.fraction_eval = fraction_eval
-        self.min_available_clients = min_available_clients
+        self.min_fit_clients = int(min_fit_clients)
+        self.min_eval_clients = int(min_eval_clients)
+        self.fraction_fit = float(fraction_fit)
+        self.fraction_eval = float(fraction_eval)
+        self.min_available_clients = int(min_available_clients)
         self.eval_fn = eval_fn
         self.on_fit_config_fn = on_fit_config_fn
         self.on_evaluate_config_fn = on_evaluate_config_fn
-        self.accept_failures = accept_failures
+        self.accept_failures = bool(accept_failures)
         self.initial_parameters = initial_parameters
         self.model = model
         self.contrib = defaultdict(list)
