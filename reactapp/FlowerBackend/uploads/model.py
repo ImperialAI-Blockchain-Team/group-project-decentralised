@@ -12,14 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-"""PyTorch CIFAR-10 image classification.
-
-The code is generally adapted from 'PyTorch: A 60 Minute Blitz'. Further
-explanations are given in the official PyTorch tutorial:
-
-https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html
-"""
-
 
 # mypy: ignore-errors
 # pylint: disable=W0223
