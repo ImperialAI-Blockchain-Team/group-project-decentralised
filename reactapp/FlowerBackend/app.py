@@ -1,4 +1,3 @@
-from web3 import Web3
 import requests
 from abi import abi
 from flask import Flask, request, abort, Response, json, send_from_directory, jsonify
@@ -6,15 +5,19 @@ from flask_cors import CORS, cross_origin
 import subprocess
 import re, json
 import json
+from web3 import Web3
 
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['TESTING'] = True
+app.config['CORS_ORIGIN_ALLOW_ALL'] = True
+app.config['ALLOWED_HOSTS'] = ['*']
 abi = json.loads(abi)
 
 web3 = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/ec89decf66584cd984e5f89b6467f34f'))
-job_contract_address = '0x1784f9C5b53888F07cFAeFEd8DD0C4ED4F2E60FF'
+account = web3.eth.account.from_key('0x6b162e9dbfa762373e98b3944279f67b8fac61dc85f255da0108ebdc408af182')
+job_contract_address = '0xF127d5453F4871E4D3Ee2E6ebBf559A556aEE306'
 contract = web3.eth.contract(address=job_contract_address, abi=abi)
 
 def retrieve_strategy(strategy_hash):
@@ -50,15 +53,17 @@ def retrieve_testset(testset_hash):
 @app.route('/start_server', methods=['GET', 'POST'])
 def start_server():
     # retrieve job id
-    if 'id' not in request.args.keys():
+    if 'id' not in request.json:
         return {'error': 'id required'}, 500
-    job_id = request.args['id']
-
+    job_id = request.json['id']
     if not job_id.isdigit():
         return {'error': 'id must be a non negative integer'}, 500
 
+    int_job_id = int(job_id)
+    print(request.json['id'])
     # verify job is allowed to be ran
-    job = contract.functions.jobs(job_id).call()
+    job = contract.functions.jobs(int_job_id).call()
+    print(job[8])
     if not job[8]:
         return {'error': 'job cannot be started'}, 500
 
@@ -73,13 +78,36 @@ def start_server():
         f.write(job_id)
 
     # Start flower server
-    subprocess.open(["python3", "server.py"])
+    subprocess.call(["python3", "server.py"])
 
     return {'server address': '[::]:8080'}, 200
 
+def send_compensations(job_id, compensations, model_weights_hash, log_hash):
+    addresses = []
+    compensation_values = []
+    for address, value in compensations.items():
+        addresses.append(address)
+        compensation_values.append(value)
+    #  compensate(uint _id, uint [] memory _compensation, address payable [] memory _clients,
+    #                         string memory _resultsHash, string memory _weightsHash)
+    receipt = contract.functions.compensate(job_id, compensation_values, addresses, model_weights_hash, log_hash).transact()
+    return receipt
+
 if __name__ == "__main__":
+
     # app.run(debug=True)
-    start_server()
+    #start_server()
     job = contract.functions.jobs(0).call()
-    hash = job[2]
-    retrieve_strategy(hash)
+    numAllow = contract.functions.getNumAllow(0).call()
+    owner = job[0]
+    balance = web3.eth.get_balance(account._address)
+
+    #transaction = contract.functions.compensate(0,[1,],[0x030a713342D37EeBD51557aA56bc7Fe580A3910B,], 'hash', 'hash')\
+    #    .buildTransaction({'chainId': 3, 'gas': 70000, 'nonce': web3.eth.getTransactionCount(account._address)})
+
+    #print(transaction)
+    print(owner)
+    print(numAllow)
+    print(account._address)
+    print(account._private_key)
+
