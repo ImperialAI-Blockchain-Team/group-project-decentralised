@@ -27,7 +27,6 @@ def get_eval_fn(
     """Return an evaluation function for centralized evaluation."""
 
     def evaluate(weights: fl.common.Weights) -> Optional[Tuple[float, float]]:
-        """Use the entire CIFAR-10 test set for evaluation."""
         model = ICU.Loader(DATA_ROOT).load_model()
         state_dict = OrderedDict(
             {k: torch.Tensor(v) for k, v in zip(model.state_dict().keys(), weights)}
@@ -148,11 +147,13 @@ def calculate_compensations(job_id, compensation_weights):
     return compensations
 
 def save_weights_and_training_log():
-    # params = (('path', './model_weights.pt'),)
-    # model_weights_hash = requests.post('https://ipfs.infura.io:5001/api/v0/add', params=params)
-    # params = (('path', './log.json'),)
-    # log_hash = requests.post('https://ipfs.infura.io:5001/api/v0/add', params=params)
-    # return model_weights_hash, log_hash
+    params = (('path', './model_weights.pt'),)
+    model_weights_hash = requests.post('https://ipfs.infura.io:5001/api/v0/add', params=params)
+    params = (('path', './log.json'),)
+    log_hash = requests.post('https://ipfs.infura.io:5001/api/v0/add', params=params)
+    print(model_weights_hash)
+    print(log_hash)
+    #return model_weights_hash, log_hash
     return 'None', 'None'
 
 

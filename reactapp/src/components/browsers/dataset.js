@@ -88,9 +88,9 @@ export class DatasetBrowser extends React.Component {
         const renderedDatasets = await subDatasetList.map(dataset => {
             return (
                 <div className="datasetContainer">
+                    <p><b>Name</b>: {dataset['name']}</p>
                     <p><b>Owner</b>: {dataset['ownerUsername']}</p>
                     <p><b>Owner Address</b>: {dataset['owner']}</p>
-                    <p><b>Name</b>: {dataset['name']}</p>
                     <p><b>Creation Date</b>: {new Date(dataset['time']*1000).toLocaleDateString()}</p>
                     <p><button className="moreInfoButton" name={dataset['ipfsHash']} onClick={this.handleClick}>More Information</button></p>
             </div>

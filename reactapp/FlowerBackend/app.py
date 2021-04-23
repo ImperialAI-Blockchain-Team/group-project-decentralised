@@ -17,6 +17,7 @@ abi = json.loads(abi)
 
 web3 = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/ec89decf66584cd984e5f89b6467f34f'))
 account = web3.eth.account.from_key('0x6b162e9dbfa762373e98b3944279f67b8fac61dc85f255da0108ebdc408af182')
+web3.eth.default_account = account
 job_contract_address = '0xD1a210292F6D37098114AFF851D747Ba6ccBAB9B'
 contract = web3.eth.contract(address=job_contract_address, abi=abi)
 
@@ -102,6 +103,7 @@ if __name__ == "__main__":
     owner = job[0]
     balance = web3.eth.get_balance(account._address)
 
+    receipt = contract.functions.compensate(int(0), [int(20000)], [0xdeaA6Fa2395422b8f2919E14f927102Ea83Fc4Fb], 'model_weights_hash','log_hash').transact()
     #transaction = contract.functions.compensate(0,[1,],[0x030a713342D37EeBD51557aA56bc7Fe580A3910B,], 'hash', 'hash')\
     #    .buildTransaction({'chainId': 3, 'gas': 70000, 'nonce': web3.eth.getTransactionCount(account._address)})
 

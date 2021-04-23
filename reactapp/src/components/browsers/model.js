@@ -87,9 +87,9 @@ export class ModelBrowser extends React.Component {
         const renderedModels = await subModelList.map(model => {
             return (
             <div className="modelContainer">
+                <p><b>Name</b>: {model['name']}</p>
                 <p><b>Owner</b>: {model['ownerUsername']}</p>
                 <p><b>Owner Address</b>: {model['owner']}</p>
-                <p><b>Name</b>: {model['name']}</p>
                 <p><b>Objective</b>: {model['objective']}</p>
                 <p><b>Creation Date</b>: {new Date(model['time']*1000).toLocaleDateString()}</p>
                 <p><button className="moreInfoButton" name={model['index']} onClick={this.handleClick}>More Information</button>

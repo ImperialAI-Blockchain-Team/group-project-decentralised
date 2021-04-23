@@ -3,16 +3,15 @@ import argparse
 import timeit
 
 import torch
-import torchvision
 
 import flwr as fl
 from flwr.common import EvaluateIns, EvaluateRes, FitIns, FitRes, ParametersRes, Weights
 
-import retrieved_models.model as ICU
+import model as MODEL
 from collections import OrderedDict
 
 DEFAULT_SERVER_ADDRESS = "[::]:8080"
-DATA_ROOT = "data/patient.csv"
+DATA_ROOT = "trainset.csv"
 # pylint: disable=no-member
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 # pylint: enable=no-member
@@ -66,8 +65,8 @@ class Client(fl.client.Client):
             self.testset, batch_size=batch_size, shuffle=True
         )
 
-        ICU.train(self.model, trainloader, epochs=epochs, device=DEVICE)
-        _, acc = ICU.test(self.model, testloader, device=DEVICE)
+        MODEL.train(self.model, trainloader, epochs=epochs, device=DEVICE)
+        _, acc = MODEL.test(self.model, testloader, device=DEVICE)
         # Return the refined weights and the number of examples used for training
         weights_prime: Weights = self.get_weights(self.model)
         params_prime = fl.common.weights_to_parameters(weights_prime)
@@ -93,7 +92,7 @@ class Client(fl.client.Client):
         testloader = torch.utils.data.DataLoader(
             self.testset, batch_size=32, shuffle=False
         )
-        loss, accuracy = ICU.test(self.model, testloader, device=DEVICE)
+        loss, accuracy = MODEL.test(self.model, testloader, device=DEVICE)
         # Return the number of evaluation examples and the evaluation result (loss)
         return EvaluateRes(
             num_examples=len(self.testset), loss=float(loss), accuracy=float(accuracy),
@@ -123,9 +122,9 @@ def main() -> None:
     fl.common.logger.configure(f"client_{args.cid}", host=args.log_host)
 
     # Load model and data
-    model = ICU.Loader( DATA_ROOT).load_model()
+    model = MODEL.Loader( DATA_ROOT).load_model()
     model.to(DEVICE)
-    trainset, testset = ICU.Loader(DATA_ROOT).load_data()
+    trainset, testset = MODEL.Loader(DATA_ROOT).load_data()
 
     # Start client
     client = Client(args.cid, model, trainset, testset)
