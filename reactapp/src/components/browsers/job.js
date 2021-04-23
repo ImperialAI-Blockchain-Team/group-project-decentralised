@@ -7,6 +7,7 @@ import { Container2 } from "../helpers/Container2";
 import web3 from "../../contractInterfaces/web3";
 import ipfs from '../../ipfs'
 import registrydatabase from "../../contractInterfaces/registrydatabase";
+import datasetdatabase from "../../contractInterfaces/datasetdatabase";
 import axios from "axios";
 
 export class JobBrowser extends React.Component {
@@ -170,9 +171,13 @@ export class JobBrowser extends React.Component {
         const allowed = await jobsdatabase.methods.getJobAllowed(id).call();
 
         let registeredNames = {}
+        let registeredDataset = {}
         for (let i=0; i < registered.length; i++){
             let username = await registrydatabase.methods.getUsername(registered[i]).call()
+            //let dataset = await jobsdatabase.methods.get.getDataset(id,registered[i]).call();
+            //let datasetName = await datasetdatabase.methods.getDatasetName(dataset).call();
             registeredNames[registered[i]] = username
+            //registeredDataset[registered[i]] = datasetName
         }
 
         // Set target job info
@@ -599,7 +604,7 @@ export class JobBrowser extends React.Component {
                 <div className="headerContainer">
                     <div className="searchBarContainer">
 
-                        <input type="text" id="myInput" onKeyUp={this.handleOnKeyUp} placeholder="Search model (by description)" />
+                        <input type="text" id="myInput" onKeyUp={this.handleOnKeyUp} placeholder="Search job" />
                     </div>
                     <p id="numberOfJobs">{this.state.numberOfJobs} jobs already uploaded to the system</p>
                     <Link to="/ClientPackage.zip" target="_blank" download>Client Package</Link>

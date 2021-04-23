@@ -3,6 +3,7 @@
 import torch
 import torch.nn as nn
 import pandas as pd
+import flower as fl
 from typing import Tuple
 
 
@@ -29,6 +30,14 @@ class Loader():
             train_dataset and test_dataset must be supported by torch.utils.data.DataLoader.
             WARNING: testing will be conducted on the server side, test_dataset can have 0 samples.
         """
+        pass
+
+    def get_weights(self) -> fl.common.Weights:
+        """Get model weights as a list of NumPy ndarrays."""
+        pass
+
+    def set_weights(self, weights: fl.common.Weights) -> None:
+        """Set model weights from a list of NumPy ndarrays."""
         pass
 
 

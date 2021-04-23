@@ -17,7 +17,7 @@ abi = json.loads(abi)
 
 web3 = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/ec89decf66584cd984e5f89b6467f34f'))
 account = web3.eth.account.from_key('0x6b162e9dbfa762373e98b3944279f67b8fac61dc85f255da0108ebdc408af182')
-job_contract_address = '0xF127d5453F4871E4D3Ee2E6ebBf559A556aEE306'
+job_contract_address = '0xD1a210292F6D37098114AFF851D747Ba6ccBAB9B'
 contract = web3.eth.contract(address=job_contract_address, abi=abi)
 
 def retrieve_strategy(strategy_hash):
@@ -108,6 +108,7 @@ if __name__ == "__main__":
     #print(transaction)
     print(owner)
     print(numAllow)
+    print("public address")
     print(account._address)
     print(account._private_key)
 

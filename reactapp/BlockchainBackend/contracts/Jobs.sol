@@ -21,7 +21,7 @@ contract Jobs {
 
     uint public holdingFee = 1e6 wei;
 
-    address payable private serverAddress = 0x12F0F455D3e769b247518747dd731E9c61366E97;
+    address payable private serverAddress = 0xc6c3F7d3E6907ea2C3174c06d188Eb57c59BF59c;
 
     struct Job {
         address payable owner;
@@ -218,23 +218,18 @@ contract Jobs {
         // List of owners registered for this job
         address payable[] memory registeredDatasetOwners = jobs[_id].arrDatasetOwners;
 
-        // Check every register data owner, if they are not on allow list, they get their fee back when training starts
-        for (uint i=0; i<registeredDatasetOwners.length; i++) {
-            if (jobs[_id].allowList[registeredDatasetOwners[i]] != true) {
-                address payable payee = registeredDatasetOwners[i];
-                payee.transfer(holdingFee);
-            }
-        }
-
         // return job fee to client
-        //msg.sender.transfer(jobCreationFee);
+        msg.sender.transfer(jobCreationFee);
         //serverAddress.transfer(jobCreationFee);
 
     }
 
 
-
     function withdrawFee(uint _id) public{
+
+        // Only a data owner registered to job can withdraw funds
+        require(jobs[_id].datasetOwners[msg.sender] == true, "Only an already registered data owner can withdraw fee");
+
         // Check grace period over
         uint jobStartTime = getJobStartTime(_id);
         uint deadline = getGraceDeadline(_id);
@@ -242,15 +237,21 @@ contract Jobs {
             revert("Can only withdraw funds after registration period end");
         }
 
+        // Allow registered users not on the allow list to withdraw fee after registration deadline
+        if (jobs[_id].allowList[msg.sender] != true) {
+                msg.sender.transfer(holdingFee);
+                // remove Client from datasetOwners list to prevent withdrawing fee again
+                delete(jobs[_id].datasetOwners[msg.sender]);
+        }
+
+        // If not a failed job i.e. min clients available, then can only withdraw funds if job owner does not start training
+        // by the grace period deadline
         if ((block.timestamp < deadline) && (jobs[_id].arrAllowList.length >= jobs[_id].minClients)){
             revert("Can only withdraw funds after training start deadline");
         }
 
-        // To withdraw funds, need training not to have started
+        // To withdraw funds for rest of clients i.e. ones on allow list, need training not to have started
         require(!jobs[_id].trainingStarted, "Can only withdraw funds if training never started");
-
-        // Only a data owner registered to job can withdraw funds
-        require(jobs[_id].datasetOwners[msg.sender] == true, "Only an already registered data owner can withdraw fee");
 
         // Send holding fee to job registered user
         msg.sender.transfer(holdingFee);
@@ -365,6 +366,10 @@ contract Jobs {
 
         //Check if user has been isCompensated
         return(jobResults[_id].isCompensated[msg.sender]);
+    }
+
+    function getDataset(uint _id, address datasetOwner) public view returns(string memory){
+        return jobs[_id].datasetHash[datasetOwner];
     }
 
 }

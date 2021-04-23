@@ -1,19 +1,3 @@
-# Copyright 2020 Adap GmbH. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# ==============================================================================
-"""Flower client example using PyTorch for CIFAR-10 image classification."""
-
 
 import argparse
 import timeit
@@ -34,16 +18,9 @@ DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 # pylint: enable=no-member
 
 
-class CifarClient(fl.client.Client):
-    """Flower client implementing CIFAR-10 image classification using PyTorch."""
+class Client(fl.client.Client):
 
-    def __init__(
-        self,
-        cid: str,
-        model: ICU.Net,
-        trainset: torchvision.datasets.CIFAR10,
-        testset: torchvision.datasets.CIFAR10,
-    ) -> None:
+    def __init__(self, cid, model, trainset, testset) -> None:
         self.cid = cid
         self.model = model
         self.trainset = trainset
@@ -125,7 +102,6 @@ class CifarClient(fl.client.Client):
 
 
 def main() -> None:
-    """Load data, create and start CifarClient."""
     parser = argparse.ArgumentParser(description="Flower")
     parser.add_argument(
         "--server_address",
@@ -152,7 +128,7 @@ def main() -> None:
     trainset, testset = ICU.Loader(DATA_ROOT).load_data()
 
     # Start client
-    client = CifarClient(args.cid, model, trainset, testset)
+    client = Client(args.cid, model, trainset, testset)
     fl.client.start_client(args.server_address, client)
 
 

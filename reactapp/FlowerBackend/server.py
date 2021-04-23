@@ -153,7 +153,7 @@ def save_weights_and_training_log():
     # params = (('path', './log.json'),)
     # log_hash = requests.post('https://ipfs.infura.io:5001/api/v0/add', params=params)
     # return model_weights_hash, log_hash
-    return None, None
+    return 'None', 'None'
 
 
 def send_compensations(job_id, compensations, model_weights_hash, log_hash):
