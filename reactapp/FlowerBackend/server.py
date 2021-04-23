@@ -174,7 +174,7 @@ if os.path.exists('uploads/strategy.json'):
     f = open('uploads/strategy.json', )
     data = json.load(f)
     f.close()
-    if data['name'] != "":
+    if data['strategy'] != "":
         launch_fl_server()
         with open('uploads/job_id.txt', 'r') as f:
             job_id = int(f.readline())
