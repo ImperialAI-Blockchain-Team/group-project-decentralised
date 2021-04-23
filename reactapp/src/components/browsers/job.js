@@ -174,10 +174,10 @@ export class JobBrowser extends React.Component {
         let registeredDataset = {}
         for (let i=0; i < registered.length; i++){
             let username = await registrydatabase.methods.getUsername(registered[i]).call()
-            //let dataset = await jobsdatabase.methods.get.getDataset(id,registered[i]).call();
-            //let datasetName = await datasetdatabase.methods.getDatasetName(dataset).call();
+            let dataset = await jobsdatabase.methods.getDataset(id,registered[i]).call();
+            let datasetName = await datasetdatabase.methods.getDatasetName(dataset).call();
             registeredNames[registered[i]] = username
-            //registeredDataset[registered[i]] = datasetName
+            registeredDataset[registered[i]] = datasetName
         }
 
         // Set target job info
@@ -204,6 +204,10 @@ export class JobBrowser extends React.Component {
 
                     {dataOwner} {"\n"}
 
+                    <b>Dataset</b>:
+
+                    {registeredDataset[dataOwner]} {"\n"}
+
                     <button className="addAllowListButton" name={dataOwner} onClick={this.addClientAllow}>Add</button>
                 </pre>
             )
@@ -219,7 +223,11 @@ export class JobBrowser extends React.Component {
 
                     <b>Address</b>: {"\n"}
 
-                    {allowedUser}
+                    {allowedUser} {"\n"}
+
+                    <b>Dataset</b>:
+
+                    {registeredDataset[allowedUser]}
                 </pre>
             )
         })
