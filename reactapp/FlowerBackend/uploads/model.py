@@ -1,39 +1,19 @@
-# Copyright 2020 Adap GmbH. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# ==============================================================================
-
-# mypy: ignore-errors
-# pylint: disable=W0223
-
-
-
 from typing import Tuple
-import pandas as pd
+from collections import OrderedDict
+from typing import Tuple
 import numpy as np
+import pandas as pd
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import Dataset, random_split
-import flwr as fl
 
 
-# pylint: disable=unsubscriptable-object,bad-option-value,R1725
+
 class Net(nn.Module):
-
     def __init__(self, input_size, hidden_size, output_size):
         super(Net, self).__init__()
-        # Model based on 2 fully connected linear layers
+        #Model based on 2 fully connected linear layers
         self.fc1 = nn.Linear(input_size, hidden_size)
         self.fc2 = nn.Linear(hidden_size, output_size)
 
@@ -42,7 +22,7 @@ class Net(nn.Module):
 
         x = torch.sigmoid(self.fc2(x))
 
-        # Pass the output to log Softmax function
+        #Pass the output to log Softmax function
         return F.log_softmax(x, dim=-1)
 
 class MyDataset(Dataset):
@@ -58,7 +38,6 @@ class MyDataset(Dataset):
         return self.x_train[item], self.y_train[item]
 
 class Loader():
-
     def __init__(self, path):
         self.path = path
         self.data = pd.read_csv(self.path)
@@ -66,12 +45,15 @@ class Loader():
         self.input_size = self.feature.shape[1]
 
     def load_model(self) -> Net:
-        """Load a simple CNN."""
+        """Returns an instance of Net."""
         return Net(input_size = self.input_size,hidden_size = 10,output_size = 2)
 
-# pylint: disable=unused-argument
-    def load_data(self) :
-        """Load CIFAR-10 (training and test set)."""
+    def load_data(self) -> Tuple:
+        """Load data.
+            Returns: train_dataset, test_dataset
+            train_dataset and test_dataset must be supported by torch.utils.data.DataLoader.
+            WARNING: testing will be conducted on the server side, test_dataset can have 0 samples.
+        """
         feature = np.array(self.feature, dtype=np.float32)
         labels = np.array(self.data['hospitaldischargestatus'], dtype=np.float32)
 
@@ -91,11 +73,10 @@ class Loader():
 
 
 def train(
-    net: Net,
+    model: Net,
     trainloader: torch.utils.data.DataLoader,
     epochs: int,
-    device: torch.device,  # pylint: disable=no-member
-) -> None:
+    device: torch.device) -> None:
     """Train the network."""
     # Define loss and optimizer
     optimizer = torch.optim.Adam(net.parameters(), lr=0.003)
@@ -120,15 +101,18 @@ def train(
             optimizer.step()
 
             # print statistics
-            #if epoch % 100 == 0:
-            print('epoch - %d  train loss - %.2f' % (epoch, loss.data.item()))
+            if epoch % 100 == 0:
+                print('epoch - %d  train loss - %.2f' % (epoch, loss.data.item()))
+
 
 
 def test(
     net: Net,
     testloader: torch.utils.data.DataLoader,
-    device: torch.device,  # pylint: disable=no-member
-) -> Tuple[float, float]:
+    device: torch.device) -> Tuple[float, float]:
+    """Validate the network on the entire test set.
+        Returns: loss and accuracy.
+    """
     """Validate the network on the entire test set."""
     loss_fn = nn.NLLLoss()
     correct = 0
