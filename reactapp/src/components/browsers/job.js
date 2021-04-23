@@ -79,9 +79,12 @@ export class JobBrowser extends React.Component {
             const modelName = await modeldatabase.methods.getModelName(job['modelIpfsHash']).call();
             const ownerName = await registrydatabase.methods.getUsername(job['owner']).call();
             const numAllow = await jobsdatabase.methods.getNumAllow(i).call();
+            const graceDeadline = await jobsdatabase.methods.getGraceDeadline(i).call();
+            //console.log(graceDeadline)
             job['modelName'] = modelName;
             job['ownerName'] = ownerName;
-            job['numAllow'] = numAllow
+            job['numAllow'] = numAllow;
+            job['graceDeadline'] = graceDeadline
 
             // Getting Job Status
             const jobDeadline = +job['initTime'] + job['hoursUntilStart']*60*60
@@ -130,7 +133,8 @@ export class JobBrowser extends React.Component {
                 <p><b>Model</b>: {job['modelName']}</p>
                 <p><b>Bounty</b>: {job['bounty']} wei </p>
                 <p><b>Creation Date</b>: {new Date(job['initTime']*1000).toUTCString()}</p>
-                <p><b>Deadline</b>: {new Date((job['initTime'])*1000+parseInt(job['hoursUntilStart'])*60*60*1000).toUTCString()}</p>
+                <p><b>Registration Deadline</b>: {new Date((job['initTime'])*1000+parseInt(job['hoursUntilStart'])*60*60*1000).toUTCString()}</p>
+                <p><b>Training Start Deadline</b>: {new Date((job['graceDeadline'])*1000).toUTCString()}</p>
                 <p><b>Status</b>: {job['jobStatus']} </p>
                 <p><b>Registration Status</b>: </p>
                 <p>{job['numAllow']} out of {job['minClients']} Job Owner-approved Clients Registered.</p>
@@ -305,7 +309,7 @@ export class JobBrowser extends React.Component {
         const target = event.target;
         const id = target.name;
         console.log(id);
-
+/*
         const accounts = await web3.eth.getAccounts();
 
         // Check if user is job owner
@@ -350,9 +354,10 @@ export class JobBrowser extends React.Component {
             }
             return;
         })
-
+*/
+        console.log(String(this.state.targetJobId))
         // Call Flask backend
-        axios.post("http://localhost:5000/start_server",{id:this.state.targetJobId})
+        axios.post("http://localhost:5000/start_server",{id: String(this.state.targetJobId)})
             .then(response => {
                 console.log(response)
             })
