@@ -20,7 +20,6 @@ web3 = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/ec89decf66584cd984e5
 account = web3.eth.account.from_key('0x6b162e9dbfa762373e98b3944279f67b8fac61dc85f255da0108ebdc408af182')
 web3.eth.default_account = account
 
-
 def get_eval_fn(
     testset,
 ) -> Callable[[fl.common.Weights], Optional[Tuple[float, float]]]:
@@ -56,17 +55,18 @@ def get_on_fit_config_fn() -> Callable[[int], Dict[str, str]]:
 
 def configure_flower_server():
 
+
     strategy_type = data["strategy"]
     if (strategy_type == 'datasize' or strategy_type == 'accuracy'):
         strategy = FedAvg(
-            fraction_fit=data["fraction_fit"],
-            fraction_eval=data["fraction_eval"],
-            min_fit_clients=data["min_fit_clients"],
-            min_available_clients=data["min_clients"],
+            fraction_fit=float(data["fraction_fit"]),
+            fraction_eval=float(data["fraction_eval"]),
+            min_fit_clients=int(data["min_fit_clients"]),
+            min_available_clients=int(data["min_clients"]),
             on_fit_config_fn=get_on_fit_config_fn(),
             eval_fn=None,
             on_evaluate_config_fn=None,
-            accept_failures=data["failure"],
+            accept_failures=bool(data["failure"]),
             mode=strategy_type,
             model=ICU
             # eval_fn=get_eval_fn(testloader)
@@ -170,7 +170,6 @@ def send_compensations(job_id, compensations, model_weights_hash, log_hash):
 
 
 
-
 if os.path.exists('uploads/strategy.json'):
     f = open('uploads/strategy.json', )
     data = json.load(f)
@@ -180,7 +179,7 @@ if os.path.exists('uploads/strategy.json'):
         with open('uploads/job_id.txt', 'r') as f:
             job_id = int(f.readline())
 
-        compensation_weights = contrib_cal(data["round"])
+        compensation_weights = contrib_cal(int(data["round"]))
         compensations = calculate_compensations(job_id, compensation_weights)
         model_weights_hash, log_hash = save_weights_and_training_log()
         send_compensations(job_id, compensations, model_weights_hash, log_hash)
