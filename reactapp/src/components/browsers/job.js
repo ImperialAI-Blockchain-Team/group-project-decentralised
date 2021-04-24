@@ -277,6 +277,7 @@ export class JobBrowser extends React.Component {
         const target = event.target;
         const clientAddress = target.name;
 
+
         const accounts = await web3.eth.getAccounts()
 
         // Only job owner can add clients to allow list
@@ -368,8 +369,8 @@ export class JobBrowser extends React.Component {
             }
             return;
         })
-         */
 
+        */
         console.log(String(this.state.targetJobId))
         // Call Flask backend
         axios.post("http://localhost:5000/start_server",{'id': String(this.state.targetJobId)})
@@ -542,7 +543,7 @@ export class JobBrowser extends React.Component {
         const element = document.createElement("a");
         const file = new Blob([chunks], {type: 'uint8'});
         element.href = URL.createObjectURL(file);
-        element.download = "model.py";
+        element.download = "contributions.json";
         element.click();
 
     }
@@ -573,7 +574,7 @@ export class JobBrowser extends React.Component {
         const element = document.createElement("a");
         const file = new Blob([chunks], {type: 'uint8'});
         element.href = URL.createObjectURL(file);
-        element.download = "model.py";
+        element.download = "weights.pt";
         element.click();
 
     }

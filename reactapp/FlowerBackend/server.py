@@ -171,8 +171,6 @@ def send_compensations(job_id, compensations, model_weights_hash, log_hash):
         addresses.append(str(address))
         compensation_values.append(int(value))
 
-    # receipt = contract.functions.compensate(job_id, compensation_values, addresses, model_weights_hash, log_hash).transact()
-
     # Create Transaction
     #  compensate(uint _id, uint [] memory _compensation, address payable [] memory _clients, string memory _resultsHash, string memory _weightsHash)
     transaction = contract.functions.compensate(int(job_id), compensation_values, addresses, log_hash, model_weights_hash) \
@@ -184,6 +182,7 @@ def send_compensations(job_id, compensations, model_weights_hash, log_hash):
     # Send transaction
     txn_hash = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
 
+    # Wait for transaction receipt
     receipt = web3.eth.wait_for_transaction_receipt(txn_hash)
 
     return receipt
@@ -202,10 +201,12 @@ if os.path.exists('uploads/strategy.json'):
         compensation_weights = contrib_cal(int(data["round"]))
         compensations = calculate_compensations(job_id, compensation_weights)
         model_weights_hash, log_hash = save_weights_and_training_log(int(data["round"]))
-        print(model_weights_hash)
-        print(log_hash)
-        #send_compensations(job_id, compensations, model_weights_hash, log_hash)
-        #if receipt['status'] == 0:
-        #    print('transaction failed')
-        #else:
-        #    print('transaction success')
+        #print(model_weights_hash)
+        #print(log_hash)
+        print("compensations")
+        print(compensations)
+        receipt = send_compensations(job_id, compensations, model_weights_hash, log_hash)
+        if receipt['status'] == 0:
+            print('transaction failed')
+        else:
+            print('transaction success')
