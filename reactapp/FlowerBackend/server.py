@@ -11,6 +11,7 @@ import numpy as np
 from collections import OrderedDict
 from web3 import Web3
 from abi import job_abi
+import ipfshttpclient
 
 DEFAULT_SERVER_ADDRESS = "[::]:8080"
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -67,6 +68,7 @@ def configure_flower_server():
             fraction_fit=float(data["fraction_fit"]),
             fraction_eval=float(data["fraction_eval"]),
             min_fit_clients=int(data["min_fit_clients"]),
+            min_eval_clients=int(data["min_eval_clients"]),
             min_available_clients=int(data["min_clients"]),
             on_fit_config_fn=get_on_fit_config_fn(),
             eval_fn=None,
@@ -98,14 +100,15 @@ def configure_flower_server():
                 else:
                     torch.nn.init.zeros_(param)
         strategy = FedOpt(
-            fraction_fit=data["fraction_fit"],
-            fraction_eval=data["fraction_eval"],
-            min_fit_clients=data["min_fit_clients"],
-            min_available_clients=data["min_clients"],
+            fraction_fit=float(data["fraction_fit"]),
+            fraction_eval=float(data["fraction_eval"]),
+            min_fit_clients=int(data["min_fit_clients"]),
+            min_eval_clients=int(data["min_eval_clients"]),
+            min_available_clients=int(data["min_clients"]),
             on_fit_config_fn=get_on_fit_config_fn(),
             eval_fn=None,
             on_evaluate_config_fn=None,
-            accept_failures=data["failure"],
+            accept_failures=bool(data["failure"]),
             beta=data["beta"],
             initial_parameters=model.get_weights(),
             eta=data["slr"],
@@ -151,10 +154,13 @@ def calculate_compensations(job_id, compensation_weights):
 
     return compensations
 
-def save_weights_and_training_log():
+def save_weights_and_training_log(num_rounds):
     client = ipfshttpclient.connect('/dns/ipfs.infura.io/tcp/5001/https')
-    model_weights_hash = client.add('./.model_weights.pt')['Hash']
-    log_hash = client.add('./.log.json')['Hash']
+
+    model_weights_file_name = './round-'+str(num_rounds)+'-model.pt'
+    model_weights_hash = client.add(model_weights_file_name)['Hash']
+
+    log_hash = client.add('./contrib.json')['Hash']
     return model_weights_hash, log_hash
 
 
@@ -195,7 +201,9 @@ if os.path.exists('uploads/strategy.json'):
 
         compensation_weights = contrib_cal(int(data["round"]))
         compensations = calculate_compensations(job_id, compensation_weights)
-        model_weights_hash, log_hash = save_weights_and_training_log()
+        model_weights_hash, log_hash = save_weights_and_training_log(int(data["round"]))
+        print(model_weights_hash)
+        print(log_hash)
         #send_compensations(job_id, compensations, model_weights_hash, log_hash)
         #if receipt['status'] == 0:
         #    print('transaction failed')
