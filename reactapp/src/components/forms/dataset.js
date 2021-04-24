@@ -1,5 +1,4 @@
 import React from "react";
-import { DragZone } from "../dragZone/dragZone";
 import "./dataset.css";
 import ipfs from '../../ipfs'
 import web3 from "../../contractInterfaces/web3";
