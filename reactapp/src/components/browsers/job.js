@@ -324,7 +324,7 @@ export class JobBrowser extends React.Component {
         const id = target.name;
         console.log(id);
 
-        /*
+
         const accounts = await web3.eth.getAccounts();
 
         // Check if user is job owner
@@ -370,7 +370,7 @@ export class JobBrowser extends React.Component {
             return;
         })
 
-        */
+
         console.log(String(this.state.targetJobId))
         // Call Flask backend
         axios.post("http://localhost:5000/start_server",{'id': String(this.state.targetJobId)})
