@@ -13,7 +13,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['TESTING'] = True
 app.config['CORS_ORIGIN_ALLOW_ALL'] = True
 app.config['ALLOWED_HOSTS'] = ['*']
-
+job_abi = json.loads(job_abi)
 web3 = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/ec89decf66584cd984e5f89b6467f34f'))
 account = web3.eth.account.from_key('0x6b162e9dbfa762373e98b3944279f67b8fac61dc85f255da0108ebdc408af182')
 web3.eth.default_account = account._address

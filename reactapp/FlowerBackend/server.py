@@ -10,7 +10,7 @@ from app import contract, job_contract_address
 import numpy as np
 from collections import OrderedDict
 from web3 import Web3
-from abi import abi
+from abi import job_abi
 
 DEFAULT_SERVER_ADDRESS = "[::]:8080"
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -21,8 +21,9 @@ web3 = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/ec89decf66584cd984e5
 account = web3.eth.account.from_key('0x6b162e9dbfa762373e98b3944279f67b8fac61dc85f255da0108ebdc408af182')
 web3.eth.default_account = account._address
 
+job_abi = json.loads(job_abi)
 job_contract_address = '0xD1a210292F6D37098114AFF851D747Ba6ccBAB9B'
-contract = web3.eth.contract(address=job_contract_address, abi=abi)
+contract = web3.eth.contract(address=job_contract_address, abi=job_abi)
 
 def get_eval_fn(
     testset,
