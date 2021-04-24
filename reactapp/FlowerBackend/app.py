@@ -17,7 +17,7 @@ abi = json.loads(abi)
 
 web3 = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/ec89decf66584cd984e5f89b6467f34f'))
 account = web3.eth.account.from_key('0x6b162e9dbfa762373e98b3944279f67b8fac61dc85f255da0108ebdc408af182')
-web3.eth.default_account = account
+web3.eth.default_account = account._address
 job_contract_address = '0xD1a210292F6D37098114AFF851D747Ba6ccBAB9B'
 contract = web3.eth.contract(address=job_contract_address, abi=abi)
 
@@ -99,18 +99,34 @@ if __name__ == "__main__":
     # app.run(debug=True)
     #start_server()
     job = contract.functions.jobs(0).call()
+    print(job)
+    jobResult = contract.functions.jobResults(0).call()
+    print(jobResult)
     numAllow = contract.functions.getNumAllow(0).call()
-    owner = job[0]
-    balance = web3.eth.get_balance(account._address)
-
-    receipt = contract.functions.compensate(int(0), [int(20000)], [0xdeaA6Fa2395422b8f2919E14f927102Ea83Fc4Fb], 'model_weights_hash','log_hash').transact()
-    #transaction = contract.functions.compensate(0,[1,],[0x030a713342D37EeBD51557aA56bc7Fe580A3910B,], 'hash', 'hash')\
-    #    .buildTransaction({'chainId': 3, 'gas': 70000, 'nonce': web3.eth.getTransactionCount(account._address)})
-
-    #print(transaction)
-    print(owner)
     print(numAllow)
-    print("public address")
-    print(account._address)
-    print(account._private_key)
+    #owner = job[0]
+    #balance = web3.eth.get_balance(account._address)
+
+    #receipt = contract.functions.compensate(int(0), [int(20000)], ['0xdeaA6Fa2395422b8f2919E14f927102Ea83Fc4Fb'], 'model_weights_hash','log_hash').transact()
+    transaction = contract.functions.compensate(0,[20000],['0x030a713342D37EeBD51557aA56bc7Fe580A3910B'], 'hash', 'hash')\
+        .buildTransaction({'chainId': 3, 'gas': 7000000, 'nonce': web3.eth.getTransactionCount(account._address)})
+    signed_txn = web3.eth.account.signTransaction(transaction, account._private_key)
+    print(transaction)
+    print(signed_txn)
+    txn_hash = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
+    print(txn_hash)
+    receipt = web3.eth.wait_for_transaction_receipt(txn_hash)
+    print('RECEIPT')
+    print(receipt)
+    print(receipt['status'])
+    if receipt['status'] == 0:
+        print('transaction failed')
+    else:
+        print('transaction success')
+    #print(transaction)
+    #print(owner)
+    #print(numAllow)
+    #print(account)
+    #print(account._address)
+    #print(account._private_key)
 

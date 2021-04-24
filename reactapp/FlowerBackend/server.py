@@ -10,6 +10,7 @@ from app import contract, job_contract_address
 import numpy as np
 from collections import OrderedDict
 from web3 import Web3
+from abi import abi
 
 DEFAULT_SERVER_ADDRESS = "[::]:8080"
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -18,7 +19,10 @@ DATA_ROOT = "uploads/testset.csv"
 # Sign in to Ethereum Account
 web3 = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/ec89decf66584cd984e5f89b6467f34f'))
 account = web3.eth.account.from_key('0x6b162e9dbfa762373e98b3944279f67b8fac61dc85f255da0108ebdc408af182')
-web3.eth.default_account = account
+web3.eth.default_account = account._address
+
+job_contract_address = '0xD1a210292F6D37098114AFF851D747Ba6ccBAB9B'
+contract = web3.eth.contract(address=job_contract_address, abi=abi)
 
 def get_eval_fn(
     testset,
@@ -161,11 +165,24 @@ def send_compensations(job_id, compensations, model_weights_hash, log_hash):
     addresses = []
     compensation_values = []
     for address, value in compensations.items():
-        addresses.append(address)
-        compensation_values.append(value)
-    #  compensate(uint _id, uint [] memory _compensation, address payable [] memory _clients,
-    #                         string memory _resultsHash, string memory _weightsHash)
-    receipt = contract.functions.compensate(job_id, compensation_values, addresses, model_weights_hash, log_hash).transact()
+        addresses.append(str(address))
+        compensation_values.append(int(value))
+
+    # receipt = contract.functions.compensate(job_id, compensation_values, addresses, model_weights_hash, log_hash).transact()
+
+    # Create Transaction
+    #  compensate(uint _id, uint [] memory _compensation, address payable [] memory _clients, string memory _resultsHash, string memory _weightsHash)
+    transaction = contract.functions.compensate(int(job_id), compensation_values, addresses, log_hash, model_weights_hash) \
+        .buildTransaction({'chainId': 3, 'gas': 7000000, 'nonce': web3.eth.getTransactionCount(account._address)})
+
+    # Sign transaction with private key
+    signed_txn = web3.eth.account.signTransaction(transaction, account._private_key)
+
+    # Send transaction
+    txn_hash = web3.eth.sendRawTransaction(signed_txn.rawTransaction)
+
+    receipt = web3.eth.wait_for_transaction_receipt(txn_hash)
+
     return receipt
 
 
@@ -182,4 +199,8 @@ if os.path.exists('uploads/strategy.json'):
         compensation_weights = contrib_cal(int(data["round"]))
         compensations = calculate_compensations(job_id, compensation_weights)
         model_weights_hash, log_hash = save_weights_and_training_log()
-        send_compensations(job_id, compensations, model_weights_hash, log_hash)
+        #send_compensations(job_id, compensations, model_weights_hash, log_hash)
+        #if receipt['status'] == 0:
+        #    print('transaction failed')
+        #else:
+        #    print('transaction success')
