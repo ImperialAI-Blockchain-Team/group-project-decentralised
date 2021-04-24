@@ -82,14 +82,14 @@ def start_server():
 
     return {'server address': '[::]:8080'}, 200
 
-def send_compensations(job_id, compensations, model_weights_hash, log_hash):
-    addresses = []
-    compensation_values = []
-    for address, value in compensations.items():
-        addresses.append(address)
-        compensation_values.append(value)
-    receipt = contract.functions.compensate(job_id, compensation_values, addresses, model_weights_hash, log_hash).transact()
-    return receipt
+# def send_compensations(job_id, compensations, model_weights_hash, log_hash):
+#     addresses = []
+#     compensation_values = []
+#     for address, value in compensations.items():
+#         addresses.append(address)
+#         compensation_values.append(value)
+#     receipt = contract.functions.compensate(job_id, compensation_values, addresses, model_weights_hash, log_hash).transact()
+#     return receipt
 
 if __name__ == "__main__":
 
