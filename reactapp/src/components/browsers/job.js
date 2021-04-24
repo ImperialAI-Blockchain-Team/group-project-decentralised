@@ -104,7 +104,7 @@ export class JobBrowser extends React.Component {
             }else if(job['trainingStarted'] && !job['trainingEnded']){
                 jobStatus = "Training in Progress"
             }else if(job['trainingEnded']){
-                jobStatus = "Trained Ended"
+                jobStatus = "Training Ended"
             }else{
                 jobStatus = "Status Unknown"
             }
@@ -323,6 +323,7 @@ export class JobBrowser extends React.Component {
         const id = target.name;
         console.log(id);
 
+        /*
         const accounts = await web3.eth.getAccounts();
 
         // Check if user is job owner
@@ -367,6 +368,7 @@ export class JobBrowser extends React.Component {
             }
             return;
         })
+         */
 
         console.log(String(this.state.targetJobId))
         // Call Flask backend
