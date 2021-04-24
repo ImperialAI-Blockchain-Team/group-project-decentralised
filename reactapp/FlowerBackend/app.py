@@ -1,11 +1,11 @@
 import requests
-from abi import abi
 from flask import Flask, request, abort, Response, json, send_from_directory, jsonify
 from flask_cors import CORS, cross_origin
 import subprocess
 import re, json
 import json
 from web3 import Web3
+from abi import job_abi
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -13,13 +13,12 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['TESTING'] = True
 app.config['CORS_ORIGIN_ALLOW_ALL'] = True
 app.config['ALLOWED_HOSTS'] = ['*']
-abi = json.loads(abi)
 
 web3 = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/ec89decf66584cd984e5f89b6467f34f'))
 account = web3.eth.account.from_key('0x6b162e9dbfa762373e98b3944279f67b8fac61dc85f255da0108ebdc408af182')
 web3.eth.default_account = account._address
 job_contract_address = '0xD1a210292F6D37098114AFF851D747Ba6ccBAB9B'
-contract = web3.eth.contract(address=job_contract_address, abi=abi)
+contract = web3.eth.contract(address=job_contract_address, abi=job_abi)
 
 def retrieve_strategy(strategy_hash):
     params = (('arg', strategy_hash),)
@@ -61,10 +60,8 @@ def start_server():
         return {'error': 'id must be a non negative integer'}, 500
 
     int_job_id = int(job_id)
-    print(request.json['id'])
     # verify job is allowed to be ran
     job = contract.functions.jobs(int_job_id).call()
-    print(job[8])
     if not job[8]:
         return {'error': 'job cannot be started'}, 500
 
@@ -83,18 +80,17 @@ def start_server():
 
     return {'server address': '[::]:8080'}, 200
 
-def send_compensations(job_id, compensations, model_weights_hash, log_hash):
-    addresses = []
-    compensation_values = []
-    for address, value in compensations.items():
-        addresses.append(address)
-        compensation_values.append(value)
-    #  compensate(uint _id, uint [] memory _compensation, address payable [] memory _clients,
-    #                         string memory _resultsHash, string memory _weightsHash)
-    receipt = contract.functions.compensate(job_id, compensation_values, addresses, model_weights_hash, log_hash).transact()
-    return receipt
+# def send_compensations(job_id, compensations, model_weights_hash, log_hash):
+#     addresses = []
+#     compensation_values = []
+#     for address, value in compensations.items():
+#         addresses.append(address)
+#         compensation_values.append(value)
+#     receipt = contract.functions.compensate(job_id, compensation_values, addresses, model_weights_hash, log_hash).transact()
+#     return receipt
 
 if __name__ == "__main__":
+
 
     # app.run(debug=True)
     #start_server()
@@ -129,4 +125,10 @@ if __name__ == "__main__":
     #print(account)
     #print(account._address)
     #print(account._private_key)
+
+    app.run(debug=True)
+    # job = contract.functions.jobs(0).call()
+    # print(job)
+
+
 

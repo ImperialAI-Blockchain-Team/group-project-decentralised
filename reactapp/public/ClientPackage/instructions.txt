@@ -19,8 +19,8 @@ Step 3:
 Step 4:
     Make sure you have a good internet connection.
     Open a terminal and navigate to the client package folder (eg: type "cd Desktop/ClientPackage").
-    Type the command "poetry install".
     Type the command "poetry shell".
+    Type the command "poetry install".
     Type the command "python3 client.py --cid [Your Ethereum Public Address]"  Make sure that the address you use is the one
     you signed up to the job with. You might not get compensated if the address is different!
 

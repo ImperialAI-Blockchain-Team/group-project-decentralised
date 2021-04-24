@@ -151,14 +151,10 @@ def calculate_compensations(job_id, compensation_weights):
     return compensations
 
 def save_weights_and_training_log():
-    params = (('path', './model_weights.pt'),)
-    model_weights_hash = requests.post('https://ipfs.infura.io:5001/api/v0/add', params=params)
-    params = (('path', './log.json'),)
-    log_hash = requests.post('https://ipfs.infura.io:5001/api/v0/add', params=params)
-    print(model_weights_hash)
-    print(log_hash)
-    #return model_weights_hash, log_hash
-    return 'None', 'None'
+    client = ipfshttpclient.connect('/dns/ipfs.infura.io/tcp/5001/https')
+    model_weights_hash = client.add('./.model_weights.pt')['Hash']
+    log_hash = client.add('./.log.json')['Hash']
+    return model_weights_hash, log_hash
 
 
 def send_compensations(job_id, compensations, model_weights_hash, log_hash):

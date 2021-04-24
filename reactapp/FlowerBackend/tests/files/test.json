@@ -1,1 +1,0 @@
-{"address": "", "strategy": "accuracy", "epoch": 10, "batch_size": 32, "round": 10, "fraction_eval": 0.2, "fraction_fit": 0.3, "min_fit_clients": 2, "min_eval_clients": 2, "min_clients": 2, "failure": true, "beta": "", "slr": "", "clr": "", "da": "", "distr": "", "mean": "", "std": "", "ub": "", "lb": "", "gain": "", "fan": "", "linear": "relu", "slope": "", "minClients": 2}
