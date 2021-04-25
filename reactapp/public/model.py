@@ -15,13 +15,6 @@ class Net(nn.Module):
     def forward(self, x):
         pass
 
-    def get_weights(self) -> fl.common.Weights:
-        """Get model weights as a list of NumPy ndarrays."""
-        pass
-
-    def set_weights(self, weights: fl.common.Weights) -> None:
-        """Set model weights from a list of NumPy ndarrays."""
-        pass
 
 class Loader():
     def __init__(self, path):
