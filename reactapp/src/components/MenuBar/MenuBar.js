@@ -10,7 +10,6 @@ export class MenuBar extends React.Component {
                 <div className="navbar">
                     <Link to="/about">About</Link>
                     <Link to="/sign_up">Sign Up</Link>
-                    <Link to="/my_account">My Account</Link>
                     <div className="dropdown">
                         <button className="dropbtn">Register your Assets<i className="fa fa-caret-down"></i></button>
                         <div className="dropdown-content">
@@ -26,7 +25,6 @@ export class MenuBar extends React.Component {
                             <Link to="/browse_jobs">Jobs</Link>
                         </div>
                     </div>
-                    <Link to="/test_components">Test Component</Link>
                 </div>
         )
     }
